@@ -1,0 +1,76 @@
+<div class="account section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="login-form border p-5">
+          
+          <div class="alert alert-warning alert-dismissible fade show" *ngIf="err" role="alert">
+            Email ou mot de passe incorrect
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="err=false">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+
+          <div class="text-center heading">
+            <h1 class="mb-2">Connectez-vous </h1>
+            <p class="lead">
+              Vous n'avez pas de compte ?
+              <a routerLink="/signup">S'inscrire gratuitement</a>
+            </p>
+          </div>
+
+          <div class="field">
+            <span class="fa fa-envelope"> </span>
+            <input
+              type="text"
+              name="email"
+              placeholder="Email"
+              [(ngModel)]="user.email"
+            />
+          </div>
+         
+          <div class="form-group">
+            <div class="input-group">
+
+          <div class="field">
+          <span class="fa fa-lock"> </span>
+          <input type="{{ hidePassword ? 'password' : 'text' }}" 
+          autocomplete="off"
+         class="form-control" id="password"
+         placeholder="Mot de passe" 
+         [(ngModel)]="user.password"
+         [ngClass]="{'green-border': user.password}">
+           <div class="input-group-append">
+           <span class="input-group-text">
+              <i class="fa fa-fw fa-eye toggle-password" (click)="togglePassword()"></i>
+            </span>
+         </div>
+      </div>
+</div>
+</div>
+
+      
+
+
+          <p class="lead">
+            <a routerLink="/forgot-password" >Mot de passe oublié ?</a>
+          </p>
+
+          <div class="action">
+            <button type="submit" class="btn btn-submit" (click)="onLoggedin()" >
+              Confirmer
+            </button>
+
+            <button class="btn btn-google" type="submit" >
+              <span >
+                <asl-google-signin-button class="icon"></asl-google-signin-button>
+                Continuer avec Google
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

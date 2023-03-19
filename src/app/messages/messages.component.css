@@ -1,0 +1,115 @@
+.acccount-settings {
+  max-width: 800px;
+  margin: auto;
+}
+
+.table-data {
+  background-color: #fcfcfc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.order {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.order h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.order .search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 300px;
+}
+
+.order .search-box input {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  margin-left: 5px;
+}
+
+.order .search-box i {
+  font-size: 18px;
+  color: #aaa;
+}
+
+.table-data table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-data th,
+.table-data td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-data th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.table-data td.delete-col,
+.table-data td.edit-col {
+  white-space: nowrap;
+}
+
+.delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.delete-button:hover,
+.edit-button:hover {
+  color: #fd1d33;
+}
+
+.delete-button i,
+.edit-button i {
+  margin-right: 5px;
+}
+
+
+.alert {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
+
+
+.delete-button {
+  color: #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete-button:hover {
+  color: #e74c3c;
+  transform: scale(1.2);
+}

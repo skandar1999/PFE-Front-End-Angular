@@ -1,0 +1,128 @@
+<section class="page-header" *ngIf="authService.isloggedIn">
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="content text-center">
+          <span class="icon">
+            <i class='fa fa-envelope' style='font-size:90px'></i>
+          <h1 class="mb-2">Contactez-nous</h1>
+        </span>
+
+          <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Contact
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-5 col-sm-12 col-lg-3 "  *ngIf="authService.isloggedIn">
+        
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/profile" >Mon Profile</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/docs" >Mes documents</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active"  >contact</a>
+        </div>
+       
+        <div class="nav flex-column nav-pills">
+          <a href="/login" class="nav-link"(click)="onLogout()" class="nav-link" routerLink="/signup" >Se déconnecter</a>
+        </div>
+      
+      </div>
+      
+
+        
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <div class="tab-pane fade show active" id="settings" role="tabpanel">
+          <div class="acccount-settings" >
+
+            <div
+          class="alert alert-warning" *ngIf="vide">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          Veuillez remplir tous les champs obligatoires.        </div>
+            <h4 class="mb-4" *ngIf="!authService.isloggedIn"> Contactez-nous</h4>
+            <form action="#">
+
+              <div class="form-group mb-4" >
+               <label>Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="emailcontact"
+            [(ngModel)]="contact.emailUser" 
+               required=""
+          />
+          
+
+        <div
+          class="alert alert-danger" *ngIf="errorEmail">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          {{ errorEmail }}            
+        </div>
+        </div>
+
+
+       
+
+<div class="form-group mb-10">       
+          <label>demandez comment nous pouvons vous aider :</label>
+        <textarea
+          name="commentaire"
+          id="commentaire"
+          rows="3"
+          cols="87"
+          [(ngModel)]="contact.description" 
+        ></textarea>
+        
+        <div *ngIf="long">
+          <span class="longmessage">Votre message est trop long. Veuillez écrire un nouveau qui soit plus facile à lire et à comprendre.</span>
+        </div>
+
+        <div *ngIf="messageConfirmation">
+          <span class="done"> {{ messageConfirmation }}</span>
+        </div>
+       
+      </div>
+
+             
+			  <div class="action ">
+          <button type="submit" class="btn btn-submit"  (click)="onSubmit()"> Envoyer
+          </button> </div>
+           
+            
+
+            	
+             </form>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+      
+     
+   
+
+
+
+    </div>
+  
+</section>

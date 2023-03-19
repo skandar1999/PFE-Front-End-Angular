@@ -1,0 +1,10 @@
+.aboutus{
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    text-overflow: clip;
+    overflow: scroll;
+    text-align: justify;
+    
+}
+p{
+    font-size: 18px;
+}

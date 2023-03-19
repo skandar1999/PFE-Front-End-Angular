@@ -1,0 +1,62 @@
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-10 col-md-5 col-sm-10 col-lg-3">
+
+        
+
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active" routerLink="/profile-details"
+            >Mon profile</a>
+        </div>
+        
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link " routerLink="/admin" *ngIf="admin"
+            >dashboard</a>
+        </div>
+        
+       
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/docs">Mes documents</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/contact">contact</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a href="/login" class="nav-link">Se déconnecter</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="../../../assets/images/customer0.jpg" ><br>
+        <h4  *ngIf="admin" >ADMIN</h4>
+        <h4 class="fa fa-user"> {{username}}</h4>
+        <p class="fa fa-envelope"> {{curentUser.email}}</p>
+        <p class="fa fa-phone" > {{mobile}}</p>
+      
+        <div>
+          <p><button  [routerLink]="['/profile-details',(curentUser.email)]" >Modifier mon Profil</button></p>
+        </div>
+        <div>
+          <p><button  routerLink="/admin" *ngIf="admin" >dashboard </button></p>
+        </div>
+      </div>  
+              
+             
+      </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+

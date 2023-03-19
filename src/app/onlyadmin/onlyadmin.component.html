@@ -1,0 +1,134 @@
+<section class="page-header" >
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="content text-center">
+          <span class="icon">
+            <i class="fa fa-dashboard" style="font-size:90px"></i>
+          <h1 class="mb-2">Administration</h1>
+        </span>
+
+          <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Administration
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-5 col-sm-12 col-lg-3">
+
+
+
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link " routerLink="/profile" >Mon profile</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active" routerLink="/amdin">Liste d'utilisateurs</a>
+        </div>
+
+       
+        
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link " routerLink="/recherche">Rechercher utilisateur</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/messages">Messagerie</a>
+        </div>
+      
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" (click)="onLogout()">Se deconnecter</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <div class="tab-pane fade show active" id="settings" role="tabpanel">
+          <div class="acccount-settings">
+            <h4 class="mb-4">Liste d'utilisateurs</h4>
+            
+            <div class="alert alert-success alert-dismissible fade show" *ngIf="deleted">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              Le compte Utilisateur a été supprimé avec succès.            
+            </div>
+
+
+            <div class="alert alert-success alert-dismissible fade show" *ngIf="updated">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              Le rôle de l'utilisateur a été mis à jour avec succès et défini comme ADMIN.
+            </div>
+
+            <div class="alert alert-success alert-dismissible fade show" *ngIf="removed">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              Le rôle de l'utilisateur a été mis à jour avec succès et défini comme ADMIN.
+            </div>
+
+            <div class="table-data">
+              <div class="order">
+                <div class="head">
+                  
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>roles</th>
+                      <th>Gérer utilisateur</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let user of users">
+                    <tr>
+                      <td>{{user.username}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.roles}}</td>
+                      <td class="delete-col">
+                        <button class="edit-button" (click)="updateRoleAdmin(user)"  [ngClass]="{'text-success': user.roles.includes('ADMIN')}">
+                          <i class="fas fa-user-tie"></i>
+                          <span class="tooltip" *ngIf="!user.roles.includes('ADMIN')"> Mettre le Role  comme ADMIN</span >
+                            <span class="role-text" *ngIf="user.roles.includes('ADMIN')">ADMIN</span>
+                        </button>
+                        
+                        <button class="delete-button" (click)="supprimerUser(user)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+
+                        <button class="edit-button" (click)="removeRoleAdmin(user)" *ngIf="user.roles.includes('ADMIN')">
+                          <i class="fas fa-user-edit"></i>
+                          <span class="tooltip" > Annuler le rôle ADMIN</span>
+                          <span class="role" *ngIf="user.roles.includes('ADMIN')" > USER</span>
+
+                        </button>
+                        
+                       
+                    </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

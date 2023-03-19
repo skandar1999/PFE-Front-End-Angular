@@ -1,0 +1,36 @@
+.container {
+  margin-top: -50px;
+}
+.alert {
+  border-radius: 0px;
+  background-color: #f7eeee;
+  color: #f54429;
+  border-color: #fcaeae;
+  font-size: 18px;
+ 
+}
+.action .btn {
+  width: 100%;
+  padding: 11px;
+  font-size: 20px;
+  border: 0px;
+  background-color: #fb5c42;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.action .btn-submit {
+  background-color: #fb5c42;
+  color: white;
+  cursor: pointer;
+}
+
+.action .btn-submit:hover {
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: 0.5s all ease;
+}
+
+
+
+

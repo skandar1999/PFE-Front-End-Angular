@@ -1,0 +1,70 @@
+
+<section class="user-dashboard page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-5 col-sm-12 col-lg-3">
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link " routerLink="/profile" >Mon profile</a>
+          </div>
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link " routerLink="/admin">Liste d'utilisateurs</a>
+          </div>
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link " routerLink="/recherche">Rechercher utilisateur</a>
+          </div>
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link active" >Messagerie</a>
+          </div>
+       
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link" (click)="onLogout()">Se deconnecter</a>
+          </div>
+        </div>
+        
+        <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+            <div class="tab-pane fade show active" id="settings" role="tabpanel">
+              <div class="acccount-settings">
+              
+                <h4 class="mb-4">Liste des messages</h4>
+                
+                <div class="alert alert-success alert-dismissible fade show" *ngIf="deletedd">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  Le message a été supprimé avec succès.
+                </div>
+    
+                <div class="table-data">
+                  <div class="order">
+                    <div class="head">
+                      
+                    </div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="email-col" >Email</th>
+                          <th class="message-col">Message</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let contact of contacts" >
+                        <tr>
+                          <td class="email-col">{{contact.emailUser}}</td>
+                          <td class="message-col">{{contact.description}}</td>
+                          <td class="delete-col">
+                            <button class="delete-button"   (click)="onDelete(contact)" >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  

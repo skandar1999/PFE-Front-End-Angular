@@ -1,0 +1,133 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white navigation" id="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="../../../assets/images/ged.jpg"  height="auto">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="top-menu list-inline mb-0 d-none d-lg-block" id="top-menu">
+        <li class="list-inline-item">
+          
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item dropdown dropdown-slide">
+          <a
+            *ngIf="authService.isloggedIn"
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown3"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Nouveaux
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+            <li>
+              <a routerLink="/docs"> Nouveaux dossier </a>
+            </li>
+            <li>
+              <a routerLink="/docs"> Importer un dossier</a>
+            </li>
+            <li><a routerLink="/docs">Importer un fichier</a></li>
+          </ul>
+        </li>
+
+        <!-- Pages -->
+       
+
+
+        <li class="nav-item dropdown dropdown-slide ">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="/about"
+            id="navbarDropdown4"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+          à propos
+          </a>
+          
+        </li>
+        <li class="nav-item dropdown dropdown-slide ">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="/contact"
+            id="navbarDropdown4"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+          Contact   </a>
+          
+        </li>
+
+      </ul>
+
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item dropdown dropdown-slide">
+          <a *ngIf="authService.isloggedIn"
+
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown3"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            class="fa fa-user"
+          > Connecté
+          </a>
+      
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdown5">
+            
+            <li>
+              <a routerLink="/profile" >mon profile </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" routerLink="/docs">Mes documents </a>
+            </li>
+            
+            
+            
+            <li>
+              <a
+                class="nav-link"
+                href="/login"
+                (click)="onLogout()"
+                type="submit"
+                
+              >
+                Se déconnecter
+              </a>
+            </li>
+          </ul>
+        </li>
+      
+        <div class="action">
+          <button type="submit" class="btn btn-submit"  *ngIf="!authService.isloggedIn" routerLink="/login"> Connexion </button> 
+         </div>
+         <div class="action">
+          <button type="submit" class="btn btn-signup"  *ngIf="!authService.isloggedIn" routerLink="/signup"> s'inscrire gratuitement </button> 
+         </div>
+      </ul>
+    </div>
+  </div>
+</nav>

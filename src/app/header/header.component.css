@@ -1,0 +1,115 @@
+/* navbar */
+.navbar {
+  background-color: #fff;
+  padding: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  margin-top: -18px;
+}
+
+/* brand logo */
+.navbar-brand img {
+  max-height: 32px;
+}
+
+/* toggler icon */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler:hover {
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-color: #333;
+  width: 20px;
+  height: 2px;
+}
+
+/* menu items */
+.navbar-nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav-link {
+  color: #494949;
+  font-weight: 500;
+  padding: 10px 20px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #000000;
+}
+
+/* dropdown */
+.dropdown-menu {
+  padding: 0;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  color: #333;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #000000;
+  background-color: #f2f2f2;
+}
+
+.dropdown-divider {
+  margin: 0;
+}
+
+/* user icon */
+.navbar-nav .fa-user {
+  margin-right: 5px;
+}
+
+
+
+/* action button */
+
+.action .btn {
+  border-radius: 5px;
+  padding: 3px 15px;
+  border: 1px solid rgb(190, 190, 190);
+  color: #616161;
+  background-color: transparent;
+  font-size: 17px;
+  margin-right: 6px;
+  margin-top: auto;
+  margin-bottom: auto;
+
+}
+
+.action .btn:hover {
+  border-color: rgb(0, 0, 0);
+  color: #000000;
+}
+
+
+
+.action .btn-signup {
+  border-radius: 5px;
+  padding: 3.5px 14.8px;
+  color: #ffffff;
+  background-color: #fb5c42;
+  font-size: 16.8px;
+  border: none;
+  margin-top: auto;
+  margin-top: auto;
+}
+
+.action .btn-signup:hover {
+  background-color: #f1553d;
+  color: #ffffff;
+}
+
+

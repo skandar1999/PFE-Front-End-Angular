@@ -1,0 +1,154 @@
+<section class="page-header">
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+       
+        
+        <div class="content text-center">
+          <span class="icon">
+            <img src="../../../assets/images/customer0.jpg" ><br>
+            <h1 class="mb-3"> Modifier votre Profile</h1>
+          </span>
+          <div class="update-image-container">
+            <form enctype="multipart/form-data">
+              <label for="image-input">Photo de profile:</label>
+              <input type="file" id="image-input" name="image" accept=".jpg,.jpeg,.png" required>
+              <button type="submit">Modifier</button>
+            </form>
+          </div>
+          
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-5 col-sm-12 col-lg-3">
+      
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/profile">Mon profile</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active">Modifier profile</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/docs">Mes documents</a>
+        </div>
+
+       
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/contact">contact</a>
+        </div>
+       
+        <div class="nav flex-column nav-pills">
+          <a href="/login" class="nav-link"(click)="onLogout()">Se déconnecter</a>
+        </div>
+      </div>
+
+    
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <div class="tab-pane fade show active" id="settings" role="tabpanel">
+          <div class="acccount-settings" >
+            
+            <h4 class="mb-4">Ces informations apparaissent en partie sur votre profil.
+
+            </h4>
+
+            <form action="#">
+
+              <div class="form-group mb-4">
+                <label>Email</label>
+                <input
+                [readonly]="true"
+                  type="text"
+                  class="form-control"
+                  value={{curentUser.email}}
+                  name="email"
+                  [(ngModel)]="curentUser.email"
+
+
+                />
+              </div>
+
+              <div class="form-group mb-4" >
+                <label>Username</label>
+                <input
+                  type="text"
+                  autocomplete="off"
+                  class="form-control"
+                  name="username"
+                  value={{this.username}}
+                  [(ngModel)]="username"
+
+                /> 
+              </div>
+
+              <div class="form-group mb-4">
+                <label>Mobile</label>
+                <input
+                autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="mobile"
+                  value={{this.mobile}}
+                  [(ngModel)]="this.mobile"
+                />
+              </div>
+            </form>
+
+            <form action="#" class="mt-5">
+              <h4>Changement de mot de passe</h4>
+
+              <div class="form-group">
+                <label for="password">Nouvelle mot de passe </label>
+                <div class="input-group">
+                  <input type="{{ hidePassword ? 'password' : 'text' }}" 
+                  autocomplete="off"
+                         class="form-control" 
+                        name="password"
+
+                              [(ngModel)]="this.password" >
+                  <div class="input-group-append">
+                    <span class="input-group-text toggle-password" (click)="togglePassword()">
+                      <i class="fa fa-fw fa-eye"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+             
+
+              <div
+              class="alert alert-warning alert-dismissible fade show" *ngIf="not">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+               Veuillez remplir tous les champs obligatoires.
+              
+            </div>
+
+              <div class="alert alert-success alert-dismissible fade show" *ngIf="updateSuccess" [class.show]="updateSuccess" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                Vos informations ont été mises à jour avec succès !  </div>
+
+              <button type="submit" class="btn btn-success" (click)="updateUserData()">Sauvegarder les changements</button><br />
+             </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+

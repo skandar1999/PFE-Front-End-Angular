@@ -1,0 +1,47 @@
+
+ <section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-5 col-sm-12 col-lg-3">
+        <div class="nav flex-column nav-pills">
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link " routerLink="/profile" >Mon profile</a>
+          </div>
+          <a class="nav-link " routerLink="/admin">Liste d'utilisateurs</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active" >Rechercher utilisateur</a>
+        </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/messages">Messagerie</a>
+        </div>
+       
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" (click)="onLogout()">Se deconnecter</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <div class="tab-pane fade show active" id="settings" role="tabpanel">
+          <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+            <div class="search-form" >
+              <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder="Recherche..." 
+              class="form-control" [(ngModel)]="username" name="username">
+              <button type="submit" (click)="rechercherParUser()" class="btn">Recherche</button>
+            </div>
+            <br>
+            <div class="card" *ngFor=" let user of users">
+              <img src="../../../assets/images/customer0.jpg" ><br>
+              <h4 class="fa fa-user"> {{user.username}}</h4>
+                <p  class="fa fa-envelope" > {{user.email}}</p>
+                <p  class="fa fa-tasks"> {{user.roles}}</p>
+                <p  class="fa fa-phone"> {{user.mobile}}</p><br>
+              </div>
+              
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

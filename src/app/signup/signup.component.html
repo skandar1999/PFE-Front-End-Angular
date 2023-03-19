@@ -1,0 +1,155 @@
+<div class="account section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="login-form border p-5">
+
+          <div
+            class="alert alert-warning alert-dismissible fade show" *ngIf="vide">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+             Veuillez remplir tous les champs obligatoires.
+            
+          </div>
+
+          <div
+          class="alert alert-danger alert-dismissible fade show" *ngIf="errorEmail">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          {{ errorEmail }}            
+        </div>
+
+          <div
+          class="alert alert-danger alert-dismissible fade show" *ngIf="errorMobile">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          {{ errorMobile }}            
+        </div>
+
+          <div
+            class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            {{ errorMessage }}            
+          </div>
+
+          <div class="alert alert-success alert-dismissible fade show" *ngIf="added">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Vous vous êtes inscrit(e) avec succès.
+          </div>
+
+          <div class="text-center heading">
+            <h1 class="mb-2">Inscription</h1>
+            <p class="lead">
+              Vous avez déjà un compte? <a routerLink="/login"> Se connecter</a>
+            </p>
+          </div>
+
+          
+
+          <div class="tab-pane fade show active" id="settings" role="tabpanel">
+            <div class="acccount-settings">
+              
+
+              <div class="field">
+                <span class="fa fa-envelope"> </span>
+                <input
+                autocomplete="off"
+                  type="text"
+                  placeholder="Email"
+                  name="email" 
+                  [(ngModel)]="newUser.email"
+                  required=""
+                  >
+                        
+              </div>
+
+              <div class="field">
+                
+                <span class="fa fa-user"> </span>
+                <input
+                autocomplete="off"
+                  type="text"
+                  placeholder="Username"
+                  name="username" 
+                  [(ngModel)]="newUser.username"
+                   required="" >
+                 
+              </div>
+
+              <div class="field">
+          
+                <span class="fa fa-phone"> </span>
+                <input
+                autocomplete="off"
+                  type="text"
+                  placeholder="Telephone"
+                  name="mobile" 
+                  [(ngModel)]="newUser.mobile"
+                  required="" >
+                 
+                 
+              </div>
+
+
+              <div class="form-group">
+                <div class="input-group">
+              <div class="field">
+                <span class="fa fa-lock"> </span>
+                  
+              <input type="{{ hidePassword ? 'password' : 'text' }}" 
+              autocomplete="off"
+              class="form-control" id="password"
+               placeholder="Mot de passe" 
+               name="password"
+               [(ngModel)]="newUser.password" 
+               required="" >
+                  
+
+
+               <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fa fa-fw fa-eye toggle-password" (click)="togglePassword()"></i>
+                </span>
+              </div>
+              
+              </div></div>
+              <span class="small text-muted">Le mot de passe doit comporter au minimum 8 caractères</span>
+
+
+            </div>
+
+             
+
+              
+
+
+              <div class="form-check" [ngClass]="{'ng-invalid': !flexCheckDefault.checked}">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required #flexCheckDefault>
+                <label class="form-check-label" for="flexCheckDefault">
+                  J'accepte <a routerLink="/condition">La Conditions Générales d'utilisation.</a>
+                </label>
+                <div class="invalid-feedback">
+                  Vous devez accepter les Conditions Générales d'utilisation.
+                </div>
+              </div>
+
+              <div class="action">
+                <button type="submit" class="btn btn-submit"  (click)="userCreate()" >Confirmer</button>
+                   
+               <button class="btn btn-google">
+                  <span >
+                    <asl-google-signin-button class="icon" ></asl-google-signin-button>
+                    Continuer avec Google
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+#content {
+  padding: 10px;
+}
+
+.table-data {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+
+.delete-col {
+  display: flex;
+  align-items: center;
+}
+
+.delete-button, .edit-button {
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+  color: #575656;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.delete-button:hover{
+  color: #e74c3c;
+  animation: shake 0.2s;
+
+}
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  10%, 90% {
+    transform: translate(-2px, 0);
+  }
+  20%, 80% {
+    transform: translate(2px, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate(-4px, 0);
+  }
+  40%, 60% {
+    transform: translate(4px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+
+.edit-button:hover {
+  color: rgb(0, 0, 0);
+}
+
+
+.delete-col button {
+  margin: 4px;
+}
+
+
+.edit-button {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.edit-button .tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: #535353;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.edit-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+
+
+.role-text {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: bold;
+}
+
+
+.role {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: bold;
+}

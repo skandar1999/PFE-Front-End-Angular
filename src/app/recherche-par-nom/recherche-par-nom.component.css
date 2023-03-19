@@ -1,0 +1,91 @@
+
+.search-form {
+  display: flex;
+  align-items: center;
+  border: 5px;
+}
+
+.search-form input[type="text"] {
+  width: 80%;
+  max-width: 580px;
+  height: 40px;
+  font-size: 16px;
+  padding: 7px;
+  margin-right: 0px;
+  margin-left: 20px;
+  border: 1px;
+  border-color: black;
+  background-color:#f7f6f2;
+  
+}
+
+.search-form button[type="submit"] {
+  background-color: #fc6c55;
+  color: white;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 20px;
+  cursor: pointer;
+  border: 1px;
+
+
+}
+
+.search-form button:hover {
+  background: rgb(75, 73, 73);
+
+}
+
+
+.search-form input:active{
+  border-color:  #fb5c42;
+}
+
+.card {
+  box-shadow: 0 4px 6px 0 rgba(22, 22, 22, 0.2);
+  max-width: 430px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  margin-top: 10px;
+}
+
+.card img {
+  border-radius: 60%;
+  max-width: 35%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 15px;
+  display: block;
+}
+
+.card h4 {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #444444;
+}
+
+.card p {
+  margin-top: 10px;
+
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-form input[type="text"] {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+
+
