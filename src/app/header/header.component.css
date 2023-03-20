@@ -80,7 +80,7 @@
   border-radius: 5px;
   padding: 3px 15px;
   border: 1px solid rgb(190, 190, 190);
-  color: #616161;
+  color: #4b4b4b;
   background-color: transparent;
   font-size: 17px;
   margin-right: 6px;
@@ -98,7 +98,7 @@
 
 .action .btn-signup {
   border-radius: 5px;
-  padding: 3.5px 14.8px;
+  padding: 3.7px 14.8px;
   color: #ffffff;
   background-color: #fb5c42;
   font-size: 16.8px;
@@ -108,7 +108,7 @@
 }
 
 .action .btn-signup:hover {
-  background-color: #f1553d;
+  background-color: #ff472b;
   color: #ffffff;
 }
 

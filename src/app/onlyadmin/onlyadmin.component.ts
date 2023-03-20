@@ -17,28 +17,37 @@ username!:string;
 deleted: boolean = false;
 updated: boolean = false;
 removed: boolean = false;
+hasAdmin = false;
 
   constructor( private authService: AuthService ,private userService: UserService) { }
 
   ngOnInit(): void {
-    this.chargerUser();
-
+    this.chargeUsers();
   }
 
   
-
-  chargerUser(){
-    this.userService.listeUsers().subscribe(user => {
-    console.log(user);
-    this.users = user;
+  chargeUsers() {
+    this.userService.listeUsers().subscribe(users => {
+      this.users = users;
+      this.users.sort((a, b) => {
+        if (a.roles.includes('ADMIN') && !b.roles.includes('ADMIN')) {
+          return -1;
+        } else if (!a.roles.includes('ADMIN') && b.roles.includes('ADMIN')) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     });
-    }
+  }
+  
+
 
     supprimerUser(user: User) {
       let conf = confirm("Etes-vous sûr supprimer ce compte ?");
       if (conf) {
         this.authService.supprimerUser(user.id).subscribe(() => {
-          this.chargerUser();
+          this.chargeUsers();
           this.deleted = true;
           setTimeout(() => {
             this.deleted = false;
@@ -95,9 +104,8 @@ removed: boolean = false;
       }
     }
 
+      
     
-    
-  
 
     onLogout() {
       this.authService.logout();

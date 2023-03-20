@@ -43,14 +43,19 @@
                       <thead>
                         <tr>
                           <th class="email-col" >Email</th>
+                          <th class="message-col">Date</th>
                           <th class="message-col">Message</th>
+
                           <th></th>
                         </tr>
                       </thead>
                       <tbody *ngFor="let contact of contacts" >
                         <tr>
                           <td class="email-col">{{contact.emailUser}}</td>
+                          <td class="message-col">{{contact.date}}</td>
+
                           <td class="message-col">{{contact.description}}</td>
+
                           <td class="delete-col">
                             <button class="delete-button"   (click)="onDelete(contact)" >
                               <i class="fas fa-trash-alt"></i>
