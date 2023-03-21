@@ -134,3 +134,6 @@ input:active input:hover {
   background-color: #faf8f8;
 }
 
+.notmatch{
+  color: rgb(250, 71, 71);
+}

@@ -50,7 +50,7 @@
 }
 
 .icon img {
-  max-width: 33%;
+  max-width: 28%;
   height: auto;
   margin: 0 auto;
   display: block;
@@ -83,3 +83,6 @@
 
 
 
+.notmatch{
+  color: rgb(250, 71, 71);
+}

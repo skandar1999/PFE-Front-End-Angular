@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         this.err = true;
         setTimeout(() => {
           this.err = false;
-        }, 1900);
+        }, 2500);
       }
     );
 }

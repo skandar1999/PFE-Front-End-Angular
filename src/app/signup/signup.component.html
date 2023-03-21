@@ -12,12 +12,7 @@
             
           </div>
 
-          <div
-          class="alert alert-danger alert-dismissible fade show" *ngIf="errorEmail">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-          {{ errorEmail }}            
-        </div>
+          
 
           <div
           class="alert alert-danger alert-dismissible fade show" *ngIf="errorMobile">
@@ -56,6 +51,7 @@
               <div class="field">
                 <span class="fa fa-envelope"> </span>
                 <input
+                [ngClass]="{'text-danger': this.errorEmail}"
                 autocomplete="off"
                   type="text"
                   placeholder="Email"
@@ -65,6 +61,7 @@
                   >
                         
               </div>
+             
 
               <div class="field">
                 
@@ -115,10 +112,11 @@
               </div>
             </div>
             <div class="input-group">
-              <div class="field">
+              <div class="field" [ngClass]="{'text-danger': this.not}">
                 <span class="fa fa-lock"> </span>
                   
               <input type="{{ hidePassword2 ? 'password' : 'text' }}" 
+              [ngClass]="{'text-danger': this.not}"
               autocomplete="off"
               class="form-control" id="password"
                placeholder="comfirmation de Mot de passe" 
@@ -133,13 +131,9 @@
               
               </div>
             </div>
-            <div
-            class="alert alert-warning alert-dismissible fade show" *ngIf="not">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-             Veuillez verifier votre Mot de passe.
-            
-          </div>
+            <div *ngIf="not">
+              <span class="notmatch">Veuillez verifier votre Mot de passe.</span>
+            </div>
               <span class="small text-muted">Le mot de passe doit comporter au minimum 8 caractères</span>
              
 
@@ -150,7 +144,7 @@
               
 
 
-              <div class="form-check" [ngClass]="{'ng-invalid': !flexCheckDefault.checked}">
+              <div class="form-check" >
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required #flexCheckDefault>
                 <label class="form-check-label" for="flexCheckDefault">
                   J'accepte <a routerLink="/condition">La Conditions Générales d'utilisation.</a>
