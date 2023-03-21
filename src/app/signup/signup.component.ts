@@ -19,6 +19,8 @@ export class SignupComponent implements OnInit {
   errorMessage: string = '';
   errorMobile: string = '';
   errorEmail: string = '';
+  confirmPassword!: string;
+  not: boolean = false;
 
 
   constructor(private authService: AuthService , private router: Router ) {}
@@ -31,9 +33,18 @@ export class SignupComponent implements OnInit {
       this.vide = true;
       setTimeout(() => {
         this.vide = false;
-      }, 2000); // Delay for hiding the alert
+      }, 2500); // Delay for hiding the alert
       return;
     } 
+
+    if (this.newUser.password !== this.confirmPassword) {
+      // Show an error message or prevent the update request
+      this.not=true;
+      setTimeout(() => {
+        this.not = false;
+      }, 2500);
+      return;
+    }
 
     if (!this.newUser.email.includes('@')  || !this.newUser.email.includes('.')) {
       this.errorEmail = 'email non valide';
@@ -49,7 +60,7 @@ export class SignupComponent implements OnInit {
       this.errorMobile = 'Telephone non valide';
       setTimeout(() => {
         this.errorMobile = '';
-      }, 2000); // hide error message after 3 seconds
+      }, 2500); // hide error message after 3 seconds
       return;
     }
 
@@ -57,7 +68,7 @@ export class SignupComponent implements OnInit {
       this.errorMessage = '8 caractères requis pour le mot de passe.';
       setTimeout(() => {
         this.errorMessage = '';
-      }, 2000); // hide error message after 3 seconds
+      }, 2500); // hide error message after 3 seconds
       return;
     }
      
@@ -68,12 +79,12 @@ export class SignupComponent implements OnInit {
           this.added = true;
           setTimeout(() => {
             this.router.navigate(['/login']);
-          }, 2000); // wait for 3 seconds before navigating to login page
+          }, 2500); // wait for 3 seconds before navigating to login page
         } else if (response && !response.status) {
           this.errorMessage = response.message;
           setTimeout(() => {
             this.errorMessage = '';
-          }, 2000); // hide error message after 3 seconds
+          }, 2500); // hide error message after 3 seconds
         }
       },
       error => {
@@ -88,10 +99,14 @@ export class SignupComponent implements OnInit {
 
   
 
-  public hidePassword = true;
+  public hidePassword1 = true;
+  public hidePassword2 = true;
 
-public togglePassword(): void {
-  this.hidePassword = !this.hidePassword;
+public togglePassword1(): void {
+  this.hidePassword1 = !this.hidePassword1;
 }
 
+public togglePassword2(): void {
+  this.hidePassword2 = !this.hidePassword2;
+}
 }

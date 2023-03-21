@@ -29,9 +29,11 @@ export class UserService {
   updateUser: string='https://127.0.0.1:8000/updateUser';
   userbyid: string='https://127.0.0.1:8000/findById';
   ResetPass: string='https://127.0.0.1:8000';
-  contacter: string="https://127.0.0.1:8000/contactuser"
-  listerMess: string="https://127.0.0.1:8000/getallmessages"
-  deletemess: string="https://127.0.0.1:8000/deleteMessage"
+  contacter: string="https://127.0.0.1:8000/contactuser";
+  listerMess: string="https://127.0.0.1:8000/getallmessages";
+  deletemess: string="https://127.0.0.1:8000/deleteMessage";
+  uptImage: string='https://127.0.0.1:8000/updateImage';
+
 
   constructor(private http : HttpClient, private authService: AuthService 
     ) { }
@@ -121,4 +123,13 @@ export class UserService {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.put(url, { headers });
       }
+
+
+
+
+      UpdateImage(email: string, imageData: FormData): Observable<any> {
+        return this.http.post(`${this.uptImage}/${email}`, imageData);
+      }
+
+      
 }   

@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     .subscribe(
       (data) => {
         this.authService.saveToken(data.token);
-        this.router.navigate(['/docs']);
+        this.router.navigate(['/profile']);
       },
       error => {
         this.err = true;

@@ -51,7 +51,7 @@ hasAdmin = false;
           this.deleted = true;
           setTimeout(() => {
             this.deleted = false;
-          }, 2000);
+          }, 2600);
         });
       }
     }
@@ -74,7 +74,7 @@ hasAdmin = false;
             this.updated = true; // exécuter l'action ici
             setTimeout(() => {
               this.updated = false; 
-            }, 4000);
+            }, 4500);
           },
           (error) => {
             console.log(error);
@@ -94,7 +94,7 @@ hasAdmin = false;
             this.removed = true; // exécuter l'action ici
             setTimeout(() => {
               this.removed = false; 
-            }, 4000);
+            }, 4500);
           },
           (error) => {
             console.log(error);

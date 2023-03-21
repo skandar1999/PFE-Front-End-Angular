@@ -99,25 +99,49 @@
               <div class="field">
                 <span class="fa fa-lock"> </span>
                   
-              <input type="{{ hidePassword ? 'password' : 'text' }}" 
+              <input type="{{ hidePassword1 ? 'password' : 'text' }}" 
               autocomplete="off"
               class="form-control" id="password"
                placeholder="Mot de passe" 
                name="password"
                [(ngModel)]="newUser.password" 
                required="" >
-                  
-
-
                <div class="input-group-append">
                 <span class="input-group-text">
-                  <i class="fa fa-fw fa-eye toggle-password" (click)="togglePassword()"></i>
+                  <i class="fa fa-fw fa-eye toggle-password" (click)="togglePassword1()"></i>
                 </span>
               </div>
               
-              </div></div>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="field">
+                <span class="fa fa-lock"> </span>
+                  
+              <input type="{{ hidePassword2 ? 'password' : 'text' }}" 
+              autocomplete="off"
+              class="form-control" id="password"
+               placeholder="comfirmation de Mot de passe" 
+               name="password"
+               [(ngModel)]="confirmPassword" 
+               required="" >
+               <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fa fa-fw fa-eye toggle-password" (click)="togglePassword2()"></i>
+                </span>
+              </div>
+              
+              </div>
+            </div>
+            <div
+            class="alert alert-warning alert-dismissible fade show" *ngIf="not">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+             Veuillez verifier votre Mot de passe.
+            
+          </div>
               <span class="small text-muted">Le mot de passe doit comporter au minimum 8 caractères</span>
-
+             
 
             </div>
 

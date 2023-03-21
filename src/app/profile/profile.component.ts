@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
   email:any;
   id!: number;
   mobile!: string;
+  userImage!: string;
+
 
   admin: boolean = false;
 
@@ -63,6 +65,8 @@ export class ProfileComponent implements OnInit {
         this.password=this.userData.password;
         this.mobile=this.userData.mobile;
         this.roles=this.userData.roles;
+        this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
+
       }
       if (this.roles.includes("ADMIN")) {
         this.admin = true;

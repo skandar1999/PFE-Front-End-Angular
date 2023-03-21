@@ -40,23 +40,30 @@
 .search-form input:active{
   border-color:  #fb5c42;
 }
-
 .card {
   box-shadow: 0 4px 6px 0 rgba(22, 22, 22, 0.2);
   max-width: 430px;
-  margin: auto;
+  height: auto;
+  margin: 10px;
   text-align: center;
   font-family: arial;
-  margin-top: 10px;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  background-color: #f8f7f7;
 }
 
 .card img {
-  border-radius: 60%;
-  max-width: 35%;
-  height: auto;
+  border-radius: 50%;
+  max-width: 40%;
+  height: 40% auto;
   margin: 0 auto;
   margin-top: 15px;
   display: block;
+  object-fit: scale-down;
 }
 
 .card h4 {
@@ -68,24 +75,17 @@
 
 .card p {
   margin-top: 10px;
-
 }
 
-
-
-@media screen and (max-width: 768px) {
-  .search-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-form input[type="text"] {
-    margin-right: 0;
-    margin-bottom: 10px;
-    width: 100%;
-    max-width: none;
-  }
+.card .role-icon {
+  font-size: 20px;
+  margin-top: 10px;
 }
 
-
-
+@media screen and (min-width: 768px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+}

@@ -23,7 +23,8 @@ button:hover {
 
 .card {
   box-shadow: 0 4px 6px 0 rgba(22, 22, 22, 0.2);
-  max-width: 420px;
+  width: 430px;
+  height: auto;
   margin: auto;
   text-align: center;
   font-family: arial;
@@ -32,10 +33,11 @@ button:hover {
 .card img {
   border-radius: 50%;
   max-width: 35%;
-  height: auto;
+  height:  auto;
   margin: 0 auto;
   margin-top: 15px;
   display: block;
+  object-fit:scale-down;
 }
 
 .card h4 {

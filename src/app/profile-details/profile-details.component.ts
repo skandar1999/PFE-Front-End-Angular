@@ -30,6 +30,8 @@ export class ProfileDetailsComponent implements OnInit {
   updateSuccess: boolean = false;
   confirmPassword!: string;
   not: boolean = false;
+  userImage!: string;
+  
 
  constructor(
     public authService: AuthService,
@@ -54,6 +56,7 @@ export class ProfileDetailsComponent implements OnInit {
         this.username=this.userData.username;
         this.password=this.userData.password;
         this.mobile=this.userData.mobile;
+        this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
 
       }
     });
@@ -68,6 +71,16 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   updateUserData() {
+
+    if (this.password !== this.confirmPassword) {
+      // Show an error message or prevent the update request
+      this.not=true;
+      setTimeout(() => {
+        this.not = false;
+      }, 2500);
+      return;
+    }
+
     const userToUpdate = new User();
     userToUpdate.email = this.curentUser?.email; // set the email of the user to be updated
     userToUpdate.username = this.username; // set the new username
@@ -80,7 +93,7 @@ export class ProfileDetailsComponent implements OnInit {
       setTimeout(() => {
         this.updateSuccess = false;
 
-      }, 1900); // Delay for hiding the alert
+      }, 2500); // Delay for hiding the alert
     });
       
     console.log("Username: ", this.username);
@@ -91,9 +104,42 @@ export class ProfileDetailsComponent implements OnInit {
 
 
 
-  public hidePassword = true;
-  public togglePassword(): void {
-  this.hidePassword = !this.hidePassword;
-    }
 
+   public hidePassword1 = true;
+  public hidePassword2 = true;
+
+public togglePassword1(): void {
+  this.hidePassword1 = !this.hidePassword1;
+}
+
+public togglePassword2(): void {
+  this.hidePassword2 = !this.hidePassword2;
+}
+
+    onFileSelected(event: any) {
+      const file = event.target.files[0]; // Get the selected file
+      const reader = new FileReader();
+    
+      reader.onload = () => { // Define a callback function to be executed when the file is loaded
+        const userImage = reader.result as string; // Store the image data as a string in a variable
+        this.userImage = userImage; // Update the component's userImage property with the new data
+        this.updatephoto(file, userImage); // Call the updatephoto method with the file and userImage variables as parameters
+      }
+    
+      reader.readAsDataURL(file); // Read the selected file as a data URL
+    }
+    
+    updatephoto(file: File, userImage: string) {
+      const formData = new FormData();
+      formData.append('file', file);
+    
+      this.userService.UpdateImage(this.curentUser?.email, formData).subscribe(updatedUser => {
+        console.log(updatedUser);
+        this.curentUser = updatedUser; // Update the current user object with the new data
+        this.userImage = userImage; // Update the component's userImage property with the new data
+      });
+    }
+    
+    
+  
 }

@@ -1,3 +1,30 @@
+<section class="page-header" >
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="content text-center">
+          <span class="icon">
+            <i class="fa fa-user" style="font-size:90px"></i>
+          <h1 class="mb-2">Mon Profil</h1>
+        </span>
+
+          <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Profile
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 <section class="user-dashboard page-wrapper">
   <div class="container">
     <div class="row">
@@ -29,15 +56,16 @@
         </div>
       </div>
 
-      <div class="card">
-        <img src="../../../assets/images/customer0.jpg" ><br>
+      <div class="card" *ngIf="userData">
+        <img [src]="userImage" alt="User Image" >
+
         <h4  *ngIf="admin" >ADMIN</h4>
         <h4 class="fa fa-user"> {{username}}</h4>
         <p class="fa fa-envelope"> {{curentUser.email}}</p>
         <p class="fa fa-phone" > {{mobile}}</p>
       
         <div>
-          <p><button  [routerLink]="['/profile-details',(curentUser.email)]" >Modifier mon Profil</button></p>
+          <p><button  [routerLink]="['/profile-details',(curentUser.email)]" >Modifier Profil</button></p>
         </div>
         <div>
           <p><button  routerLink="/admin" *ngIf="admin" >dashboard </button></p>

@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+import jwt_decode from 'jwt-decode';
 
 
 const httpOptions = {
@@ -166,6 +167,19 @@ export class AuthService {
   }
 
 
+  getUserPermissions(): string[] {
+    const token = this.getToken(); // hypothetical method to get user token
+    const decodedToken = jwt_decode(token) as { [key: string]: any };
+    return decodedToken['permissions'];
+  }
+  
+  
+
+  hasPermissions(permissions: string[]): boolean {
+    const userPermissions = this.getUserPermissions(); // hypothetical method to get user permissions
+    return permissions.every(permission => userPermissions.includes(permission));
+  }
+  
 
     
    }

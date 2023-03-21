@@ -30,14 +30,21 @@
               <button type="submit" (click)="rechercherParUser()" class="btn">Recherche</button>
             </div>
             <br>
-            <div class="card" *ngFor=" let user of users">
-              <img src="../../../assets/images/customer0.jpg" ><br>
-              <h4 class="fa fa-user"> {{user.username}}</h4>
-                <p  class="fa fa-envelope" > {{user.email}}</p>
-                <p  class="fa fa-tasks"> {{user.roles}}</p>
-                <p  class="fa fa-phone"> {{user.mobile}}</p><br>
+
+            <div *ngIf="users">
+              <div class="card-container">
+                <div class="card" *ngFor="let user of users">
+                  <img *ngIf="user.image" [src]="'https://127.0.0.1:8000/uploads/' + user.image" alt="User image">
+                  <h4>{{user.username}}</h4>
+                  <p>{{user.email}}</p>
+                  <p>
+                   
+                    <span  *ngIf="user.roles.includes('ADMIN')" class="fas fa-user-tie" title="Admin"> {{user.roles}}</span>
+                  <p>{{user.mobile}}</p>
+                </div>
               </div>
-              
+            </div>
+
             
           </div>
         </div>

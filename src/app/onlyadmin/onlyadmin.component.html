@@ -98,7 +98,7 @@
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.roles[0]}}</td>
-                      <td class="delete-col" *ngIf="user ">
+                      <td class="delete-col" *ngIf="user">
                         <button class="edit-button" (click)="updateRoleAdmin(user)" [ngClass]="{'text-success': user.roles.includes('ADMIN')}"  >
                           <i class="fas fa-user-tie"></i>
                           <span class="tooltip" *ngIf="!user.roles.includes('ADMIN')"> Mettre le Role  comme ADMIN</span >
