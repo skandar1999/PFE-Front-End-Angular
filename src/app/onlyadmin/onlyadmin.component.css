@@ -140,3 +140,7 @@ tr:nth-child(even) {
 .admin-row {
   background-color: #f9f9f9;
 }
+
+.super-admin-icon {
+  color: #e74c3c;
+}

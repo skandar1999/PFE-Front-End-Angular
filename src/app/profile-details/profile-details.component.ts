@@ -2,10 +2,11 @@ import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { AuthService } from '../services/auth.service';
-import { identifierName } from '@angular/compiler';
-import { Data } from 'popper.js';
+
 import jwt_decode from 'jwt-decode';
 import { ActivatedRoute } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-details',
@@ -20,6 +21,7 @@ export class ProfileDetailsComponent implements OnInit {
   public data: string | null = null;
   username!: string;
   password!:string;
+  PasswordActuelle!:string;
   email:any;
   id!: number;
   mobile!:string;
@@ -31,12 +33,13 @@ export class ProfileDetailsComponent implements OnInit {
   confirmPassword!: string;
   not: boolean = false;
   userImage!: string;
-  
+  errorMessage!: string;
+
 
  constructor(
     public authService: AuthService,
     public userService: UserService,
-    private route: ActivatedRoute,
+  
   ) {}  
 
 
@@ -70,37 +73,46 @@ export class ProfileDetailsComponent implements OnInit {
     this.authService.logout();
   }
 
-  updateUserData() {
+ 
 
+  updateUserData() {
     if (this.password !== this.confirmPassword) {
       // Show an error message or prevent the update request
-      this.not=true;
+      this.not = true;
       setTimeout(() => {
         this.not = false;
       }, 2500);
       return;
     }
-
+    
     const userToUpdate = new User();
     userToUpdate.email = this.curentUser?.email; // set the email of the user to be updated
     userToUpdate.username = this.username; // set the new username
     userToUpdate.password = this.password; // set the new password
     userToUpdate.mobile = this.mobile; // set the new mobile number
-    
-    this.userService.Update(this.curentUser?.email, userToUpdate).subscribe(updatedUser => {
-      console.log(updatedUser);
-      this.updateSuccess = true;
-      setTimeout(() => {
-        this.updateSuccess = false;
-
-      }, 2500); // Delay for hiding the alert
-    });
       
-    console.log("Username: ", this.username);
-    console.log("Password: ", this.password);
-    console.log("Mobile: ", this.mobile);
+    this.userService.Update(this.curentUser?.email, userToUpdate).subscribe(
+      updatedUser => {
+        console.log(updatedUser);
+        this.updateSuccess = true;
+        setTimeout(() => {
+          this.updateSuccess = false;
+        }, 2500); // Delay for hiding the alert
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = error.error.message; // get the error message from the response
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 4000); // Delay for hiding the error message
+      }
+    );
   }
+  
 
+ 
+
+  
 
 
 

@@ -23,7 +23,7 @@ import { GoogleLoginProvider} from '@abacritt/angularx-social-login';
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConditionsComponent } from './conditions/conditions.component';
-
+import { MatDialogModule } from '@angular/material/dialog'; // import the module
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { ConditionsComponent } from './conditions/conditions.component';
     RechercheParNomComponent,
     MessagesComponent,
     ConditionsComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -52,7 +53,8 @@ import { ConditionsComponent } from './conditions/conditions.component';
     HttpClientModule,
     BrowserModule, 
     FormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    BrowserModule, MatDialogModule
     
   ],
   providers: [

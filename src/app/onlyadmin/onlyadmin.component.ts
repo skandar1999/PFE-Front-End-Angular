@@ -19,7 +19,8 @@ updated: boolean = false;
 removed: boolean = false;
 hasAdmin = false;
 
-  constructor( private authService: AuthService ,private userService: UserService) { }
+  constructor( private authService: AuthService ,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.chargeUsers();
@@ -30,9 +31,13 @@ hasAdmin = false;
     this.userService.listeUsers().subscribe(users => {
       this.users = users;
       this.users.sort((a, b) => {
-        if (a.roles.includes('ADMIN') && !b.roles.includes('ADMIN')) {
+        if (a.roles.includes('SUPER_ADMIN') && !b.roles.includes('SUPER_ADMIN')) {
           return -1;
-        } else if (!a.roles.includes('ADMIN') && b.roles.includes('ADMIN')) {
+        } else if (a.roles.includes('ADMIN') && !b.roles.includes('ADMIN') && !b.roles.includes('SUPER_ADMIN')) {
+          return -1;
+        } else if (!a.roles.includes('ADMIN') && !a.roles.includes('SUPER_ADMIN') && b.roles.includes('ADMIN')) {
+          return 1;
+        } else if (!a.roles.includes('ADMIN') && !a.roles.includes('SUPER_ADMIN') && !b.roles.includes('ADMIN') && b.roles.includes('SUPER_ADMIN')) {
           return 1;
         } else {
           return 0;
@@ -41,9 +46,12 @@ hasAdmin = false;
     });
   }
   
+  
 
 
     supprimerUser(user: User) {
+     
+     
       let conf = confirm("Etes-vous sûr supprimer ce compte ?");
       if (conf) {
         this.authService.supprimerUser(user.id).subscribe(() => {
@@ -65,6 +73,10 @@ hasAdmin = false;
 
 
     updateRoleAdmin(user: User) {
+      if(user.roles.includes('SUPER_ADMIN')) {
+        alert("Tu ne peut pas modifier le role de SUPER_ADMIN .");
+        return;
+      }
       const conf = confirm("Etes-vous sûr de mettre le rôle de cet utilisateur à ADMIN?");
       if (conf) {
         this.userService.updateUserRole(user.id).subscribe(

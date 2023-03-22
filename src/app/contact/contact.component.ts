@@ -53,18 +53,21 @@ export class ContactComponent implements OnInit {
       }, 2000); // set the delay time in milliseconds
       return;
     }
-    this.userService.contact(this.contact)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.messageConfirmation = response.message;
-
-        },
-        error => {
-          console.log(error);
-          // Handle any errors that occur here
-        }
-      );
+    this.userService.contact(this.contact).subscribe(
+      response => {
+        console.log(response);
+        this.messageConfirmation = response.message;
+    
+        // Set a timeout of 5 seconds for the confirmation message
+        setTimeout(() => {
+          this.messageConfirmation = '';
+        }, 2200);
+      },
+      error => {
+        console.log(error);
+        // Handle any errors that occur here
+      }
+    );
   }
   
 

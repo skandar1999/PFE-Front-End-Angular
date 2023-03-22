@@ -84,7 +84,7 @@
               </div>
 
               <div class="form-group mb-4" >
-                <label>Username</label>
+                <label>nom d'utilisateur</label>
                 <input
                   type="text"
                   autocomplete="off"
@@ -107,13 +107,33 @@
                   [(ngModel)]="this.mobile"
                 />
               </div>
-            </form>
+            </form> 
+
+          
 
             <form action="#" class="mt-5">
               <h4>Changement de mot de passe</h4>
 
+
               <div class="form-group">
-                <label for="password">Nouvelle mot de passe </label>
+                <label for="password">Mot de passe actuelle</label>
+                <div class="input-group">
+                  <input type="{{ hidePassword1 ? 'password' : 'text' }}" 
+                  autocomplete="off"
+                         class="form-control" 
+                        name="password"
+
+                              [(ngModel)]="this.PasswordActuelle" >
+                  <div class="input-group-append">
+                    <span class="input-group-text toggle-password" (click)="togglePassword1()">
+                      <i class="fa fa-fw fa-eye"></i>
+                    </span>
+                  </div>
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <label for="password">Nouveaux mot de passe </label>
                 <div class="input-group">
                   <input type="{{ hidePassword1 ? 'password' : 'text' }}" 
                   autocomplete="off"
@@ -145,8 +165,7 @@
                   </div>
                 </div>
               </div>
-              
-
+           
             
 
               <div class="alert alert-success alert-dismissible fade show" *ngIf="updateSuccess" [class.show]="updateSuccess" role="alert">
@@ -154,9 +173,14 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
                 Vos informations ont été mises à jour avec succès !  </div>
-           
+               
+                 
+                <div *ngIf="errorMessage" >
+                  <span class="notmatch">{{ errorMessage }}</span>
+                </div>
+
                 <div *ngIf="not">
-                  <span class="notmatch">Veuillez verifier votre Mot de passe.</span>
+                  <span class="notmatch">Veuillez verifier votre nouveaux Mot de passe.</span>
                 </div>  
                 <button type="submit" class="btn btn-success" (click)="updateUserData()">Sauvegarder les changements</button><br />
              </form>

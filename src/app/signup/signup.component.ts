@@ -55,7 +55,6 @@ export class SignupComponent implements OnInit {
     }
 
 
-
     if (this.newUser.mobile.length != 8 || !/^[0-9]*$/.test(this.newUser.mobile)) {
       this.errorMobile = 'Telephone non valide';
       setTimeout(() => {
@@ -79,7 +78,7 @@ export class SignupComponent implements OnInit {
           this.added = true;
           setTimeout(() => {
             this.router.navigate(['/login']);
-          }, 2500); // wait for 3 seconds before navigating to login page
+          }, 2200); // wait for 3 seconds before navigating to login page
         } else if (response && !response.status) {
           this.errorMessage = response.message;
           setTimeout(() => {

@@ -5,7 +5,7 @@
       <div class="col-lg-8">
         <div class="content text-center">
           <span class="icon">
-            <i class="fa fa-user" style="font-size:90px"></i>
+            <i class="fa fa-user" style="font-size:70px"></i>
           <h1 class="mb-2">Mon Profile</h1>
         </span>
 
@@ -39,7 +39,7 @@
         </div>
         
         <div class="nav flex-column nav-pills">
-          <a class="nav-link " routerLink="/admin" *ngIf="admin"
+          <a class="nav-link " routerLink="/admin" *ngIf="yesadmin"
             >dashboard</a>
         </div>
         
@@ -59,7 +59,9 @@
       <div class="card" *ngIf="userData">
         <img [src]="userImage" alt="User Image" >
 
-        <h4  *ngIf="admin" >ADMIN</h4>
+        <h4 class="fas fa-user-tie" *ngIf="admin === 'ADMIN'"> ADMIN</h4>
+        <h4 class="fas fa-user-tie" *ngIf="super === 'SUPER_ADMIN'"> SUPER_ADMIN</h4>
+
         <h4 class="fa fa-user"> {{username}}</h4>
         <p class="fa fa-envelope"> {{curentUser.email}}</p>
         <p class="fa fa-phone" > {{mobile}}</p>
@@ -68,7 +70,7 @@
           <p><button  [routerLink]="['/profile-details',(curentUser.email)]" >Modifier Profil</button></p>
         </div>
         <div>
-          <p><button  routerLink="/admin" *ngIf="admin" >dashboard </button></p>
+          <p><button  routerLink="/admin" *ngIf="yesadmin" >dashboard </button></p>
         </div>
       </div>  
               

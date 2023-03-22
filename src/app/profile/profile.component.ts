@@ -29,7 +29,9 @@ export class ProfileComponent implements OnInit {
   userImage!: string;
 
 
-  admin: boolean = false;
+  admin!: string;
+  super!: string;
+  yesadmin: boolean = false;
 
   curentUser:any;
   token!:any;
@@ -66,13 +68,20 @@ export class ProfileComponent implements OnInit {
         this.mobile=this.userData.mobile;
         this.roles=this.userData.roles;
         this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
+      }
+        if (this.roles.includes("ADMIN") || this.roles.includes("SUPER_ADMIN")) {
+          this.yesadmin = true;
+        } else {
+          this.yesadmin = false;
+        }
+     
+    if (this.roles.includes("ADMIN") ) {
+        this.admin = 'ADMIN';
+      } 
 
-      }
-      if (this.roles.includes("ADMIN")) {
-        this.admin = true;
-      } else {
-        this.admin = false;
-      }
+      if (this.roles.includes("SUPER_ADMIN")) {
+        this.super = 'SUPER_ADMIN';
+      } 
     });
   }
   

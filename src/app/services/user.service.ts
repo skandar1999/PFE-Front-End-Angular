@@ -2,7 +2,7 @@ import { Contact } from '../model/contact.model';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { User } from '../model/user.model';
 import { AuthService } from './auth.service';
 
@@ -131,5 +131,24 @@ export class UserService {
         return this.http.post(`${this.uptImage}/${email}`, imageData);
       }
 
+
+      checkPassword(email: string, password: string): Observable<boolean> {
+        const data = { password };
+        const url = `https://127.0.0.1:8000/checkpassword/${email}`;
+        return this.http.post(url, data).pipe(
+          map((response:any) => {
+            if (response && response.status) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        );
+      }
+
+     
+      
+
+      
       
 }   
