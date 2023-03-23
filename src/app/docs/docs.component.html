@@ -51,7 +51,18 @@
         <a routerLink="/">Nouveaux dossier</a>,
         <a routerLink="/">Impoter un dossier</a>,
         <a routerLink="/">Impoter un fichier</a>
+
+
+        <input type="file" (change)="onFileSelected($event)">
+
         
+        <ul>
+          <li *ngFor="let file of files">
+            <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
+          </li>
+        </ul> 
+
+          
       </div>
     </div>
   </div>

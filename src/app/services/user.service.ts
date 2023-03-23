@@ -132,6 +132,9 @@ export class UserService {
       }
 
 
+
+      
+
       checkPassword(email: string, password: string): Observable<boolean> {
         const data = { password };
         const url = `https://127.0.0.1:8000/checkpassword/${email}`;

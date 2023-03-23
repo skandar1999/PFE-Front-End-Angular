@@ -34,6 +34,8 @@ export class ProfileDetailsComponent implements OnInit {
   not: boolean = false;
   userImage!: string;
   errorMessage!: string;
+  passwordMatch!: boolean;
+  passwordFieldsModified = false;
 
 
  constructor(
@@ -73,10 +75,16 @@ export class ProfileDetailsComponent implements OnInit {
     this.authService.logout();
   }
 
+
+
+updatePasswordFields() {
+  this.passwordFieldsModified = true;
+}
+
  
 
   updateUserData() {
-    if (this.password !== this.confirmPassword) {
+    if (this.PasswordActuelle && this.password !== this.confirmPassword) {
       // Show an error message or prevent the update request
       this.not = true;
       setTimeout(() => {
@@ -84,33 +92,51 @@ export class ProfileDetailsComponent implements OnInit {
       }, 2500);
       return;
     }
-    
-    const userToUpdate = new User();
-    userToUpdate.email = this.curentUser?.email; // set the email of the user to be updated
-    userToUpdate.username = this.username; // set the new username
-    userToUpdate.password = this.password; // set the new password
-    userToUpdate.mobile = this.mobile; // set the new mobile number
-      
-    this.userService.Update(this.curentUser?.email, userToUpdate).subscribe(
-      updatedUser => {
-        console.log(updatedUser);
-        this.updateSuccess = true;
-        setTimeout(() => {
-          this.updateSuccess = false;
-        }, 2500); // Delay for hiding the alert
-      },
-      error => {
-        console.log(error);
-        this.errorMessage = error.error.message; // get the error message from the response
+  
+  
+    if (this.PasswordActuelle) {
+      this.checkPasswords(); // call the checkPasswords function to verify the current password
+    }  
+    setTimeout(() => {
+      if (this.passwordMatch) {
+        const userToUpdate = new User();
+        userToUpdate.email = this.curentUser?.email; // set the email of the user to be updated
+        userToUpdate.username = this.username; // set the new username
+        userToUpdate.password = this.password; // set the new password
+        userToUpdate.mobile = this.mobile; // set the new mobile number
+  
+        this.userService.Update(this.curentUser?.email, userToUpdate).subscribe(
+          updatedUser => {
+            console.log(updatedUser);
+            this.updateSuccess = true;
+            setTimeout(() => {
+              this.updateSuccess = false;
+            }, 2500); // Delay for hiding the alert
+          },
+          error => {
+            console.log(error);
+            this.errorMessage = error.error.message; // get the error message from the response
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 4000); // Delay for hiding the error message
+          }
+        );
+      } else {
+        this.errorMessage = 'Le mot de passe actuel est incorrect';
         setTimeout(() => {
           this.errorMessage = '';
         }, 4000); // Delay for hiding the error message
       }
-    );
+    }, 1000); // add a delay for the checkPasswords function to complete
   }
   
-
- 
+  
+  checkPasswords() {
+    this.userService.checkPassword(this.curentUser?.email, this.PasswordActuelle).subscribe((result) => {
+      this.passwordMatch = result;
+    });
+  }
+  
 
   
 
