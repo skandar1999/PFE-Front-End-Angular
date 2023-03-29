@@ -110,8 +110,16 @@ export class UserService {
         const url = `https://127.0.0.1:8000/deleteMessage/${id}`;
         return this.http.delete<any>(url);
       }
+
+       
+      updatestatuts(id: number): Observable<any> {
+        const url = `https://127.0.0.1:8000/updateStatut/${id}`;
+        return this.http.put<Contact>(url, {});
+      }
       
-      
+          
+
+
       updateUserRole(id: number) {
         const url = `https://127.0.0.1:8000/updateRole/${id}`;
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -149,8 +157,7 @@ export class UserService {
         );
       }
 
-     
-      
+    
 
       
       

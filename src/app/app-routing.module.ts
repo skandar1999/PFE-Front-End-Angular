@@ -15,6 +15,7 @@ import { OnlyadminComponent } from './onlyadmin/onlyadmin.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { UserGuard } from './guard/user.guard';
 import { MessagesComponent } from './messages/messages.component';
+import { FolderContentsComponent } from './folder-contents/folder-contents.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: "recherche", component : RechercheParNomComponent },
   { path: 'messages', component: MessagesComponent },
   { path: 'condition', component: ConditionsComponent },
+  { path: 'folders/:id', component: FolderContentsComponent },
 
 
 ];

@@ -26,7 +26,8 @@
               <div class="acccount-settings">
               
                 <h4 class="mb-4">Liste des messages</h4>
-                
+                <span *ngIf="isSuccess" class="success-message">Le message est marqué comme lu </span>
+
                 <div class="alert alert-success alert-dismissible fade show" *ngIf="deletedd">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -46,27 +47,70 @@
                           <th class="message-col">Date</th>
                           <th class="message-col">Message</th>
 
+                          <th ></th>
+
 
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody *ngFor="let contact of contacts" >
-                        <tr>
-                          <td class="email-col">{{contact.emailUser}}</td>
-                          <td class="message-col">{{contact.date}}</td>
-                          <td class="message-col">{{contact.description}}</td>
-                          
-
-                          <td class="delete-col">
-                            <button class="delete-button"   (click)="onDelete(contact)" >
-                              <i class="fas fa-trash-alt"></i>
-                            </button>
-                          </td>
-                        </tr>
+                      <tbody>
+                        <ng-container *ngFor="let contact of contacts; let i = index">
+                          <tr *ngIf="i < 3">
+                            <td class="email-col">{{contact.emailUser}}</td>
+                            <td class="message-col">{{contact.date}}</td>
+                            <td class="message-col">{{contact.description}}</td>
+                            <td class="delete-col">
+                              <button class="delete-button" (click)="onDelete(contact)">
+                                <i class="fas fa-trash-alt"></i>
+                              </button>
+                            </td>
+                            <td>
+                              <span class="status-message" *ngIf="contact.status"></span>
+                              <span class="status-message" *ngIf="!contact.status "></span>
+                              <button class="status-button" (click)="updateStatus(contact)">
+                                <i class="far fa-check-circle" *ngIf="!contact.status"></i>
+                                <i class="fas fa-check-circle" *ngIf="contact.status"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-container>
+                       
+                        
+                        <ng-container *ngIf="showAllMessages">
+                          <tr *ngFor="let contact of contacts; let i = index">
+                            <ng-container *ngIf="i >= 4">
+                              <td class="email-col">{{contact.emailUser}}</td>
+                              <td class="message-col">{{contact.date}}</td>
+                              <td class="message-col">{{contact.description}}</td>
+                              <td class="delete-col">
+                                <button class="delete-button" (click)="onDelete(contact)">
+                                  <i class="fas fa-trash-alt"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <span class="status-message" *ngIf="contact.status"></span>
+                                <span class="status-message" *ngIf="!contact.status "></span>
+                                <button class="status-button" (click)="updateStatus(contact)">
+                                  <i class="far fa-check-circle" *ngIf="!contact.status"></i>
+                                  <i class="fas fa-check-circle" *ngIf="contact.status"></i>
+                                </button>
+                              </td>
+                            </ng-container>
+                          </tr>
+                        </ng-container>
                       </tbody>
+                      
                     </table>
+                    
                   </div>
                 </div>
+                 <div *ngIf="contacts.length > 4" >
+                          <td colspan="5">
+                            <button (click)="showAllMessages = !showAllMessages" class="{{ showAllMessages ? 'close' : 'action' }}">
+                              {{ showAllMessages ? 'Fermer' : 'Afficher tout' }}
+                            </button>
+                          </td>
+                        </div>
               </div>
             </div>
           </div>

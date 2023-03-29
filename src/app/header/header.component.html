@@ -16,35 +16,21 @@
       </ul>
 
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item dropdown dropdown-slide">
-          <a
-            *ngIf="authService.isloggedIn"
+      
+        <!-- Pages -->
+        <li class="nav-item dropdown dropdown-slide ">
+          <a *ngIf="authService.isloggedIn"
             class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown3"
+            routerLink="/docs"
+            id="navbarDropdown4"
             role="button"
             data-delay="350"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Nouveaux
+          Mes documents
           </a>
-
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
-            <li>
-              <a routerLink="/docs"> Nouveaux dossier </a>
-            </li>
-            <li>
-              <a routerLink="/docs"> Importer un dossier</a>
-            </li>
-            <li><a routerLink="/docs">Importer un fichier</a></li>
-          </ul>
-        </li>
-
-        <!-- Pages -->
-       
-
 
         <li class="nav-item dropdown dropdown-slide ">
           <a
@@ -60,11 +46,6 @@
           à propos
           </a>  
 
-
-
-          
-
-          
         </li>
         <li class="nav-item dropdown dropdown-slide ">
           <a
@@ -132,6 +113,8 @@
          <div class="action">
           <button type="submit" class="btn btn-signup"  *ngIf="!authService.isloggedIn" routerLink="/signup"> s'inscrire gratuitement </button> 
          </div>
+
+         
       </ul>
     </div>
   </div>

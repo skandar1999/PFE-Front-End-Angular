@@ -12,6 +12,10 @@ export class MessagesComponent implements OnInit {
   contact = new Contact();
   contacts: Contact[] = [];
   deletedd: boolean = false;
+  isSuccess = false;
+  showAllMessages = false;
+
+
 
   constructor(private userService: UserService , private authService: AuthService) { }
 
@@ -30,14 +34,6 @@ export class MessagesComponent implements OnInit {
   } 
 
 
-
-
-  onLogout() {
-    this.authService.logout();
-  }
-
-
-
   onDelete(contact: Contact) {
     let conf = confirm("Etes-vous sûr de vouloir supprimer ce message ?");
     if (conf) {
@@ -46,13 +42,30 @@ export class MessagesComponent implements OnInit {
         this.deletedd = true;
         setTimeout(() => {
           this.deletedd = false;
-        }, 1700);
+        }, 2000);
       });
     }
   }
+
+  updateStatus(contact: Contact) {
+    this.userService.updatestatuts(contact.id).subscribe(
+      contact => {
+        console.log(contact);
+        this.isSuccess = true;
+        setTimeout(() => {
+          this.isSuccess = false;
+        }, 1900);
+      },
+      error => console.error(error)
+    );
+  }
   
 
-  
+  onLogout() {
+    this.authService.logout();
+  }
+
+
   
 
 }

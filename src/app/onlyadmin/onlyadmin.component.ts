@@ -18,6 +18,7 @@ deleted: boolean = false;
 updated: boolean = false;
 removed: boolean = false;
 hasAdmin = false;
+showAllMessages = false;
 
   constructor( private authService: AuthService ,
               private userService: UserService) { }

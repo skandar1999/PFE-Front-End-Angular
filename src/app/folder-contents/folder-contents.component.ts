@@ -8,13 +8,12 @@ import { File } from './../model/file';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
-
 @Component({
-  selector: 'app-docs',
-  templateUrl: './docs.component.html',
-  styleUrls: ['./docs.component.css'],
+  selector: 'app-folder-contents',
+  templateUrl: './folder-contents.component.html',
+  styleUrls: ['./folder-contents.component.css']
 })
-export class DocsComponent implements OnInit {
+export class FolderContentsComponent implements OnInit {
   id!:number;
   user!: User;
   curentUser:any;
@@ -31,7 +30,7 @@ export class DocsComponent implements OnInit {
   files!: any[];
   folders: any[] = [];
   allfolders! :any[];
-
+  
 
   
   constructor(
@@ -226,39 +225,4 @@ rechercherParFile() {
   }
 
 
-
 }
-
-
-
- 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-  
- 
-
-
-
-
-
-
-

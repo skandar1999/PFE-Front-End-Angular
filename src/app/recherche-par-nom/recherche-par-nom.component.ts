@@ -11,22 +11,30 @@ import { UserService } from '../services/user.service';
 export class RechercheParNomComponent implements OnInit {
   username!:string;
   user = new User();
-  users! :any[];
-  allUsers! :any[];
   searchTerm!: string;
  
-
+  users: User[] = [];
+  allUsers: User[] = [];
 
   constructor(private userService: UserService , private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.listeUsers().subscribe(us => {
-      console.log(us);
-      this.allUsers = us;
-      });
+    this.getUsers();
+
   }
 
-  
+  getUsers() {
+    this.authService.listeUsers().subscribe(
+      (users: User[]) => {
+        console.log(users);
+        this.allUsers = users;
+        this.users = users;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
 
   rechercherParUser(){
     this.userService.rechercherParUsername(this.username).
@@ -34,11 +42,16 @@ export class RechercheParNomComponent implements OnInit {
     this.users =  us });
     }
 
-    onKeyUp(filterText : string){
-      this.users = this.allUsers.filter(item =>
-      item.username.toLowerCase().includes(filterText));
-      console.log(this.users);
-      }
+   onKeyUp(searchTerm: HTMLInputElement) {
+  const filterText = searchTerm.value.toLowerCase();
+  if (filterText.length > 0) {
+    this.users = this.allUsers.filter(item => item.username.toLowerCase().includes(filterText));
+  } else {
+    this.users = [];
+  }
+}
+
+    
       
     
     

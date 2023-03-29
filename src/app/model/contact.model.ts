@@ -3,5 +3,6 @@ export class Contact {
     emailUser!: string;
     description!:string;
     date!:String;
+    status!:boolean;
   }
   

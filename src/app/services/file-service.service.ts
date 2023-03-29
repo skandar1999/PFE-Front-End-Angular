@@ -23,8 +23,33 @@ export class FileServiceService {
   }
 
 
+ createFolder(formData: FormData, email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/createdossier/${email}`, formData);
+  }
+
 
   getUserFiles( email: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getfiles/${email}`);
   }
+
+  getUserFolders( email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/getfolder/${email}`);
+  }
+
+
+  supprimerFile(id: number): Observable<any> {
+    const url = `https://127.0.0.1:8000/deletefile/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  supprimerFolder(id: number): Observable<any> {
+    const url = `https://127.0.0.1:8000/deletefolder/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+
+  rechercherParName(name: string):Observable< File[]> {
+    const url = `https://127.0.0.1:8000/findbyName/${name}`;
+    return this.http.get<File[]>(url);
+    }
 }

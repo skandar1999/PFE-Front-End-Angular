@@ -93,8 +93,47 @@
                       <th>Gérer utilisateur</th>
                     </tr>
                   </thead>
-                  <tbody *ngFor="let user of users">
-                    <tr [ngClass]="{'admin-row': user.roles.includes('SUPER_ADMIN')}">
+
+                  <tbody>
+                    
+                  
+
+                  <tbody >
+                    <ng-container *ngFor="let user of users; let i = index">
+                    <tr *ngIf="i < 5" [ngClass]="{'admin-row': user.roles.includes('SUPER_ADMIN')}">
+                      <td>{{user.username}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.roles[0]}}</td>
+                      <td class="delete-col" *ngIf="user">
+                        <button class="edit-button" (click)="updateRoleAdmin(user)" [ngClass]="{'text-success': user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN')}"  >
+                          <i class="fas fa-user-tie"></i>
+                          <span class="tooltip" *ngIf="!user.roles.includes('ADMIN')"> Mettre le Role  comme ADMIN</span >
+                            <span class="role-text"  *ngIf="user.roles.includes('ADMIN')">ADMIN</span>
+                            <span class="role-text"  *ngIf="user.roles.includes('SUPER_ADMIN')">SUPER_ADMIN</span>
+
+
+                        </button>
+                        
+                        <button class="delete-button" (click)="supprimerUser(user)" *ngIf="!(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))" >
+                          <i class="fa fa-trash"></i>
+                        </button>
+
+                        <button class="edit-button" (click)="removeRoleAdmin(user)" *ngIf="user.roles.includes('ADMIN')">
+                          <i class="fas fa-user-alt-slash"  ></i>
+                          <span class="tooltip" > Annuler le rôle ADMIN</span>
+                          <span class="role" *ngIf="user.roles.includes('ADMIN')" > USER</span>
+
+                        </button>
+                        
+                       
+                    </td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-container *ngIf="showAllMessages">
+                    <tr *ngFor="let user of users; let i = index">
+                      <ng-container *ngIf="i >= 4">
+
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.roles[0]}}</td>
@@ -120,11 +159,22 @@
                         </button>
                         
                        
-                    </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </td> </ng-container>
+                  </tr>
+                </ng-container>
+              </tbody>
+              
+            </table>
+            
+               
               </div>
+            </div>
+            <div *ngIf="users.length > 4" >
+              <td colspan="5">
+                <button (click)="showAllMessages = !showAllMessages" class="{{ showAllMessages ? 'closebtn' : 'action' }}">
+                  {{ showAllMessages ? 'Fermer' : 'Afficher tout' }}
+                </button>
+              </td>
             </div>
           </div>
         </div>

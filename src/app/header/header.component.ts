@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
   token!:any;
   userData: any;
   newData: any;
+  notificationsEnabled: boolean = true;
+
   constructor(public authService: AuthService , public userService:UserService , private router: Router) {}
 
   ngOnInit() {
@@ -31,7 +33,9 @@ export class HeaderComponent implements OnInit {
     this.findUserByEmail();
   }
 
-  
+  toggleNotifications() {
+    this.notificationsEnabled = !this.notificationsEnabled;
+  }
 
   onLogout() {
     this.authService.logout();
