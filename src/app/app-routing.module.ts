@@ -1,3 +1,4 @@
+import { ArchiveComponent } from './archive/archive.component';
 import { ConditionsComponent } from './conditions/conditions.component';
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { AboutUsComponent } from './about-us/about-us.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'messages', component: MessagesComponent },
   { path: 'condition', component: ConditionsComponent },
   { path: 'folders/:id', component: FolderContentsComponent },
+  { path: 'archive', component: ArchiveComponent },
 
 
 ];

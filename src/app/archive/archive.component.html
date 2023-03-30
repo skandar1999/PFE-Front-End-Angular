@@ -5,15 +5,15 @@
         <div class="col-lg-6">
           <div class="content text-center">
             <span class="icon">
-              <i class='fa fa-folder-open' style='font-size:90px'></i>
-              <h1 class="mb-3">Documents récents</h1><br>
+              <i class='fa fa-trash' style='font-size:90px'></i>
+              <h1 class="mb-3">Archive</h1><br>
             </span>
   
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb bg-transparent justify-content-center">
                 <li class="breadcrumb-item"><a routerLink="/docs">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                  mes documents
+                    Archive
                 </li>
               </ol>
             </nav>
@@ -33,10 +33,15 @@
             <a class="nav-link" routerLink="/profile">Mon profile</a>
           </div>
           <div class="nav flex-column nav-pills">
-            <a class="nav-link active" routerLink="/dashboard">Mes documents</a>
+            <a class="nav-link " routerLink="/docs">Mes documents</a>
           </div>
+  
           <div class="nav flex-column nav-pills">
-            <a class="nav-link" routerLink="/contact">contact</a>
+            <a class="nav-link active " routerLink="/archive">Archive</a>
+          </div>
+  
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link" routerLink="/contact">Contact</a>
           </div>
           
           <div class="nav flex-column nav-pills">
@@ -53,31 +58,9 @@
           <div class="search-form" >
             <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder=" Recherche...">
             
-            <div class="dropdown">
-              <button  class="custom-file-upload" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Nouveau
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item"  (click)="createNewFolder()">Nouveau dossier</a>
-                <a class="dropdown-item">
-                  <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none; text-align: center;">
-                  <label for="fileInput" >Importer un fichier</label>
-                </a>
-              </div>
-            </div>
+          
               
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label"></label>
-        <div class="col-md-4 col-sm-12">
-          <div class="form-group">
-            <label class="switch">
-              <input type="checkbox" [(ngModel)]="notificationsEnabled">
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-  
+
           </div>
           
           
@@ -86,12 +69,12 @@
   
           <div class="container" >
             <div class="row">
-              <div class="col-lg-4" *ngFor="let file of files">
+              <div class="col-lg-4" *ngFor="let file of files" >
                 
-                <div class="foodbox mt-4 mb-4">
+                <div class="foodbox mt-4 mb-4" >
                   <a href="{{ file.url }}" target="_blank">
                   <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
-                  <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('gif') " >
+                  <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.avif')" >
                   <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
                   <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
                   <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >
@@ -106,6 +89,7 @@
   
                   <p>{{file.date}}</p>
                   <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
+                  <i class="fa fa-times" (click)="onDelete(file, $event)"></i>
                 </div>
   
               </div>

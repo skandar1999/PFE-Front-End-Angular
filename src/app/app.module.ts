@@ -24,7 +24,8 @@ import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.
 import { MessagesComponent } from './messages/messages.component';
 import { ConditionsComponent } from './conditions/conditions.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FolderContentsComponent } from './folder-contents/folder-contents.component'; // import the module
+import { FolderContentsComponent } from './folder-contents/folder-contents.component';
+import { ArchiveComponent } from './archive/archive.component'; // import the module
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FolderContentsComponent } from './folder-contents/folder-contents.compo
     MessagesComponent,
     ConditionsComponent,
     FolderContentsComponent,
+    ArchiveComponent,
    
   ],
   imports: [

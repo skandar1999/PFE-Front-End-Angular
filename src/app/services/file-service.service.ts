@@ -37,9 +37,16 @@ export class FileServiceService {
   }
 
 
-  supprimerFile(id: number): Observable<any> {
-    const url = `https://127.0.0.1:8000/deletefile/${id}`;
-    return this.http.delete<any>(url);
+ 
+  archiveFile(id: number, email: string): Observable<any> {
+    const url = `https://127.0.0.1:8000/archiver/${id}/${email}`;
+    return this.http.put(url, {});
+  }
+  
+
+  supprimerFilefromarchive(id: number): Observable<any> {
+    const url = `https://127.0.0.1:8000/deletefilefromarchive/${id}`;
+    return this.http.delete<any>(url, {});
   }
 
   supprimerFolder(id: number): Observable<any> {

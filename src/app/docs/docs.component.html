@@ -35,8 +35,13 @@
         <div class="nav flex-column nav-pills">
           <a class="nav-link active" routerLink="/dashboard">Mes documents</a>
         </div>
+
         <div class="nav flex-column nav-pills">
-          <a class="nav-link" routerLink="/contact">contact</a>
+          <a class="nav-link " routerLink="/archive">Archive</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="/contact">Contact</a>
         </div>
         
         <div class="nav flex-column nav-pills">
@@ -81,17 +86,15 @@
         </div>
         
         
-      
-       
 
         <div class="container" >
           <div class="row">
-            <div class="col-lg-4" *ngFor="let file of files">
+            <div class="col-lg-4" *ngFor="let file of files" >
               
-              <div class="foodbox mt-4 mb-4">
+              <div class="foodbox mt-4 mb-4" >
                 <a href="{{ file.url }}" target="_blank">
                 <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
-                <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('gif') " >
+                <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.avif')" >
                 <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
                 <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
                 <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >
@@ -99,22 +102,16 @@
                 <img src="../../../assets/images/csv.jpg" *ngIf="file.name.includes('.csv')" >
                 <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
                 <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')" >
-
-
-  
                 </a>
-
                 <p>{{file.date}}</p>
                 <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
-                <i class="fa fa-trash" (click)="onDelete(file, $event)"></i>
+                <i class="fa fa-trash" (click)="onArchive(file)"></i>
               </div>
-
             </div>
-            
-            
+            </div>
+         </div>
+         
     
-      </div>
-    </div>
     <div class="container"  >
       <div class="row">
         <div class="col-lg-4" *ngFor="let folder of folders" (click)="onFolderSelected(folder)">

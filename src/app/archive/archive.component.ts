@@ -9,11 +9,11 @@ import { HttpClient } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-folder-contents',
-  templateUrl: './folder-contents.component.html',
-  styleUrls: ['./folder-contents.component.css']
+  selector: 'app-archive',
+  templateUrl: './archive.component.html',
+  styleUrls: ['./archive.component.css']
 })
-export class FolderContentsComponent implements OnInit {
+export class ArchiveComponent implements OnInit {
   id!:number;
   user!: User;
   curentUser:any;
@@ -30,7 +30,7 @@ export class FolderContentsComponent implements OnInit {
   files!: any[];
   folders: any[] = [];
   allfolders! :any[];
-  
+
 
   
   constructor(
@@ -79,76 +79,34 @@ export class FolderContentsComponent implements OnInit {
     this.authService.logout();}     
 
 
-    onFileSelected(event: any) {
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append('files', file);
-    
-      this.fileService.uploadFile(formData, this.curentUser?.email).subscribe(
-        (response) => {
-          console.log('File uploaded successfully');
-          this.selectedFile = file; // Set the selected file in the component property
+   
+
+    getFiles() {
+      this.fileService.getUserFiles(this.curentUser?.email).subscribe(
+        files => {
+          console.log(files);
+          this.allfiles = files
+            .filter((file:any) => file.status === false) // filter files with status === true
+            .map((file:any) => {
+              return {
+                id: file.id,
+                name: file.name,
+                date: file.date,
+                url: 'http://localhost:8000/files/' + file.name
+              };
+            });
+          this.files = this.allfiles;
         },
-        (error) => {
-          console.log('Error uploading file');
+        error => {
+          console.error(error);
         }
       );
     }
+    
 
-  getFiles() {
-    this.fileService.getUserFiles(this.curentUser?.email).subscribe(
-      files => {
-        console.log(files);
-        this.allfiles = files.map((file:any) => {
-          return {
-            id: file.id,
-            name: file.name,
-            date: file.date,
-            url: 'http://localhost:8000/files/' + file.name  // Update the URL here
-          };
-        });
-        this.files = this.allfiles;
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
+ 
 
-  getFolders() {
-    this.fileService.getUserFolders(this.curentUser?.email).subscribe(
-      folders => {
-        console.log(folders);
-        this.allfolders = folders.map((folder:any) => {
-          return {
-            id: folder.id,
-            namefolder: folder.name, // Update the field name here
-            date: folder.date, // Update the field name here
-            url: 'http://localhost:8000/folders/' + folder.id // Update the URL here
-          };
-        });
-        this.folders = this.allfolders;
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
-
-  createNewFolder() {
-    const formData = new FormData();
-    formData.append('user_id', '1'); // Replace with the ID of the user
-    formData.append('namedossier', 'Nouveau dossier');
-    formData.append('datedossier', new Date().toISOString().slice(0, 10)); // Use today's date as the default date
-    this.fileService.createFolder(formData, this.curentUser?.email).subscribe(
-      (response) => {
-        console.log(response);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
+ 
 
 
   onFolderSelected(folder: any) {
@@ -167,14 +125,12 @@ export class FolderContentsComponent implements OnInit {
 
 
 
- 
-
-  onDeletefolder(dossier: Dossier, event: Event) {
+  onDelete(file: File, event: Event) {
     event.stopPropagation(); // Add this line to prevent the link from opening
-    let conf = confirm("Etes-vous sûr de vouloir supprimer ce dossier ?");
-    if (conf && dossier.id) {
-      this.fileService.supprimerFolder(dossier.id).subscribe(() => {
-        this.getFolders();
+    let conf = confirm("Etes-vous sûr de vouloir supprimer ce document ?");
+    if (conf && file.id) {
+      this.fileService.supprimerFilefromarchive(file.id).subscribe(() => {
+        this.getFiles();
         this.deletedd = true;
         setTimeout(() => {
           this.deletedd = false;
@@ -182,6 +138,8 @@ export class FolderContentsComponent implements OnInit {
       });
     }
   }
+
+ 
   
 
 
@@ -206,10 +164,6 @@ rechercherParFile() {
 
   }
 
-
-  toggleNotifications() {
-    this.notificationsEnabled = !this.notificationsEnabled;
-  }
 
 
 }

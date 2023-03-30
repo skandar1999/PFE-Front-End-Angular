@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./docs.component.css'],
 })
 export class DocsComponent implements OnInit {
+
+
   id!:number;
   user!: User;
   curentUser:any;
@@ -32,7 +34,7 @@ export class DocsComponent implements OnInit {
   folders: any[] = [];
   allfolders! :any[];
 
-
+  
   
   constructor(
     public authService: AuthService,
@@ -97,25 +99,28 @@ export class DocsComponent implements OnInit {
       );
     }
 
-  getFiles() {
-    this.fileService.getUserFiles(this.curentUser?.email).subscribe(
-      files => {
-        console.log(files);
-        this.allfiles = files.map((file:any) => {
-          return {
-            id: file.id,
-            name: file.name,
-            date: file.date,
-            url: 'http://localhost:8000/files/' + file.name  // Update the URL here
-          };
-        });
-        this.files = this.allfiles;
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
+    getFiles() {
+      this.fileService.getUserFiles(this.curentUser?.email).subscribe(
+        files => {
+          console.log(files);
+          this.allfiles = files
+            .filter((file:any) => file.status === true) // filter files with status === true
+            .map((file:any) => {
+              return {
+                id: file.id,
+                name: file.name,
+                date: file.date,
+                url: 'http://localhost:8000/files/' + file.name
+              };
+            });
+          this.files = this.allfiles;
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
+    
 
   getFolders() {
     this.fileService.getUserFolders(this.curentUser?.email).subscribe(
@@ -169,11 +174,10 @@ export class DocsComponent implements OnInit {
 
 
 
-  onDelete(file: File, event: Event) {
-    event.stopPropagation(); // Add this line to prevent the link from opening
-    let conf = confirm("Etes-vous sûr de vouloir supprimer ce document ?");
-    if (conf && file.id) {
-      this.fileService.supprimerFile(file.id).subscribe(() => {
+  onArchive(file: File) {
+    const confirmed = confirm("Etes-vous sûr de vouloir supprimer ce document ?");
+    if (confirmed && file.id) {
+      this.fileService.archiveFile(file.id, this.curentUser?.email).subscribe(() => {
         this.getFiles();
         this.deletedd = true;
         setTimeout(() => {
