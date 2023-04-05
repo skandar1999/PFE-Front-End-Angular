@@ -45,39 +45,57 @@
 
   
   .foodbox {
-    background-color: #fff;
+    background-color: #fffffc;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease-in-out;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     position: relative;
+    overflow: hidden;
+    display: inline-block;
+
+  }
+  
+  .foodbox {
+    background-color: #fffffc;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+
   }
   
   .foodbox:hover {
-    transform: translateY(-2px);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border-color: black;
   }
   
   .foodbox img {
-    max-width: 30%;
+    max-width: 47%;
     height: auto;
     object-fit: cover;
+    margin-bottom: 5px;
   }
   
   .foodbox p {
-    font-size: 12px;
+    font-size: 15px;
     color: #333;
-    margin-top: 8px;
+   
   }
   
   .foodbox a {
-    font-size: 15px;
+    font-size: 17px;
     color: #3d3d3d;
     text-decoration: none;
-    margin-top: 15px;
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -85,29 +103,42 @@
     transition: color 0.3s ease-in-out;
   }
   
+  .foodbox a:hover {
+    color: rgb(0, 0, 0);
+    font-size: 17.2px;
+  }
 
-  
-  .foodbox i {
+  .fa-times {
     position: absolute;
     top: 10px;
     right: 10px;
     color: #000000;
-    font-size: 20px;
     cursor: pointer;
-    transition: color 0.3s ease-in-out;
-  }
-
-
-  .foodbox i:hover {
-    color: #da2020;
-    transform: scale(1.1);
-  }
-  
-  .fa-times {
-    position: relative;
     display: inline-block;
-    font-size: 15px;
+    font-size: 18px;
   }
   
- 
+  .fa-undo-alt {
+    position: absolute;
+    top: 35px;
+    right: 9px;
+    color: #000000;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
 
+  .fa-times:hover {
+    
+    color: rgb(255, 12, 12);
+    font-size: 20px;
+    transition: all 0.2s ease-in-out;   }
+
+
+  
+  .fa-undo-alt:hover {
+    color: green;
+    font-size: 17px;
+    transition: all 0.2s ease-in-out; 
+  
+  }

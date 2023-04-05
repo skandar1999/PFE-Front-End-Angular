@@ -83,7 +83,7 @@
                 />
               </div>
 
-              <div class="form-group mb-4" >
+              <div class="form-group mb-4"  >
                 <label>nom d'utilisateur</label>
                 <input
                   type="text"
@@ -96,9 +96,10 @@
                 /> 
               </div>
 
-              <div class="form-group mb-4">
+              <div class="form-group mb-4" [ngClass]="{'text-danger': this.errorMessage}">
                 <label>Mobile</label>
                 <input
+                [ngClass]="{'text-danger': this.errorMessage}"
                 autocomplete="off"
                   type="text"
                   class="form-control"
@@ -115,11 +116,11 @@
               <h4>Changement de mot de passe</h4>
 
 
-              <div class="form-group" [ngClass]="{'text-danger': this.errorMessage}">
+              <div class="form-group" [ngClass]="{'text-danger': this.errorMessagepw}">
                 <label for="password">Mot de passe actuelle</label>
                 <div class="input-group">
                   <input type="{{ hidePassword1 ? 'password' : 'text' }}" 
-                  [ngClass]="{'text-danger': this.errorMessage}"
+                  [ngClass]="{'text-danger': this.errorMessagepw}"
                   autocomplete="off"
                          class="form-control" 
                         name="password"
@@ -182,6 +183,11 @@
                 <div *ngIf="errorMessage" >
                   <span class="notmatch">{{ errorMessage }}</span>
                 </div>
+
+                <div *ngIf="errorMessagepw" >
+                  <span class="notmatch">{{ errorMessagepw }}</span>
+                </div>
+
 
                 <div *ngIf="not">
                   <span class="notmatch">Veuillez verifier votre nouveaux Mot de passe.</span>

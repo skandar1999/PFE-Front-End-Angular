@@ -82,7 +82,7 @@ export class ArchiveComponent implements OnInit {
    
 
     getFiles() {
-      this.fileService.getUserFiles(this.curentUser?.email).subscribe(
+      this.fileService.getUserFilesArchive(this.curentUser?.email).subscribe(
         files => {
           console.log(files);
           this.allfiles = files
@@ -126,24 +126,84 @@ export class ArchiveComponent implements OnInit {
 
 
   onDelete(file: File, event: Event) {
-    event.stopPropagation(); // Add this line to prevent the link from opening
-    let conf = confirm("Etes-vous sûr de vouloir supprimer ce document ?");
-    if (conf && file.id) {
-      this.fileService.supprimerFilefromarchive(file.id).subscribe(() => {
-        this.getFiles();
-        this.deletedd = true;
-        setTimeout(() => {
-          this.deletedd = false;
-        }, 1700);
-      });
-    }
+    event.stopPropagation();
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+  
+        .form-group button {
+          margin-right: 8px;
+        }
+        .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-primary:hover {
+          background-color: #f44336;
+          color: rgb(0, 0, 0);
+          cursor: pointer;
+          transition: 0.5s all ease;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-secondary:hover {
+          background-color: #666666;
+          color: #fff;
+          border: none;
+        }
+      </style>
+      <form class="form-group">
+        <div class="dialog-container">
+          <h3>Confirmation de suppression</h3>
+          <p>Êtes-vous sûr de vouloir supprimer ce document ?</p>
+          <br>
+          <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+          <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+        </div>
+      </form>
+    `;
+  
+    const confirmButton = dialog.querySelector('#confirmButton')!;
+    confirmButton.addEventListener('click', () => {
+      dialog.close();
+      if (file.id) {
+        this.fileService.supprimerFilefromarchive(file.id).subscribe(() => {
+          this.getFiles();
+          this.deletedd = true;
+          setTimeout(() => {
+            this.deletedd = false;
+          }, 1700);
+        });
+      }
+    });
+  
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+  
+    document.body.appendChild(dialog);
+    dialog.showModal();
   }
-
+  
  
   
-
-
-
 
 rechercherParFile() {
   this.fileService.rechercherParName(this.name).subscribe(
@@ -163,6 +223,87 @@ rechercherParFile() {
   );
 
   }
+
+
+
+
+
+  onRestaure(file: File) {
+  const dialog = document.createElement('dialog');
+
+  dialog.innerHTML = `
+    <style>
+      .dialog-container {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .dialog-container h2 {
+        margin-top: 0;
+      }
+
+      .form-group button {
+        margin-right: 8px;
+      }
+      .btn-primary {
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        padding:auto;
+      }
+      .btn-primary:hover {
+        background-color: #f44336;
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+        transition: 0.5s all ease;
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding:auto;
+      }
+      .btn-secondary:hover {
+        background-color: #666666;
+        color: #fff;
+        border: none;
+      }
+    </style>
+    <div class="dialog-container">
+      <h2>Restaurer file</h2>
+      <p>Etes-vous sûr de vouloir archiver ce document ?</p>
+      <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+      <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+    </div>
+  `;
+
+  const confirmButton = dialog.querySelector('#confirmButton')!;
+  confirmButton.addEventListener('click', () => {
+    dialog.close();
+    if (file.id) {
+      this.fileService.restaurerFile(file.id, this.curentUser?.email).subscribe(() => {
+        this.getFiles();
+        this.deletedd = true;
+        setTimeout(() => {
+          this.deletedd = false;
+        }, 1700);
+      });
+    }
+  });
+
+  const cancelButton = dialog.querySelector('#cancelButton')!;
+  cancelButton.addEventListener('click', () => {
+    dialog.close();
+  });
+
+  document.body.appendChild(dialog);
+  dialog.showModal();
+}
 
 
 

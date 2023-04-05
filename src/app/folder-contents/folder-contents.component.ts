@@ -8,6 +8,8 @@ import { File } from './../model/file';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-folder-contents',
   templateUrl: './folder-contents.component.html',
@@ -38,14 +40,15 @@ export class FolderContentsComponent implements OnInit {
     public userService: UserService,
     public fileService: FileServiceService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+
   
   ) {} 
   ngOnInit(): void { 
     this.token =window.localStorage.getItem('jwt')
     this.curentUser= jwt_decode(this.token);
     //console.log(jwt_decode(token))
-    this.findUserById();
     this.getFiles()
   }
   
@@ -58,26 +61,7 @@ export class FolderContentsComponent implements OnInit {
     }
   }
   
-
-  findUserById(){
-   
-    this.userService.rechercherParEmail(this.curentUser?.email).subscribe(us => {
-      console.log(us);
-      if (us) {
-        this.userData = us;
-        this.id=this.userData.id;
-       
-      }
-    });
-
-
-
-  } 
-
  
-  onLogout() {
-    this.authService.logout();}     
-
 
     onFileSelected(event: any) {
       const file = event.target.files[0];
@@ -207,9 +191,7 @@ rechercherParFile() {
   }
 
 
-  toggleNotifications() {
-    this.notificationsEnabled = !this.notificationsEnabled;
-  }
+ 
 
 
 }

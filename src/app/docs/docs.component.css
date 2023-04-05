@@ -76,13 +76,15 @@
     background-color: #fffffc;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease-in-out;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     position: relative;
     overflow: hidden;
+    display: inline-block;
+
   }
   
   .foodbox:hover {
@@ -119,22 +121,8 @@
     font-size: 17.2px;
   }
   
-  .foodbox i {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #000000;
-    font-size: 22px;
-    cursor: pointer;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .foodbox i:hover {
-    color: #da2020;
-    transform: scale(1.1);
-  }
+
  
-  
   .foodbox .overlay-content {
     position: absolute;
     bottom: 0;
@@ -157,7 +145,6 @@
   }
   
  
-
 
   .switch {
     position: relative;
@@ -217,28 +204,63 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
   
+  
+  #dropdown2 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
 
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
   }
   
-  
-  
-  
-  .dropdown-item {
+  #dropdown2-content i {
     display: block;
-    padding: 8px 14px;
-    color: #000000;
-    font-size: 16px;
-    margin-bottom: 0px;
-
+    padding: 5px;
+    margin-bottom: 4px;
+    font-size: 19px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    border: 1px solid #000000;
   }
   
-  .dropdown-item:hover {
+  #dropdown2-content i.fa-download:hover {
+    color: rgb(30, 141, 26);
+  }
+  
+  #dropdown2-content i.fa-trash:hover {
+    color: red;
+  }
+
+  #dropdown2-content i.fa-pen:hover {
+    color: rgb(80, 79, 79);
+  }
+
+
+
+  #dropdown2-item:hover {
     background-color: #e7e7e7;
     color: #000000;
   }
+  
+  #dropdown2-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  #dropdown2-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  #dropdown2:hover #dropdown2-content {
+    display: block;
+  }
+  
+  
  

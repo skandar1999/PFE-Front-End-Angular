@@ -32,6 +32,16 @@ export class FileServiceService {
     return this.http.get<any>(`${this.apiUrl}/getfiles/${email}`);
   }
 
+
+
+  
+
+  getUserFilesArchive( email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/getfilesArchive/${email}`);
+  }
+
+
+
   getUserFolders( email: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getfolder/${email}`);
   }
@@ -43,6 +53,11 @@ export class FileServiceService {
     return this.http.put(url, {});
   }
   
+
+  downloadFile(id: number): Observable<Blob> {
+    const url = `https://127.0.0.1:8000/Filedownload/${id}`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
 
   supprimerFilefromarchive(id: number): Observable<any> {
     const url = `https://127.0.0.1:8000/deletefilefromarchive/${id}`;
@@ -59,4 +74,25 @@ export class FileServiceService {
     const url = `https://127.0.0.1:8000/findbyName/${name}`;
     return this.http.get<File[]>(url);
     }
+
+
+   
+
+    renameFile(id: number, updatedFile: { name: string }) {
+      const url = `https://127.0.0.1:8000/rename_file/${id}`;
+      const formData = new FormData();
+      formData.append('name', updatedFile.name);
+      return this.http.post(url, formData);
+    }
+    
+    
+    
+    restaurerFile(id: number, email: string): Observable<any> {
+      const url = `https://127.0.0.1:8000/restaurerfile/${id}/${email}`;
+      return this.http.put(url, {});
+    }
+
+
+
+    
 }

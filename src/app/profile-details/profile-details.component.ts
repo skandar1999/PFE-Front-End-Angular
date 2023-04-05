@@ -36,7 +36,7 @@ export class ProfileDetailsComponent implements OnInit {
   errorMessage!: string;
   passwordMatch!: boolean;
   passwordFieldsModified = false;
-
+  errorMessagepw!: string;
 
  constructor(
     public authService: AuthService,
@@ -122,9 +122,9 @@ updatePasswordFields() {
           }
         );
       } else {
-        this.errorMessage = 'Le mot de passe actuel est incorrect';
+        this.errorMessagepw = 'Le mot de passe actuel est incorrect';
         setTimeout(() => {
-          this.errorMessage = '';
+          this.errorMessagepw = '';
         }, 4000); // Delay for hiding the error message
       }
     }, 1000); // add a delay for the checkPasswords function to complete

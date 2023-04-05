@@ -90,6 +90,8 @@
                   <p>{{file.date}}</p>
                   <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
                   <i class="fa fa-times" (click)="onDelete(file, $event)"></i>
+                  <i class="fas fa-undo-alt" (click)="onRestaure(file)"></i>
+
                 </div>
   
               </div>

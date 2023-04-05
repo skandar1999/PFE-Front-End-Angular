@@ -6,17 +6,9 @@
           <div class="content text-center">
             <span class="icon">
               <i class='fa fa-folder-open' style='font-size:90px'></i>
-              <h1 class="mb-3">Documents récents</h1><br>
+              <h1 class="mb-3" >Nouveau dossier</h1> <br>
             </span>
-  
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb bg-transparent justify-content-center">
-                <li class="breadcrumb-item"><a routerLink="/docs">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  mes documents
-                </li>
-              </ol>
-            </nav>
+
            
           </div>    
         </div>    
@@ -29,20 +21,11 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-5 col-sm-12 col-lg-3">
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link" routerLink="/profile">Mon profile</a>
-          </div>
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link active" routerLink="/dashboard">Mes documents</a>
-          </div>
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link" routerLink="/contact">contact</a>
-          </div>
           
           <div class="nav flex-column nav-pills">
-            <a href="/login" class="nav-link"(click)="onLogout()">Se deconnecter</a>
-          </div>  
-  
+            <a class="nav-link " routerLink="/docs">Mes documents</a>
+          </div>
+        
          
         </div>
         
@@ -66,17 +49,7 @@
               </div>
             </div>
               
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label"></label>
-        <div class="col-md-4 col-sm-12">
-          <div class="form-group">
-            <label class="switch">
-              <input type="checkbox" [(ngModel)]="notificationsEnabled">
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </div>
-      </div>
+     
   
           </div>
           
@@ -109,6 +82,8 @@
                 </div>
   
               </div>
+            
+
               
               
       

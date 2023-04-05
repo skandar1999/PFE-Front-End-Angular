@@ -25,7 +25,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { ConditionsComponent } from './conditions/conditions.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FolderContentsComponent } from './folder-contents/folder-contents.component';
-import { ArchiveComponent } from './archive/archive.component'; // import the module
+import { ArchiveComponent } from './archive/archive.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ArchiveComponent } from './archive/archive.component'; // import the mo
     ConditionsComponent,
     FolderContentsComponent,
     ArchiveComponent,
+    
    
   ],
   imports: [
@@ -58,7 +61,9 @@ import { ArchiveComponent } from './archive/archive.component'; // import the mo
     BrowserModule, 
     FormsModule,
     SocialLoginModule,
-    BrowserModule, MatDialogModule
+    BrowserModule, MatDialogModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule
     
   ],
   providers: [
