@@ -5,10 +5,17 @@
         <div class="col-lg-6">
           <div class="content text-center">
             <span class="icon">
-              <i class='fa fa-folder-open' style='font-size:90px'></i>
-              <h1 class="mb-3" >Nouveau dossier</h1> <br>
+              <i class='fa fa-folder-open' style='font-size:80px'></i>
             </span>
 
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb bg-transparent justify-content-center">
+                <li class="breadcrumb-item"><a routerLink="/docs"> mes documents</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  {{dossierName}}
+                </li>
+              </ol>
+            </nav>
            
           </div>    
         </div>    
@@ -21,13 +28,21 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-5 col-sm-12 col-lg-3">
-          
+
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link active " routerLink="/docs">{{dossierName}}</a>
+          </div>
+
           <div class="nav flex-column nav-pills">
             <a class="nav-link " routerLink="/docs">Mes documents</a>
           </div>
-        
-         
+
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link " routerLink="/archive">Archive</a>
+          </div>
+
         </div>
+        
         
         
   
@@ -72,24 +87,29 @@
                   <img src="../../../assets/images/csv.jpg" *ngIf="file.name.includes('.csv')" >
                   <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
                   <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')" >
-  
-  
-    
-                  </a>
-  
-                  <p>{{file.date}}</p>
-                  <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
-                </div>
-  
+                </a>
+            <p>{{file.date}}</p>
+            <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
+            
+            <div class="dropdown" id="dropdown2">
+              <button class="dropdown-button" id="dropdown2-button">
+                <i class="fa fa-bars dropdown-icon"></i>
+              </button>
+              <div class="dropdown-content" id="dropdown2-content">
+                <i class="fas fa-download" (click)="downloadFile(file.id , file.name)"></i>
+                <i class="fas fa-trash" (click)="onArchive(file)"></i>
+                <i class="fas fa-pen" (click)="showRenameDialog(file.id)"></i>
               </div>
+            </div>
+            
             
 
               
               
       
-        </div>
-      </div>
-     
+        
+                </div>
+              </div></div></div>     
       </div>
       </div>
     </div>

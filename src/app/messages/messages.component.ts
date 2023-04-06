@@ -10,7 +10,8 @@ import { UserService } from '../services/user.service';
 })
 export class MessagesComponent implements OnInit {
   contact = new Contact();
-  contacts: Contact[] = [];
+  contacts: any[] = [];
+
   deletedd: boolean = false;
   isSuccess = false;
   showAllMessages = false;

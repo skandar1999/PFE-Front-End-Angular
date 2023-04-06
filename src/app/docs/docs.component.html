@@ -129,13 +129,25 @@
     
     <div class="container"  >
       <div class="row">
-        <div class="col-lg-4" *ngFor="let folder of folders" (click)="onFolderSelected(folder)">
+        <div class="col-lg-4" *ngFor="let folder of folders"  (click)="onFolderSelected(folder)">
           
           <div class="foodbox mt-4 mb-4" >
             <img src="../../../assets/images/folder.jpg">
 
             <h5>{{folder.namefolder}}</h5>
-            <i class="fa fa-trash"  (click)="onDeletefolder(folder, $event)"></i>
+
+            <div class="dropdown" id="dropdown2">
+              <button class="dropdown-button" id="dropdown2-button">
+                <i class="fa fa-bars dropdown-icon"></i>
+              </button>
+              <div class="dropdown-content" id="dropdown2-content">
+                <i class="fa fa-trash"  (click)="onDeletefolder(folder, $event)"></i>
+                <i class="fas fa-pen" (click)="renameFolder(folder.id)"></i>
+              </div>
+            </div>
+            
+
+
           </div>
 
         </div>

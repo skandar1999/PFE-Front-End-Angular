@@ -5,10 +5,8 @@ import { User } from '../model/user.model';
 import { UserService } from '../services/user.service';
 import { FileServiceService } from '../services/file-service.service';
 import { File } from './../model/file';
-import { HttpClient } from '@angular/common/http';
-import jwt_decode from 'jwt-decode';
-import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-folder-contents',
@@ -32,93 +30,85 @@ export class FolderContentsComponent implements OnInit {
   files!: any[];
   folders: any[] = [];
   allfolders! :any[];
-  
+  dossierId!: number;
+  dossierFiles!: any[];
+  dossierName!: string;
+
 
   
   constructor(
     public authService: AuthService,
     public userService: UserService,
     public fileService: FileServiceService,
-    private http: HttpClient,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-
+    private route: ActivatedRoute
   
   ) {} 
-  ngOnInit(): void { 
-    this.token =window.localStorage.getItem('jwt')
-    this.curentUser= jwt_decode(this.token);
-    //console.log(jwt_decode(token))
-    this.getFiles()
-  }
   
 
-  getDecodedAccessToken(token: string): any {
-    try {
-      this.curentUser= jwt_decode(token);
-    } catch(Error) {
-      return null;
-    }
-  }
-  
- 
-
-    onFileSelected(event: any) {
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append('files', file);
-    
-      this.fileService.uploadFile(formData, this.curentUser?.email).subscribe(
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.dossierId = +params['id'];
+      this.fileService.getDossierName(this.dossierId).subscribe(
         (response) => {
-          console.log('File uploaded successfully');
-          this.selectedFile = file; // Set the selected file in the component property
+          this.dossierName = response.name;
         },
         (error) => {
-          console.log('Error uploading file');
+          console.log('Error retrieving dossier name');
         }
       );
-    }
+      this.fileService.getFilesByDossier(this.dossierId).subscribe(
+        (response) => {
+          this.files = response.files
+            .filter((file: any) => file.status === true) // filter files with status === true
+            .map((dossierFiles: any) => ({
+              id: dossierFiles.id,
+              name: dossierFiles.name,
+              date: dossierFiles.date,
+              url: 'http://localhost:8000/files/' + dossierFiles.name
+            }));
+          console.log(this.files);
+        },
+        (error) => {
+          console.log('Error retrieving files');
+        }
+      );
+    });
+  }
+  
+  
 
-  getFiles() {
-    this.fileService.getUserFiles(this.curentUser?.email).subscribe(
-      files => {
-        console.log(files);
-        this.allfiles = files.map((file:any) => {
-          return {
-            id: file.id,
-            name: file.name,
-            date: file.date,
-            url: 'http://localhost:8000/files/' + file.name  // Update the URL here
-          };
-        });
-        this.files = this.allfiles;
+  
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
+      (response) => {
+        console.log('File uploaded successfully');
+        this.selectedFile = file;
       },
-      error => {
-        console.error(error);
+      (error) => {
+        console.log('Error uploading file');
+      }
+    );
+  }
+  
+  
+  getDossierFiles(): void {
+    this.dossierId = Number(this.route.snapshot.paramMap.get('id'));
+    this.fileService.getFilesByDossier(this.dossierId).subscribe(
+      (response) => {
+        this.dossierFiles = response.files;
+      },
+      (error) => {
+        console.log('Error getting dossier files');
       }
     );
   }
 
-  getFolders() {
-    this.fileService.getUserFolders(this.curentUser?.email).subscribe(
-      folders => {
-        console.log(folders);
-        this.allfolders = folders.map((folder:any) => {
-          return {
-            id: folder.id,
-            namefolder: folder.name, // Update the field name here
-            date: folder.date, // Update the field name here
-            url: 'http://localhost:8000/folders/' + folder.id // Update the URL here
-          };
-        });
-        this.folders = this.allfolders;
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
-
+  
+  
+  
   createNewFolder() {
     const formData = new FormData();
     formData.append('user_id', '1'); // Replace with the ID of the user
@@ -134,42 +124,13 @@ export class FolderContentsComponent implements OnInit {
     );
   }
 
-
-  onFolderSelected(folder: any) {
-    // Navigate to the contents of the selected folder
-    this.router.navigate(['/folders', folder.id]);
-  }
-
-
-
+  
   
   onKeyUp(filterText : string){
     this.files = this.allfiles.filter(item =>
       item.name.toLowerCase().includes(filterText)
     );
   }
-
-
-
- 
-
-  onDeletefolder(dossier: Dossier, event: Event) {
-    event.stopPropagation(); // Add this line to prevent the link from opening
-    let conf = confirm("Etes-vous sûr de vouloir supprimer ce dossier ?");
-    if (conf && dossier.id) {
-      this.fileService.supprimerFolder(dossier.id).subscribe(() => {
-        this.getFolders();
-        this.deletedd = true;
-        setTimeout(() => {
-          this.deletedd = false;
-        }, 1700);
-      });
-    }
-  }
-  
-
-
-
 
 rechercherParFile() {
   this.fileService.rechercherParName(this.name).subscribe(
@@ -191,7 +152,181 @@ rechercherParFile() {
   }
 
 
+
+  downloadFile(id: number, name: string): void {
+    this.fileService.downloadFile(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
  
+  onArchive(file: File) {
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+  
+        .dialog-container h2 {
+          margin-top: 0;
+        }
+  
+        .form-group button {
+          margin-right: 8px;
+        }
+        .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-primary:hover {
+          background-color: #f44336;
+          color: rgb(0, 0, 0);
+          cursor: pointer;
+          transition: 0.5s all ease;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-secondary:hover {
+          background-color: #666666;
+          color: #fff;
+          border: none;
+        }
+      </style>
+      <div class="dialog-container">
+        <h2>Archiver</h2>
+        <p>Etes-vous sûr de vouloir archiver ce document ?</p>
+        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+        <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+      </div>
+    `;
+  
+    const confirmButton = dialog.querySelector('#confirmButton')!;
+    confirmButton.addEventListener('click', () => {
+      dialog.close();
+      if (file.id) {
+        this.fileService.archiveFileFromDossier(file.id).subscribe(() => {
+          setTimeout(() => {
+          }, 1700);
+        });
+      }
+    });
+  
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+  
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
 
 
+  showRenameDialog(id: number) {
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+  
+        .form-group input {
+          width: 100%;
+          padding: 8px;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+          margin-bottom: 16px;
+        }
+        .form-group button {
+          margin-right: 8px;
+        }
+        .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-primary:hover {
+          background-color: #f44336;
+          color: rgb(0, 0, 0);
+          cursor: pointer;
+          transition: 0.5s all ease;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-secondary:hover {
+          background-color: #666666;
+          color: #fff;
+          border: none;
+        }
+      </style>
+      <form class="form-group">
+        <div class="dialog-container">
+          <h2>Renomer</h2>
+          <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de fichier">
+          <br>
+          <button type="submit" class="btn btn-primary" id="renameButton">Confirmer</button>
+          <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+        </div>
+      </form>
+    `;
+  
+    const confirmButton = dialog.querySelector('#renameButton')!;
+    confirmButton.addEventListener('click', () => {
+      dialog.close();
+      const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
+      const fileToUpdate = this.files.find(file => file.id === id);
+        const newName = (document.getElementById('newFileNameInput') as HTMLInputElement).value;
+      const updatedFile = new File([fileToUpdate], newName, { type: fileToUpdate.type });
+      this.fileService.renameFile(id, updatedFile).subscribe(
+    update => {
+        console.log(update);
+        setTimeout(() => {
+        }, 2500); // Delay for hiding the alert
+    },
+    error => {
+        // Handle error
+    }
+);
+    });
+    
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+    
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
 }

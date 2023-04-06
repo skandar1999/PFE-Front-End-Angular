@@ -110,7 +110,7 @@
 
                   <tbody >
                     <ng-container *ngFor="let user of users; let i = index">
-                    <tr *ngIf="i < 5" [ngClass]="{'admin-row': user.roles.includes('SUPER_ADMIN')}">
+                    <tr *ngIf="i < 4" [ngClass]="{'admin-row': user.roles.includes('SUPER_ADMIN')}">
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.roles[0]}}</td>
@@ -141,8 +141,8 @@
                   </ng-container>
 
                   <ng-container *ngIf="showAllMessages">
-                    <tr *ngFor="let user of users; let i = index">
-                      <ng-container *ngIf="i >= 4">
+                    <tr *ngFor="let user of users.slice(showAllMessages ? 4 : 0); let i = index">
+                      <ng-container >
 
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
@@ -179,8 +179,8 @@
                
               </div>
             </div>
-            <div *ngIf="users.length > 4" >
-              <td colspan="5">
+            <div *ngIf="users!.length > 5">
+              <td>
                 <button (click)="showAllMessages = !showAllMessages" class="{{ showAllMessages ? 'closebtn' : 'action' }}">
                   {{ showAllMessages ? 'Fermer' : 'Afficher tout' }}
                 </button>
@@ -192,6 +192,5 @@
     </div>
   </div>
 </section>
-
 
 

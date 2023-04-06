@@ -12,7 +12,7 @@ export class OnlyadminComponent implements OnInit {
   
   
 user = new User();
-users! : User[];
+users: any[] = [];
 username!:string;
 deleted: boolean = false;
 updated: boolean = false;
@@ -20,6 +20,7 @@ removed: boolean = false;
 hasAdmin = false;
 showAllMessages = false;
 cannotUpdate! : string;
+
 
   constructor( private authService: AuthService ,
               private userService: UserService) { }

@@ -121,22 +121,6 @@
   color: #000000;
 }
 
-.close {
-  border-radius: 5px;
-  padding: 10px 17px;
-  border: 1px solid rgb(190, 190, 190);
-  color: #4b4b4b;
-  background-color: transparent;
-  font-size: 17px;
-  margin-right: 6px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
-.close:hover {
-  border-color: rgb(0, 0, 0);
-  color: #000000;
-}
 
 
 .status-message {

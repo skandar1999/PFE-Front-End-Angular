@@ -35,10 +35,14 @@ export class DocsComponent implements OnInit {
   selectedFile: File | null = null;
 
   files!: any[];
+  Dossier!: any[];
+
   folders: any[] = [];
   allfolders! :any[];
   newFileName!: string;
   updateSuccess: boolean = false;
+
+  new_name!: string;
 
   
   
@@ -311,6 +315,10 @@ rechercherParFile() {
     this.notificationsEnabled = !this.notificationsEnabled;
   }
 
+  
+  
+
+
 
   showRenameDialog(id: number) {
     const dialog = document.createElement('dialog');
@@ -403,8 +411,96 @@ rechercherParFile() {
   }
   
  
+  renameFolder(id: number) {
+    const dialog = document.createElement('dialog');
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+  
+        .form-group input {
+          width: 100%;
+          padding: 8px;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+          margin-bottom: 16px;
+        }
+        .form-group button {
+          margin-right: 8px;
+        }
+        .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-primary:hover {
+          background-color: #f44336;
+          color: rgb(0, 0, 0);
+          cursor: pointer;
+          transition: 0.5s all ease;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-secondary:hover {
+          background-color: #666666;
+          color: #fff;
+          border: none;
+        }
+      </style>
+      <form class="form-group">
+        <div class="dialog-container">
+          <h2>Renomer Dossier</h2>
+          <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de dossier">
+          <br>
+          <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>
+          <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+        </div>
+      </form>
+    `;
+  
+    const confirmButton = dialog.querySelector('#renameButton')!;
+    confirmButton.addEventListener('click', () => {
+      const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
+      const newName = newFileNameInput.value;
+      const updateFolder = { name: newName };
+      this.fileService.renameDossier(id, updateFolder).subscribe(
+        update => {
+          console.log(update);
+          this.updateSuccess = true;
+          setTimeout(() => {
+            this.updateSuccess = false;
+          }, 2500); // Delay for hiding the alert
+        },
+        error => {
+          // Handle error
+        }
+      );
+      dialog.close();
+    });
+  
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+  
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
+  
 
-
+  
 
 
 

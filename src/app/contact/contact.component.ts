@@ -15,7 +15,9 @@ export class ContactComponent implements OnInit {
   errorEmail: string = '';
   long: boolean = false;
   messageConfirmation: string = '';
-    vide: boolean = false;
+  vide: boolean = false;
+  count!:number ;
+  total!:number ;
 
   constructor(public authService: AuthService ,public  userService: UserService) { }
 
@@ -37,11 +39,17 @@ export class ContactComponent implements OnInit {
       }, 3000); // hide error message after 3 seconds
       return;
     }
-    if (this.contact.description.length > 200) {
+    const description = this.contact.description;
+    if (description.length > 202) {
+      this.count = description.slice(202).length;
+      this.total = description.length - 202;
+    
       this.long = true;
       setTimeout(() => {
+        
         this.long = false;
-      }, 4500); // Delay for hiding the alert
+        
+      }, 5000); // Delay for hiding the alert
       return;
     }
     

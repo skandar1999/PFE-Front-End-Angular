@@ -38,8 +38,8 @@
                 <div class="table-data">
                   <div class="order">
                     <div class="head">
-                      
                     </div>
+
                     <table>
                       <thead>
                         <tr>
@@ -53,9 +53,10 @@
                           <th></th>
                         </tr>
                       </thead>
+
                       <tbody>
                         <ng-container *ngFor="let contact of contacts; let i = index">
-                          <tr *ngIf="i < 3">
+                          <tr *ngIf="i < 4">
                             <td class="email-col">{{contact.emailUser}}</td>
                             <td class="message-col">{{contact.date}}</td>
                             <td class="message-col">{{contact.description}}</td>
@@ -77,8 +78,8 @@
                        
                         
                         <ng-container *ngIf="showAllMessages">
-                          <tr *ngFor="let contact of contacts; let i = index">
-                            <ng-container *ngIf="i >= 4">
+                          <tr *ngFor="let contact of contacts.slice(showAllMessages ? 4 : 0); let i = index">
+                            <ng-container >
                               <td class="email-col">{{contact.emailUser}}</td>
                               <td class="message-col">{{contact.date}}</td>
                               <td class="message-col">{{contact.description}}</td>
@@ -98,14 +99,16 @@
                             </ng-container>
                           </tr>
                         </ng-container>
+
+
                       </tbody>
                       
                     </table>
                     
                   </div>
                 </div>
-                 <div *ngIf="contacts.length > 4" >
-                          <td colspan="5">
+                 <div *ngIf="contacts!.length > 4" >
+                          <td>
                             <button (click)="showAllMessages = !showAllMessages" class="{{ showAllMessages ? 'close' : 'action' }}">
                               {{ showAllMessages ? 'Fermer' : 'Afficher tout' }}
                             </button>

@@ -93,8 +93,10 @@
         ></textarea>
         
         <div *ngIf="long">
-          <span class="longmessage">Votre message est trop long. Veuillez écrire un nouveau qui soit plus facile à lire et à comprendre, Maximum 200 caratctere.</span>
+          <span class="longmessage">Votre message est trop long. Veuillez écrire un nouveau qui soit plus facile à lire et à comprendre.</span><br>
+          <span>Maximum deux ligne, Nombre de caractères supplémentaires : </span><span [innerText]="total"></span>
         </div>
+        
 
         <div *ngIf="messageConfirmation">
           <span class="done"> {{ messageConfirmation }}</span>
