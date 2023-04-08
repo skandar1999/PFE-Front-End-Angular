@@ -13,8 +13,7 @@ import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog
 @Component({
   selector: 'app-docs',
   templateUrl: './docs.component.html',
-  styleUrls: ['./docs.component.css'],
-})
+  styleUrls: ['./docs.component.css'],})
 
 
 export class DocsComponent implements OnInit {
@@ -26,7 +25,7 @@ export class DocsComponent implements OnInit {
   curentUser:any;
   userData: any;
   token!:any;
-  username!: string;
+  notfication!: string;
   email:any;
   deletedd: boolean = false;
   name!:string;
@@ -44,7 +43,8 @@ export class DocsComponent implements OnInit {
 
   new_name!: string;
 
-  
+  username!: string;
+
   
   constructor(
     public authService: AuthService,
@@ -60,10 +60,10 @@ export class DocsComponent implements OnInit {
     this.token =window.localStorage.getItem('jwt')
     this.curentUser= jwt_decode(this.token);
     //console.log(jwt_decode(token))
-    this.findUserById();
+    this.findUserByEmail();
     this.getFiles()
     this.getFolders()
-    
+    console.log(this.notfication)
   }
 
 
@@ -96,7 +96,8 @@ export class DocsComponent implements OnInit {
       console.log(us);
       if (us) {
         this.userData = us;
-        this.id=this.userData.id; } });
+        this.id=this.userData.id; 
+        this.notfication=this.notfication} });
   } 
 
  
@@ -311,13 +312,6 @@ rechercherParFile() {
   }
 
 
-  toggleNotifications() {
-    this.notificationsEnabled = !this.notificationsEnabled;
-  }
-
-  
-  
-
 
 
   showRenameDialog(id: number) {
@@ -502,7 +496,36 @@ rechercherParFile() {
 
   
 
+  toggleVersioning() {
+    if (this.curentUser) {
+      this.userService.toggleVersioning(this.curentUser.email).subscribe(
+        () => {
+          this.curentUser.notfication = !this.curentUser.notfication;
+        },
+        error => console.error(error)
+      );
+    }
+  }
+  
 
+ 
+
+
+
+
+  findUserByEmail(){
+    this.userService.rechercherParEmail(this.curentUser?.email).subscribe(us => {
+      console.log(us);
+      if (us) {
+        this.userData = us;
+        this.username=this.userData.username;
+        this.notfication=this.userData.notfication;
+      }
+      
+    });
+  }
+ 
+  
 
     }
   

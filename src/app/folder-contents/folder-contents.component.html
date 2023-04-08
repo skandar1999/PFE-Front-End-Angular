@@ -79,7 +79,7 @@
                 <div class="foodbox mt-4 mb-4">
                   <a href="{{ file.url }}" target="_blank">
                   <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
-                  <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('gif') " >
+                  <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.PNG')" >
                   <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
                   <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
                   <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >

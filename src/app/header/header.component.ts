@@ -60,11 +60,16 @@ export class HeaderComponent implements OnInit {
         this.mobile = this.userData.mobile;
       }
     });
+    
    
   }
   
 
-  
+  reload() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+      this.router.navigate([currentUrl]));
+  }
 
   
 

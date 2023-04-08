@@ -6,5 +6,6 @@ export class User {
   username!:string;
   mobile!:string;
   image!:string;
+  notfication!:boolean;
 
 }

@@ -31,6 +31,9 @@ export class FileServiceService {
   getFilesByDossier(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/FilesByDossiers/${id}`);
   }
+
+  
+
   
   getDossierName(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/dossiersname/${id}`);

@@ -31,6 +31,8 @@ export class ArchiveComponent implements OnInit {
   folders: any[] = [];
   allfolders! :any[];
 
+  dossierId!: number;
+
 
   
   constructor(
@@ -78,7 +80,7 @@ export class ArchiveComponent implements OnInit {
   onLogout() {
     this.authService.logout();}     
 
-
+      
    
 
     getFiles() {
