@@ -133,3 +133,14 @@
   font-size: 1.1rem;
   cursor: pointer;
 }
+
+.status-button {
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.updating {
+  color: green;
+}

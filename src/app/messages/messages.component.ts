@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 export class MessagesComponent implements OnInit {
   contact = new Contact();
   contacts: any[] = [];
-
+  isUpdating: boolean = false;
   deletedd: boolean = false;
   isSuccess = false;
   showAllMessages = false;
@@ -111,6 +111,7 @@ export class MessagesComponent implements OnInit {
   
 
   updateStatus(contact: Contact) {
+    contact.status = true; // set the status to true
     this.userService.updatestatuts(contact.id).subscribe(
       contact => {
         console.log(contact);
@@ -119,7 +120,10 @@ export class MessagesComponent implements OnInit {
           this.isSuccess = false;
         }, 1900);
       },
-      error => console.error(error)
+      error => {
+        console.error(error);
+        contact.status = false; // reset the status to false on error
+      }
     );
   }
   

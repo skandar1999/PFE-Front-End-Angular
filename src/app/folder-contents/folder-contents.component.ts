@@ -46,6 +46,11 @@ export class FolderContentsComponent implements OnInit {
   
 
   ngOnInit() {
+    this.getFiles()
+
+  }
+  
+  getFiles() {
     this.route.params.subscribe(params => {
       this.dossierId = +params['id'];
       this.fileService.getDossierName(this.dossierId).subscribe(
@@ -56,23 +61,26 @@ export class FolderContentsComponent implements OnInit {
           console.log('Error retrieving dossier name');
         }
       );
-      this.fileService.getFilesByDossier(this.dossierId).subscribe(
-        (response) => {
-          this.files = response.files
-            .filter((file: any) => file.status === true) // filter files with status === true
-            .map((dossierFiles: any) => ({
-              id: dossierFiles.id,
-              name: dossierFiles.name,
-              date: dossierFiles.date,
-              url: 'http://localhost:8000/files/' + dossierFiles.name
-            }));
-          console.log(this.files);
-        },
-        (error) => {
-          console.log('Error retrieving files');
-        }
-      );
-    });
+    this.fileService.getFilesByDossier(this.dossierId).subscribe(
+      files => {
+        console.log(files);
+        this.allfiles = files
+          .filter((file:any) => file.status === true) // filter files with status === true
+          .map((file:any) => {
+            return {
+              id: file.id,
+              name: file.name,
+              date: file.date,
+              url: 'http://localhost:8000/files/' + file.name
+            };
+          });
+        this.files = this.allfiles;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  });
   }
   
   

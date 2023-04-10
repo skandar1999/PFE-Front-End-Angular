@@ -40,6 +40,7 @@ export class DocsComponent implements OnInit {
   allfolders! :any[];
   newFileName!: string;
   updateSuccess: boolean = false;
+  isUploading = false;
 
   new_name!: string;
 

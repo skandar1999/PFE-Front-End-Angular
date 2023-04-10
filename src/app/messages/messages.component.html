@@ -68,7 +68,7 @@
                             <td>
                               <span class="status-message" *ngIf="contact.status"></span>
                               <span class="status-message" *ngIf="!contact.status "></span>
-                              <button class="status-button" (click)="updateStatus(contact)">
+                              <button class="status-button" [ngClass]="{'updating': contact.status}" (click)="updateStatus(contact)">
                                 <i class="far fa-check-circle" *ngIf="!contact.status"></i>
                                 <i class="fas fa-check-circle" *ngIf="contact.status"></i>
                               </button>
