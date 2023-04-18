@@ -5,8 +5,9 @@
       <div class="col-lg-8">
         <div class="content text-center">
           <span class="icon">
-            <i class="fa fa-dashboard" style="font-size:90px"></i>
-          <h1 class="mb-2">Administration</h1>
+            <img class="icon" [src]="userImage" alt="User Image"> 
+            <p class="mb-2">{{username}}</p>
+            <h1 class="mb-2">Administration</h1>
         </span>
 
           <nav aria-label="breadcrumb" >
@@ -27,7 +28,6 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-5 col-sm-12 col-lg-3">
-
 
 
 
@@ -80,14 +80,13 @@
             </div>
 
 
-
             <div class="alert alert-warning alert-dismissible fade show" *ngIf="cannotUpdate">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
               {{ cannotUpdate }}     </div>
 
-          
+             
 
             <div class="table-data">
               <div class="order">
@@ -124,9 +123,10 @@
 
                         </button>
                         
-                        <button class="delete-button" (click)="supprimerUser(user)" *ngIf="!(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))" >
+                        <button class="delete-button" (click)="supprimerUser(user)" *ngIf="yesadmin && !(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))">
                           <i class="fa fa-trash"></i>
                         </button>
+                        
 
                         <button class="edit-button" (click)="removeRoleAdmin(user)" *ngIf="user.roles.includes('ADMIN')">
                           <i class="fas fa-user-alt-slash"  ></i>
@@ -156,11 +156,9 @@
 
 
                         </button>
-                        
                         <button class="delete-button" (click)="supprimerUser(user)" *ngIf="!(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))" >
-                          <i class="fa fa-trash"></i>
+                          <i class="fa fa-trash" ></i>
                         </button>
-
                         <button class="edit-button" (click)="removeRoleAdmin(user)" *ngIf="user.roles.includes('ADMIN')">
                           <i class="fas fa-user-alt-slash"  ></i>
                           <span class="tooltip" > Annuler le rôle ADMIN</span>

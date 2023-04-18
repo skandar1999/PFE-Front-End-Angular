@@ -49,6 +49,11 @@ export class FileServiceService {
     return this.http.get<any>(`${this.apiUrl}/getfiles/${email}`);
   }
 
+  getUserFolders( email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/getfolder/${email}`);
+  }
+
+
   getFilesByFolder( id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getfiles/${id}`);
   }
@@ -58,19 +63,18 @@ export class FileServiceService {
     return this.http.get<any>(`${this.apiUrl}/getfilesArchive/${email}`);
   }
 
-
-
-  getUserFolders( email: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/getfolder/${email}`);
-  }
-
-
  
+
+
   archiveFile(id: number, email: string): Observable<any> {
     const url = `https://127.0.0.1:8000/archiver/${id}/${email}`;
     return this.http.put(url, {});
   }
 
+  archiveDossier(id: number, email: string): Observable<any> {
+    const url = `https://127.0.0.1:8000/archiverDossier/${id}/${email}`;
+    return this.http.put(url, {});
+  }
 
   archiveFileFromDossier(id: number): Observable<any> {
     const url = `https://127.0.0.1:8000/filesss/${id}`;
@@ -124,6 +128,16 @@ export class FileServiceService {
     }
 
 
+    restaurerDossier(id: number, email: string): Observable<any> {
+      const url = `https://127.0.0.1:8000/restaurerDsossier/${id}/${email}`;
+      return this.http.put(url, {});
+    }
 
-    
+    toggleVersioning(id: number): Observable<any> {
+      const url = `https://127.0.0.1:8000/toggle-versioning/${id}`;
+      return this.http.put<any>(url, {});
+    }
+
+
+   
 }

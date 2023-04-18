@@ -34,6 +34,8 @@ export class FolderContentsComponent implements OnInit {
   dossierFiles!: any[];
   dossierName!: string;
 
+  versionning!: boolean  ;
+  ;
 
   
   constructor(
@@ -49,6 +51,20 @@ export class FolderContentsComponent implements OnInit {
     this.getFiles()
 
   }
+
+  toggleVersioning() {
+      const dossierId = this.dossierId;
+      this.fileService.toggleVersioning(dossierId).subscribe(
+        response => {
+          // Update the status of the dossier based on the response from the server
+          this.versionning = response.versionning;
+        },
+        error => console.error(error)
+      );
+    
+  }
+  
+  
   
   getFiles() {
     this.route.params.subscribe(params => {
@@ -56,6 +72,7 @@ export class FolderContentsComponent implements OnInit {
       this.fileService.getDossierName(this.dossierId).subscribe(
         (response) => {
           this.dossierName = response.name;
+          this.versionning=response.versionning;
         },
         (error) => {
           console.log('Error retrieving dossier name');
@@ -71,6 +88,7 @@ export class FolderContentsComponent implements OnInit {
               id: file.id,
               name: file.name,
               date: file.date,
+              size: file.size,
               url: 'http://localhost:8000/files/' + file.name
             };
           });

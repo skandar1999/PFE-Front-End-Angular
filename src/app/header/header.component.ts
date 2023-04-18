@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
     this.token = window.localStorage.getItem('jwt');
     this.curentUser = jwt_decode(this.token);
     this.findUserByEmail();
+    console.log(this.username)
   }
 
   toggleNotifications() {
@@ -49,20 +50,24 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-
   findUserByEmail() {
-    this.userService.rechercherParEmail(this.curentUser?.email).subscribe(user => {
-      console.log(user);
-      if (user) {
-        this.userData = user;
-        this.username = this.userData.username;
-        this.password = this.userData.password;
-        this.mobile = this.userData.mobile;
+    this.userService.rechercherParEmail(this.curentUser?.email).subscribe(
+      user => {
+        console.log(user);
+        if (user) {
+          this.userData = user;
+          this.username = this.userData.username;
+          this.password = this.userData.password;
+          this.mobile = this.userData.mobile;
+          console.log(this.username);
+        }
+      },
+      error => {
+        console.error(error);
       }
-    });
-    
-   
+    );
   }
+  
   
 
   reload() {
@@ -76,7 +81,6 @@ export class HeaderComponent implements OnInit {
 
   
 }
-
 
 
 

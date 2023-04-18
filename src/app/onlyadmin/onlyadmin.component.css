@@ -144,6 +144,14 @@ tr:nth-child(even) {
   color: #e74c3c;
 }
 
+.icon img {
+  max-width: 13%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  border-radius: 50%;
+}
+
 
 
 .action {

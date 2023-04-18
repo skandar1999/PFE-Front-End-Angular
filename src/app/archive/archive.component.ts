@@ -49,6 +49,7 @@ export class ArchiveComponent implements OnInit {
     //console.log(jwt_decode(token))
     this.findUserById();
     this.getFiles()
+    this.getFolders()
   }
   
 
@@ -71,8 +72,6 @@ export class ArchiveComponent implements OnInit {
        
       }
     });
-
-
 
   } 
 
@@ -106,7 +105,27 @@ export class ArchiveComponent implements OnInit {
     }
     
 
- 
+    getFolders() {
+      this.fileService.getUserFolders(this.curentUser?.email).subscribe(
+        folders => {
+          console.log(folders);
+          this.allfolders = folders
+          .filter((folder:any) => folder.status === false) // filter files with status === true
+          .map((folder:any) => {
+            return {
+              id: folder.id,
+              namefolder: folder.name, // Update the field name here
+              date: folder.date, // Update the field name here
+              url: 'http://localhost:8000/folders/' + folder.id // Update the URL here
+            };
+          });
+          this.folders = this.allfolders;
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
 
  
 
@@ -204,7 +223,19 @@ export class ArchiveComponent implements OnInit {
     dialog.showModal();
   }
   
- 
+  onDeletefolder(dossier: Dossier, event: Event) {
+    event.stopPropagation(); // Add this line to prevent the link from opening
+    let conf = confirm("Etes-vous sûr de vouloir supprimer ce dossier ?");
+    if (conf && dossier.id) {
+      this.fileService.supprimerFolder(dossier.id).subscribe(() => {
+        this.getFolders();
+        this.deletedd = true;
+        setTimeout(() => {
+          this.deletedd = false;
+        }, 1700);
+      });
+    }
+  }
   
 
 rechercherParFile() {
@@ -307,6 +338,83 @@ rechercherParFile() {
   dialog.showModal();
 }
 
+
+onRestauredossier(folder: Dossier) {
+  const dialog = document.createElement('dialog');
+
+  dialog.innerHTML = `
+    <style>
+      .dialog-container {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .dialog-container h2 {
+        margin-top: 0;
+      }
+
+      .form-group button {
+        margin-right: 8px;
+      }
+      .btn-primary {
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        padding:auto;
+      }
+      .btn-primary:hover {
+        background-color: #f44336;
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+        transition: 0.5s all ease;
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding:auto;
+      }
+      .btn-secondary:hover {
+        background-color: #666666;
+        color: #fff;
+        border: none;
+      }
+    </style>
+    <div class="dialog-container">
+      <h2>Restaurer file</h2>
+      <p>Etes-vous sûr de vouloir archiver ce document ?</p>
+      <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+      <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+    </div>
+  `;
+
+  const confirmButton = dialog.querySelector('#confirmButton')!;
+  confirmButton.addEventListener('click', () => {
+    dialog.close();
+    if (folder.id) {
+      this.fileService.restaurerDossier(folder.id, this.curentUser?.email).subscribe(() => {
+        this.getFiles();
+        this.deletedd = true;
+        setTimeout(() => {
+          this.deletedd = false;
+        }, 1700);
+      });
+    }
+  });
+
+  const cancelButton = dialog.querySelector('#cancelButton')!;
+  cancelButton.addEventListener('click', () => {
+    dialog.close();
+  });
+
+  document.body.appendChild(dialog);
+  dialog.showModal();
+}
 
 
 }

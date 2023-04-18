@@ -64,7 +64,10 @@
               </div>
             </div>
               
-     
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggle-versioning" [checked]="versionning" (change)="toggleVersioning()">
+               <label for="toggle-versioning"></label>
+               </div>
   
           </div>
           
@@ -88,9 +91,11 @@
                   <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
                   <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')" >
                 </a>
-            <p>{{file.date}}</p>
-            <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
-            
+                <p>{{file.size}}</p>
+                <p>{{file.date}}</p>
+                <h6>{{file.name}}</h6>
+
+                
             <div class="dropdown" id="dropdown2">
               <button class="dropdown-button" id="dropdown2-button">
                 <i class="fa fa-bars dropdown-icon"></i>

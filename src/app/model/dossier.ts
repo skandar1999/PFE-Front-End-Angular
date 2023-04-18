@@ -7,4 +7,7 @@ export interface Dossier {
   datedossier?: Date;
   user?: User;
   file?: File;
+  status?:boolean;
+  versionning?:boolean;
+
 }

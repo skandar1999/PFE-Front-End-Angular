@@ -2,6 +2,7 @@ import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { AuthService } from '../services/auth.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-onlyadmin',
@@ -20,12 +21,27 @@ removed: boolean = false;
 hasAdmin = false;
 showAllMessages = false;
 cannotUpdate! : string;
+userImage!: string;
 
+admin!: string;
+  super!: string;
+  yesadmin: boolean = false;
+
+  curentUser:any;
+  token!:any;
+  userData: any;
+  newData: any;
+  roles:any;
+  password!:string;
 
   constructor( private authService: AuthService ,
               private userService: UserService) { }
 
   ngOnInit(): void {
+    this.token =window.localStorage.getItem('jwt')
+    this.curentUser= jwt_decode(this.token);
+    //console.log(jwt_decode(token))
+    this.findUserByEmail();
     this.chargeUsers();
   }
 
@@ -214,7 +230,25 @@ cannotUpdate! : string;
     }
     
 
+    findUserByEmail(){
+      this.userService.rechercherParEmail(this.curentUser?.email).subscribe(us => {
+        console.log(us);
+        if (us) {
+          this.userData = us;
+          this.username=this.userData.username;
+          this.password=this.userData.password;
+          this.roles=this.userData.roles;
+          this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
+
+        }
+          if (this.roles.includes("SUPER_ADMIN")) {
+            this.yesadmin = true;
+          } else {
+            this.yesadmin = false;
+          }
       
+      });
+    }
     
 
     onLogout() {
@@ -233,7 +267,7 @@ cannotUpdate! : string;
         return;
       }
       
-
+    
 
       const dialog = document.createElement('dialog');
       dialog.innerHTML = `

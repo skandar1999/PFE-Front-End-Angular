@@ -4,6 +4,6 @@ export interface File {
   id?: number;
   name?: string;
   path?: string;
-  date?: Date;
+  date?:String;
   user?: User;
 }

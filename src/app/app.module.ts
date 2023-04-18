@@ -63,7 +63,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     SocialLoginModule,
     BrowserModule, MatDialogModule,
     BrowserAnimationsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    
     
   ],
   providers: [

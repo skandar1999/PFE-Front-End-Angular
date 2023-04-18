@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { groupBy, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-docs',
@@ -133,6 +134,8 @@ export class DocsComponent implements OnInit {
                 id: file.id,
                 name: file.name,
                 date: file.date,
+                size: file.size,
+
                 url: 'http://localhost:8000/files/' + file.name
               };
             });
@@ -149,7 +152,9 @@ export class DocsComponent implements OnInit {
     this.fileService.getUserFolders(this.curentUser?.email).subscribe(
       folders => {
         console.log(folders);
-        this.allfolders = folders.map((folder:any) => {
+        this.allfolders = folders
+        .filter((folder:any) => folder.status === true) // filter files with status === true
+        .map((folder:any) => {
           return {
             id: folder.id,
             namefolder: folder.name, // Update the field name here
@@ -273,7 +278,84 @@ export class DocsComponent implements OnInit {
     dialog.showModal();
   }
   
- 
+  onArchiveDossier(dossier: Dossier, event: MouseEvent) {
+    event.stopPropagation();
+
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+  
+        .dialog-container h2 {
+          margin-top: 0;
+        }
+  
+        .form-group button {
+          margin-right: 8px;
+        }
+        .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-primary:hover {
+          background-color: #f44336;
+          color: rgb(0, 0, 0);
+          cursor: pointer;
+          transition: 0.5s all ease;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+          padding:auto;
+        }
+        .btn-secondary:hover {
+          background-color: #666666;
+          color: #fff;
+          border: none;
+        }
+      </style>
+      <div class="dialog-container">
+        <h2>Archiver</h2>
+        <p>Etes-vous sûr de vouloir archiver ce dossier ?</p>
+        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+        <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+      </div>
+    `;
+  
+    const confirmButton = dialog.querySelector('#confirmButton')!;
+    confirmButton.addEventListener('click', () => {
+      dialog.close();
+      if (dossier.id) {
+        this.fileService.archiveDossier(dossier.id, this.curentUser?.email).subscribe(() => {
+          this.getFiles();
+          this.deletedd = true;
+          setTimeout(() => {
+            this.deletedd = false;
+          }, 1700);
+        });
+      }
+    });
+  
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+  
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
 
   onDeletefolder(dossier: Dossier, event: Event) {
     event.stopPropagation(); // Add this line to prevent the link from opening
@@ -406,8 +488,10 @@ rechercherParFile() {
   }
   
  
-  renameFolder(id: number) {
+  renameFolder(id: number , event: MouseEvent) {
+    event.stopPropagation();
     const dialog = document.createElement('dialog');
+
     dialog.innerHTML = `
       <style>
         .dialog-container {
@@ -464,7 +548,6 @@ rechercherParFile() {
         </div>
       </form>
     `;
-  
     const confirmButton = dialog.querySelector('#renameButton')!;
     confirmButton.addEventListener('click', () => {
       const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
@@ -494,25 +577,6 @@ rechercherParFile() {
     dialog.showModal();
   }
   
-
-  
-
-  toggleVersioning() {
-    if (this.curentUser) {
-      this.userService.toggleVersioning(this.curentUser.email).subscribe(
-        () => {
-          this.curentUser.notfication = !this.curentUser.notfication;
-        },
-        error => console.error(error)
-      );
-    }
-  }
-  
-
- 
-
-
-
 
   findUserByEmail(){
     this.userService.rechercherParEmail(this.curentUser?.email).subscribe(us => {

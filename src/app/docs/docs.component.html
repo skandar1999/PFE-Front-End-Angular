@@ -32,6 +32,7 @@
         <div class="nav flex-column nav-pills">
           <a class="nav-link" routerLink="/profile">Mon profile</a>
         </div>
+
         <div class="nav flex-column nav-pills">
           <a class="nav-link active" routerLink="/dashboard">Mes documents</a>
         </div>
@@ -48,17 +49,11 @@
           <a href="/login" class="nav-link"(click)="onLogout()">Se deconnecter</a>
         </div>  
 
-       
       </div>
       
       
-
-
       <div class="col-12 col-md-7 col-lg-9">
-
-        
         <div class="search-form" >
-          
           <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder=" Recherche...">
 
           <div class="dropdown" id="dropdown1">
@@ -73,17 +68,9 @@
               </a>
             </div>
           </div>
-            
-          <div class="toggle-switch">
-            <input type="checkbox" id="toggle-versioning" [checked]="notfication" (change)="toggleVersioning()">
-             <label for="toggle-versioning"></label>
-  
-             </div>
-          
-        
+       
   </div>
  
-
     <div class="container">
       <div class="row">
         <div class="col-lg-4" *ngFor="let file of files">
@@ -99,9 +86,10 @@
               <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')">
               <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')">
             </a>
+            <p>{{file.size}}</p>
             <p>{{file.date}}</p>
-            <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
-            
+            <h6>{{file.name}}</h6>
+
             <div class="dropdown" id="dropdown2">
               <button class="dropdown-button" id="dropdown2-button">
                 <i class="fa fa-bars dropdown-icon"></i>
@@ -118,10 +106,6 @@
       </div>
     </div>
   
-         
-     
-
-         
     
     <div class="container"  >
       <div class="row">
@@ -129,27 +113,21 @@
           
           <div class="foodbox mt-4 mb-4" >
             <img src="../../../assets/images/folder.jpg">
-
             <h5>{{folder.namefolder}}</h5>
-
             <div class="dropdown" id="dropdown2">
               <button class="dropdown-button" id="dropdown2-button">
                 <i class="fa fa-bars dropdown-icon"></i>
               </button>
               <div class="dropdown-content" id="dropdown2-content">
-                <i class="fa fa-trash"  (click)="onDeletefolder(folder, $event)"></i>
-                <i class="fas fa-pen" (click)="renameFolder(folder.id)"></i>
+                <i class="fa fa-trash"  (click)="onArchiveDossier(folder,$event)"></i>
+                <i class="fas fa-pen" (click)="renameFolder(folder.id,$event)"></i>
               </div>
-            </div>
-            
-
-
+            </div>   
           </div>
-
         </div>
-
+       </div>
   </div>
-</div>
+
     </div>
     </div>
   </div>

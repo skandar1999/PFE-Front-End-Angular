@@ -67,18 +67,19 @@
       <ul class="navbar-nav m-auto">
         <li class="nav-item dropdown dropdown-slide">
           <a *ngIf="authService.isloggedIn"
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown3"
+          role="button"
+          data-delay="350"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          class="fa fa-user"
+        > {{email}}
+        </a>
 
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown3"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-            class="fa fa-user"
-          > Connecté
-          </a>
+
       
           <ul
             class="dropdown-menu"
@@ -91,7 +92,6 @@
             <li class="nav-item active">
               <a class="nav-link" routerLink="/docs">Mes documents </a>
             </li>
-            
             
             
             <li>

@@ -159,10 +159,7 @@ export class UserService {
 
       
 
-      toggleVersioning(email: string): Observable<any> {
-        const url = `https://127.0.0.1:8000/toggle-versioning/${email}`;
-        return this.http.put<User>(url, {});
-      }
+    
       
 
 
