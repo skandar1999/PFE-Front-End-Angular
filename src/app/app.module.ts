@@ -28,6 +28,7 @@ import { FolderContentsComponent } from './folder-contents/folder-contents.compo
 import { ArchiveComponent } from './archive/archive.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AcceuilComponent } from './acceuil/acceuil.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ConditionsComponent,
     FolderContentsComponent,
     ArchiveComponent,
+    AcceuilComponent,
     
    
   ],

@@ -1,122 +1,118 @@
 <section class="page-header">
-    <div class="overly"></div>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="content text-center">
-            <span class="icon">
-              <i class='fa fa-folder-open' style='font-size:80px'></i>
-            </span>
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="content text-center">
+          <span class="icon">
+            <i class='fa fa-folder-open' style='font-size:80px'></i>
+          </span>
 
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb bg-transparent justify-content-center">
-                <li class="breadcrumb-item"><a routerLink="/docs"> mes documents</a></li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  {{dossierName}}
-                </li>
-              </ol>
-            </nav>
-           
-          </div>    
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/docs"> mes documents</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {{dossierName}}
+              </li>
+            </ol>
+          </nav>
+         
         </div>    
-      </div>  
-    </div>
-    
-  </section>
+      </div>    
+    </div>  
+  </div>
   
-  <section class="user-dashboard page-wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-5 col-sm-12 col-lg-3">
+</section>
 
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link active " routerLink="/docs">{{dossierName}}</a>
-          </div>
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-5 col-sm-12 col-lg-3">
 
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link " routerLink="/docs">Mes documents</a>
-          </div>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link active " routerLink="/docs">{{dossierName}}</a>
+        </div>
 
-          <div class="nav flex-column nav-pills">
-            <a class="nav-link " routerLink="/archive">Archive</a>
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link " routerLink="/docs">Mes documents</a>
+        </div>
+
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link " routerLink="/archive">Archive</a>
+        </div>
+
+      </div>
+      
+      
+      
+
+
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <div class="search-form" >
+          <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder=" Recherche...">
+          
+          <div class="dropdown">
+            <button  class="custom-file-upload" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Nouveau
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item"  (click)="createNewFolder()">Nouveau dossier</a>
+              <a class="dropdown-item">
+                <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none; text-align: center;">
+                <label for="fileInput" >Importer un fichier</label>
+              </a>
+            </div>
           </div>
+            
+          <div class="toggle-switch">
+            <input type="checkbox" id="toggle-versioning" [checked]="versionning" (change)="toggleVersioning()">
+             <label for="toggle-versioning"></label>
+             </div>
 
         </div>
         
         
-        
-  
-  
-        <div class="col-12 col-md-7 col-sm-12 col-lg-9">
-          <div class="search-form" >
-            <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder=" Recherche...">
-            
-            <div class="dropdown">
-              <button  class="custom-file-upload" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Nouveau
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item"  (click)="createNewFolder()">Nouveau dossier</a>
-                <a class="dropdown-item">
-                  <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none; text-align: center;">
-                  <label for="fileInput" >Importer un fichier</label>
-                </a>
-              </div>
-            </div>
+      
+       
+
+        <div class="container" >
+          <div class="row">
+            <div class="col-lg-4" *ngFor="let file of files">
               
-            <div class="toggle-switch">
-              <input type="checkbox" id="toggle-versioning" [checked]="versionning" (change)="toggleVersioning()">
-               <label for="toggle-versioning"></label>
-               </div>
-  
+              <div class="foodbox mt-4 mb-4">
+                <a href="{{ file.url }}" target="_blank">
+                <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
+                <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.PNG')" >
+                <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
+                <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
+                <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >
+                <img src="../../../assets/images/pptx.jpg" *ngIf="file.name.includes('.pptx')" >
+                <img src="../../../assets/images/csv.jpg" *ngIf="file.name.includes('.csv')" >
+                <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
+                <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')" >
+              </a>
+              <p>{{file.size}}</p>
+              <p>{{file.date}}</p>
+              <h6>{{file.name}}</h6>
+
+              
+          <div class="dropdown" id="dropdown2">
+            <button class="dropdown-button" id="dropdown2-button">
+              <i class="fa fa-bars dropdown-icon"></i>
+            </button>
+            <div class="dropdown-content" id="dropdown2-content">
+              <i class="fas fa-download" (click)="downloadFile(file.id , file.name)"></i>
+              <i class="fas fa-trash" (click)="onArchive(file)"></i>
+              <i class="fas fa-pen" (click)="showRenameDialog(file.id)"></i>
+            </div>
           </div>
           
           
-        
-         
-  
-          <div class="container" >
-            <div class="row">
-              <div class="col-lg-4" *ngFor="let file of files">
-                
-                <div class="foodbox mt-4 mb-4">
-                  <a href="{{ file.url }}" target="_blank">
-                  <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
-                  <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.PNG')" >
-                  <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
-                  <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
-                  <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >
-                  <img src="../../../assets/images/pptx.jpg" *ngIf="file.name.includes('.pptx')" >
-                  <img src="../../../assets/images/csv.jpg" *ngIf="file.name.includes('.csv')" >
-                  <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
-                  <img src="../../../assets/images/xls.jpg" *ngIf="file.name.includes('.xls')" >
-                </a>
-                <p>{{file.size}}</p>
-                <p>{{file.date}}</p>
-                <h6>{{file.name}}</h6>
 
-                
-            <div class="dropdown" id="dropdown2">
-              <button class="dropdown-button" id="dropdown2-button">
-                <i class="fa fa-bars dropdown-icon"></i>
-              </button>
-              <div class="dropdown-content" id="dropdown2-content">
-                <i class="fas fa-download" (click)="downloadFile(file.id , file.name)"></i>
-                <i class="fas fa-trash" (click)="onArchive(file)"></i>
-                <i class="fas fa-pen" (click)="showRenameDialog(file.id)"></i>
-              </div>
-            </div>
-            
-            
-
-              
-              
       
-        
-                </div>
-              </div></div></div>     
-      </div>
-      </div>
+              </div>
+            </div></div></div>     
     </div>
-  </section>
-  
+    </div>
+  </div>
+</section>

@@ -17,22 +17,24 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { UserGuard } from './guard/user.guard';
 import { MessagesComponent } from './messages/messages.component';
 import { FolderContentsComponent } from './folder-contents/folder-contents.component';
+import { AcceuilComponent } from './acceuil/acceuil.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
+  { path: 'acceuil', component: AcceuilComponent , title:"Connexion" },
   { path: 'login', component: LoginComponent , title:"Connexion" },
   { path: 'signup', component: SignupComponent , title:"S'inscrire" },
   { path: 'forgot-password', component: ForgotPasswordComponent ,title:"Réinitialiser le mot de passe"  },
   { path: 'profile-details/:curentUser.email', component: ProfileDetailsComponent,  title:"Profile"},
-  { path: 'docs', component: DocsComponent ,  title:"Home"},
+  { path: 'docs', component: DocsComponent ,  title:"Home" },
   { path: 'profile', component: ProfileComponent, title:"Profile" },
   { path: 'contact', component: ContactComponent , title:"Contact"},
-  { path: 'admin', component: OnlyadminComponent , title:"Admin"},
+  { path: 'admin', component: OnlyadminComponent , title:"Admin" ,canActivate: [UserGuard]},
   { path: 'app-forbidden', component: ForbiddenComponent , title:"app-forbidden" },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutUsComponent , title:"A propos" },
-  { path: "recherche", component : RechercheParNomComponent },
-  { path: 'messages', component: MessagesComponent },
+  { path: "recherche", component : RechercheParNomComponent,canActivate: [UserGuard] },
+  { path: 'messages', component: MessagesComponent , canActivate: [UserGuard] },
   { path: 'condition', component: ConditionsComponent },
   { path: 'folders/:id', component: FolderContentsComponent },
   { path: 'archive', component: ArchiveComponent },

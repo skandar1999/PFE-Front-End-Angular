@@ -134,6 +134,8 @@
                           <span class="role" *ngIf="user.roles.includes('ADMIN')" > USER</span>
 
                         </button>
+
+                        
                         
                        
                     </td>
@@ -156,7 +158,7 @@
 
 
                         </button>
-                        <button class="delete-button" (click)="supprimerUser(user)" *ngIf="!(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))" >
+                        <button class="delete-button" (click)="supprimerUser(user)" *ngIf="yesadmin && !(user.roles.includes('ADMIN') || user.roles.includes('SUPER_ADMIN'))">
                           <i class="fa fa-trash" ></i>
                         </button>
                         <button class="edit-button" (click)="removeRoleAdmin(user)" *ngIf="user.roles.includes('ADMIN')">

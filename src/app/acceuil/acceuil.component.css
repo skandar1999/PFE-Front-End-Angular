@@ -1,0 +1,77 @@
+/* Hero Carousel */
+#template-mo-jassa-hero-carousel {
+    background-color: #fcfcfc;
+    height: 380px;
+   
+
+  }
+  
+  #template-mo-jassa-hero-carousel .carousel-inner {
+    height: 500px;
+  }
+  
+  #template-mo-jassa-hero-carousel .carousel-item {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+ 
+  
+  #template-mo-jassa-hero-carousel h1.h1 {
+    margin-top: 30px;
+    font-size: 48px;
+    font-weight: bold;
+     }
+  
+  #template-mo-jassa-hero-carousel h5.pg1 {
+    font-size: 24px;
+    margin-top: 30px;
+    font-weight: 280;
+    color: #979797;
+    
+  }
+  
+  /* Complete System Section */
+  .container.py-5 {
+    background-color: #FFFFFF;
+    padding-top: 80px;
+  }
+  
+  .container.py-5 h1.h2 {
+    margin-top: 15px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  .container.py-5 p {
+    font-size: 18px;
+    font-weight: 300;
+    color: #7C7C7C;
+  }
+  .container.py-5 img.img-fluid {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    object-fit: cover;
+
+  }
+
+  .img1 {
+    display: flex;
+    align-items: center;
+    width: 170%;
+  }
+  
+
+  html, body {
+    height: 100%;
+  }
+  
+  .parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 

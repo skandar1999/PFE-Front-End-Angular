@@ -169,6 +169,7 @@ export class DocsComponent implements OnInit {
       }
     );
   }
+  
 
   createNewFolder() {
     const formData = new FormData();

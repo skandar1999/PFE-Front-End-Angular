@@ -23,12 +23,12 @@ export class LoginComponent implements OnInit {
   email!:any;
 
 
-
  
   constructor(private authService: AuthService,
               private router: Router ,
               private userService: UserService,
-              private http: HttpClient) {
+              private http: HttpClient,
+              ) {
               }
 
   ngOnInit(): void {}
@@ -58,9 +58,8 @@ export class LoginComponent implements OnInit {
         }
     
 
-       
-
-       
+      
+        
        
       
 }
