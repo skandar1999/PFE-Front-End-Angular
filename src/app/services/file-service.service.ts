@@ -26,7 +26,14 @@ export class FileServiceService {
   addFileToDossier(formData: FormData, id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/dossiers/${id}`, formData);
   }
+
   
+  uploadFileandreplace(id: number, file: File) {
+    const formData = new FormData();
+    formData.append('files', file);
+    return this.http.post(`https://127.0.0.1:8000/FileuploadAndReplace/${id}`, formData);
+  }
+
   
   getFilesByDossier(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/FilesByDossiers/${id}`);
@@ -139,7 +146,11 @@ export class FileServiceService {
     }
 
 
-   
+    getpathfile(id: number):Observable< File[]> {
+      const url = `https://127.0.0.1:8000/getpathofile/${id}`;
+      return this.http.get<File[]>(url);
+      }
+  
 
 
 

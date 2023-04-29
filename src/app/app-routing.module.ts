@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'docs', component: DocsComponent ,  title:"Home" },
   { path: 'profile', component: ProfileComponent, title:"Profile" },
   { path: 'contact', component: ContactComponent , title:"Contact"},
-  { path: 'admin', component: OnlyadminComponent , title:"Admin" ,canActivate: [UserGuard]},
+  { path: 'admin', component: OnlyadminComponent , title:"Admin" },
   { path: 'app-forbidden', component: ForbiddenComponent , title:"app-forbidden" },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutUsComponent , title:"A propos" },

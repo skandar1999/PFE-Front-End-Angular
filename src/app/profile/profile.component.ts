@@ -32,12 +32,11 @@ export class ProfileComponent implements OnInit {
   admin!: string;
   super!: string;
   yesadmin: boolean = false;
-
+  roles:any;
   curentUser:any;
   token!:any;
   userData: any;
   newData: any;
-  roles:any;
 
 
   constructor(private userService: UserService , private authService: AuthService) { }

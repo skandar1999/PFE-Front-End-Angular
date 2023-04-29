@@ -316,3 +316,31 @@
     font-size: 14px;
   }
 }
+
+
+.toggle-switch .tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: #504e4e;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.toggle-switch:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+#dropdown2-content i.fa-link:hover {
+  color: rgb(71, 112, 167);
+  cursor: pointer;
+
+}

@@ -180,7 +180,13 @@
   }
   
   #dropdown2-content i.fa-pen:hover {
-    color: rgb(80, 79, 79);
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+
+  }
+
+  #dropdown2-content i.fa-link:hover {
+    color: rgb(71, 112, 167);
     cursor: pointer;
 
   }

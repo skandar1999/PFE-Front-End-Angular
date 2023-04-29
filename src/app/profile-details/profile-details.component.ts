@@ -4,7 +4,7 @@ import { User } from '../model/user.model';
 import { AuthService } from '../services/auth.service';
 
 import jwt_decode from 'jwt-decode';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -41,7 +41,8 @@ export class ProfileDetailsComponent implements OnInit {
  constructor(
     public authService: AuthService,
     public userService: UserService,
-  
+    private router: Router
+
   ) {}  
 
 
@@ -111,7 +112,8 @@ updatePasswordFields() {
             this.updateSuccess = true;
             setTimeout(() => {
               this.updateSuccess = false;
-            }, 2500); // Delay for hiding the alert
+            }, 2500);
+             // Delay for hiding the alert
           },
           error => {
             console.log(error);
@@ -177,7 +179,14 @@ public togglePassword2(): void {
         this.userImage = userImage; // Update the component's userImage property with the new data
       });
     }
-    
+
+
+    reloadPage() {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigateByUrl(currentUrl);
+      });
+    }
     
   
 }

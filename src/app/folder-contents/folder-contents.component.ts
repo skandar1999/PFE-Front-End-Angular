@@ -6,6 +6,7 @@ import { UserService } from '../services/user.service';
 import { FileServiceService } from '../services/file-service.service';
 import { File } from './../model/file';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -42,28 +43,34 @@ export class FolderContentsComponent implements OnInit {
     public authService: AuthService,
     public userService: UserService,
     public fileService: FileServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   
   ) {} 
   
 
   ngOnInit() {
-    this.getFiles()
-
+    this.getFiles();
   }
 
   toggleVersioning() {
-      const dossierId = this.dossierId;
-      this.fileService.toggleVersioning(dossierId).subscribe(
-        response => {
-          // Update the status of the dossier based on the response from the server
-          this.versionning = response.versionning;
-        },
-        error => console.error(error)
-      );
-    
+    const dossierId = this.dossierId;
+    this.fileService.toggleVersioning(dossierId).subscribe(
+      response => {
+        // Update the status of the dossier based on the response from the server
+        this.versionning = response.versionning;
+      },
+      error => console.error(error)
+    );
   }
+
   
+  reloadPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
   
   
   getFiles() {
@@ -73,6 +80,9 @@ export class FolderContentsComponent implements OnInit {
         (response) => {
           this.dossierName = response.name;
           this.versionning=response.versionning;
+          console.log(this.dossierName)
+          console.log(this.versionning)
+
         },
         (error) => {
           console.log('Error retrieving dossier name');
@@ -108,16 +118,40 @@ export class FolderContentsComponent implements OnInit {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
-      (response) => {
-        console.log('File uploaded successfully');
-        this.selectedFile = file;
-      },
-      (error) => {
-        console.log('Error uploading file');
-      }
-    );
+  
+    if (this.versionning) {
+      this.fileService.uploadFileandreplace(this.dossierId, file).subscribe(
+        (response) => {
+          console.log('File uploaded successfully');
+          this.selectedFile = file;
+          this.reloadPage(); // reload the page
+
+        },
+        (error) => {
+          this.reloadPage(); // reload the page
+
+        }
+      );
+    } else {
+      this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
+        (response) => {
+          console.log('File uploaded successfully');
+          this.selectedFile = file;
+          this.reloadPage(); // reload the page
+
+        },
+        (error) => {
+          this.reloadPage(); // reload the page
+        }
+      );
+    }
   }
+  
+
+
+
+
+  
   
   
   getDossierFiles(): void {
@@ -268,6 +302,8 @@ rechercherParFile() {
   }
 
 
+  
+
   showRenameDialog(id: number) {
     const dialog = document.createElement('dialog');
   
@@ -297,11 +333,10 @@ rechercherParFile() {
           background-color: #f44336;
           color: #fff;
           border: none;
-          padding:auto;
+          padding: 8px 16px;
         }
         .btn-primary:hover {
-          background-color: #f44336;
-          color: rgb(0, 0, 0);
+          background-color: #ff5a4c;
           cursor: pointer;
           transition: 0.5s all ease;
         }
@@ -309,12 +344,13 @@ rechercherParFile() {
           background-color: #6c757d;
           color: #fff;
           border: none;
-          padding:auto;
+          padding: 8px 16px;
         }
         .btn-secondary:hover {
           background-color: #666666;
           color: #fff;
-          border: none;
+          cursor: pointer;
+          transition: 0.5s all ease;
         }
       </style>
       <form class="form-group">
@@ -322,7 +358,7 @@ rechercherParFile() {
           <h2>Renomer</h2>
           <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de fichier">
           <br>
-          <button type="submit" class="btn btn-primary" id="renameButton">Confirmer</button>
+          <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>
           <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
         </div>
       </form>
@@ -333,18 +369,17 @@ rechercherParFile() {
       dialog.close();
       const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
       const fileToUpdate = this.files.find(file => file.id === id);
-        const newName = (document.getElementById('newFileNameInput') as HTMLInputElement).value;
+      const newName = newFileNameInput.value;
       const updatedFile = new File([fileToUpdate], newName, { type: fileToUpdate.type });
       this.fileService.renameFile(id, updatedFile).subscribe(
-    update => {
-        console.log(update);
-        setTimeout(() => {
-        }, 2500); // Delay for hiding the alert
-    },
-    error => {
-        // Handle error
-    }
-);
+        update => {
+          this.reloadPage(); // reload the page
+          setTimeout(() => {}, 2500); // Delay for hiding the alert
+        },
+        error => {
+          this.reloadPage(); // reload the page
+        }
+      );
     });
     
     const cancelButton = dialog.querySelector('#cancelButton')!;
@@ -354,5 +389,105 @@ rechercherParFile() {
     
     document.body.appendChild(dialog);
     dialog.showModal();
+  }
+  
+  getfileUrl(fileId: number) {
+    const file = this.allfiles.find((f: any) => f.id === fileId);
+    const fileUrl = file?.url;
+    const fileName = file?.name;
+  
+    if (fileUrl) {
+      const dialog = document.createElement('dialog');
+  
+      dialog.innerHTML = `
+        <style>
+          .dialog-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+          }
+  
+          .dialog-container h2 {
+            margin-top: 0;
+          }
+  
+          .form-group button {
+            margin-right: 8px;
+          }
+          .btn-primary {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding:auto;
+          }
+          .btn-primary:hover {
+            background-color: #f44336;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            transition: 0.5s all ease;
+          }
+          .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            padding:auto;
+          }
+          .btn-secondary:hover {
+            background-color: #666666;
+            color: #fff;
+            border: none;
+          }
+          .alert {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            z-index: 9999;
+          }
+        </style>
+        <div class="dialog-container">
+          <h3>Partager "${fileName}"</h3>
+         
+          <button class="btn btn-info" id="copyButton" style="color: white;">Copier le lien</button>
+          <button class="btn btn-secondary" id="cancelButton">Close</button>
+        </div>
+      `;
+  
+      const copyButton = dialog.querySelector('#copyButton')!;
+      copyButton.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(fileUrl);
+          this.showAlert('Lien copieé');
+        } catch (err) {
+          console.error('Failed to copy link: ', err);
+        }
+      });
+  
+      const cancelButton = dialog.querySelector('#cancelButton')!;
+      cancelButton.addEventListener('click', () => {
+        dialog.close();
+      });
+  
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    }
+  }
+  
+   showAlert(message: string) {
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert');
+    alertDiv.innerText = message;
+    document.body.appendChild(alertDiv);
+  
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 4000);
   }
 }

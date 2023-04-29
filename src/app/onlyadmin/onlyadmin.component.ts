@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { AuthService } from '../services/auth.service';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-onlyadmin',
@@ -35,7 +36,9 @@ admin!: string;
   password!:string;
 
   constructor( private authService: AuthService ,
-              private userService: UserService) { }
+              private userService: UserService,
+              private router: Router
+              ) { }
 
   ngOnInit(): void {
     this.token =window.localStorage.getItem('jwt')
@@ -109,7 +112,7 @@ admin!: string;
         <div class="dialog-container">
           <h2>Supprimer le compte</h2>
           <p>Etes-vous sûr de vouloir supprimer ce compte  ?</p>
-          <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+          <button type="button" class="btn btn-primary" id="confirmButton" >Confirmer</button>
           <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
         </div>
       </form>
@@ -139,7 +142,12 @@ admin!: string;
   }
   
 
-   
+  reloadPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
 
   rechercherParUser(){
     this.userService.rechercherParUsername(this.username).
@@ -195,7 +203,7 @@ admin!: string;
             <h2>Confirmation</h2>
             <p>Etes-vous sûr d'anuller le rôle ADMIN à cet utilisateur?</p>
             <br>
-            <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+            <button type="button" class="btn btn-primary" id="confirmButton" >Confirmer</button>
             <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
           </div>
         </form>
@@ -212,6 +220,8 @@ admin!: string;
             setTimeout(() => {
               this.removed = false; 
             }, 4500);
+            this.reloadPage(); // reload the page
+
           },
           (error) => {
             console.log(error);
@@ -267,7 +277,6 @@ admin!: string;
         return;
       }
       
-    
 
       const dialog = document.createElement('dialog');
       dialog.innerHTML = `
@@ -331,6 +340,8 @@ admin!: string;
             setTimeout(() => {
               this.updated = false; 
             }, 4500);
+            this.reloadPage(); // reload the page
+
           },
           (error) => {
             console.log(error);
