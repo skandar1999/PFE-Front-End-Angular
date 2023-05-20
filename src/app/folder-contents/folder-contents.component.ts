@@ -26,7 +26,10 @@ export class FolderContentsComponent implements OnInit {
   name!:string;
   allfiles! :any[];
   notificationsEnabled: boolean = true;
+  show: boolean = true;
+
   selectedFile: File | null = null;
+  successMessage: string = '';
 
   files!: any[];
   folders: any[] = [];
@@ -36,7 +39,6 @@ export class FolderContentsComponent implements OnInit {
   dossierName!: string;
 
   versionning!: boolean  ;
-  ;
 
   
   constructor(
@@ -51,6 +53,9 @@ export class FolderContentsComponent implements OnInit {
 
   ngOnInit() {
     this.getFiles();
+    setTimeout(() => {
+      this.show = false;
+    }, 3000);
   }
 
   toggleVersioning() {
@@ -80,8 +85,6 @@ export class FolderContentsComponent implements OnInit {
         (response) => {
           this.dossierName = response.name;
           this.versionning=response.versionning;
-          console.log(this.dossierName)
-          console.log(this.versionning)
 
         },
         (error) => {
@@ -110,9 +113,25 @@ export class FolderContentsComponent implements OnInit {
     );
   });
   }
-  
-  
 
+
+/*
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+  
+    this.fileService.checkFileExists(this.dossierId, file).subscribe((exists) => {
+      if (exists) {
+        this.displayConfirmationDialog(event);
+      } else {
+        const formData = new FormData();
+        formData.append('file', file);
+        this.addFileToDossier(formData);
+      }
+    });
+  }
+
+  */
+  
   
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -120,32 +139,135 @@ export class FolderContentsComponent implements OnInit {
     formData.append('file', file);
   
     if (this.versionning) {
+      this.displayConfirmationPopup(event);
+    } else {
+      this.addFileToDossier(formData);
+
+    }
+  }
+  
+  addFileToDossier(formData: FormData): void {
+    this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
+      (response) => {
+        this.showSuccessMessageAndReload();
+      },
+      (error) => {
+        this.reloadPage(); // reload the page
+      }
+    );
+  }
+  
+  displayConfirmationPopup(event: any) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+    <style>
+    .dialog-container {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+    }
+  
+    .dialog-container h2 {
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    .dialog-container p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+  
+    .dialog-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .dialog-container button.yes-btn {
+      background-color: #4caf50;
+      margin-left:150px;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container button.no-btn {
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container .icon {
+      margin-right: 10px;
+    }
+  </style>
+  
+  <div class="dialog-container">
+    <h2>Confirmer l'importation</h2>
+    <p>
+      <span class="icon fas fa-exclamation-triangle"></span>
+      <span class="text">Attention : La fonctionnalité de versioning est activée. Importer un fichier existant entraînera son remplacement par la nouvelle version. Pensez à sauvegarder votre fichier original si vous souhaitez le conserver.</span>
+    </p>
+    <button id="confirm-btn" class="yes-btn">Oui</button>
+    <button id="cancel-btn" class="no-btn">Non</button>
+  </div>
+  
+    `;
+  
+    document.body.appendChild(dialog);
+  
+    const confirmBtn = dialog.querySelector('#confirm-btn');
+    const cancelBtn = dialog.querySelector('#cancel-btn');
+  
+     if (confirmBtn && cancelBtn) {
+    confirmBtn.addEventListener('click', () => {
       this.fileService.uploadFileandreplace(this.dossierId, file).subscribe(
         (response) => {
           console.log('File uploaded successfully');
           this.selectedFile = file;
-          this.reloadPage(); // reload the page
-
+          this.showSuccessMessageAndReload();
         },
         (error) => {
-          this.reloadPage(); // reload the page
-
+          this.showSuccessMessageAndReload();
         }
       );
-    } else {
-      this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
-        (response) => {
-          console.log('File uploaded successfully');
-          this.selectedFile = file;
-          this.reloadPage(); // reload the page
-
-        },
-        (error) => {
-          this.reloadPage(); // reload the page
-        }
-      );
+      dialog.close();
+    });
     }
+  
+    dialog.showModal();
   }
+  
+
+  showSuccessMessageAndReload(): void {
+    // Display ongoing download message
+    this.successMessage = "Téléchargement en cours...";
+  
+    setTimeout(() => {
+      // Clear the ongoing download message
+      this.successMessage = '';
+  
+      // Display success message
+      this.successMessage = "L'importation est terminée avec succès !";
+  
+      // Reload the page after a delay of 3 seconds
+      setTimeout(() => {
+        this.reloadPage();
+      }, 3000);
+    }, 3000);
+  }
+  
+  
   
 
 
@@ -191,6 +313,7 @@ export class FolderContentsComponent implements OnInit {
       item.name.toLowerCase().includes(filterText)
     );
   }
+
 
 rechercherParFile() {
   this.fileService.rechercherParName(this.name).subscribe(

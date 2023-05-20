@@ -2,11 +2,10 @@ import { Data } from 'popper.js';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+
 import jwt_decode from 'jwt-decode';
 
 
@@ -20,13 +19,13 @@ const httpOptions = {
 })
 export class AuthService {
   users!: User[];
-  private loggedInUser!: SocialUser;
 
 
   public loggedUser!: string;
   public isloggedIn: Boolean = false;
   public roles!: string[];
- 
+  username! : string;
+
 
 
   GetApi: string='https://127.0.0.1:8000/getAllUsers';
@@ -39,18 +38,32 @@ export class AuthService {
   token! : string;
 
 
-  private helper = new JwtHelperService();
-
   constructor(private router: Router,
-               private http : HttpClient ,private authService: SocialAuthService, private googleService: SocialAuthService ) {
+               private http : HttpClient,
+               private helper: JwtHelperService) {
+                this.loadToken();
+
+    // Add listener for storage event
+    window.addEventListener('storage', (event) => {
+      if (event.storageArea === localStorage && event.key === 'jwt') {
+        this.loadToken();
+      }
+    });
  }
 
 
          login(user : User)
          {
-         return this.http.post<any>(this.apilogin, user ); 
+         return this.http.post<any>(this.apilogin, user ).pipe(
+          tap(response => {
+            this.saveToken(response.jwt);
+
+          })
+        ); 
          }
 
+         
+        
          
 
         saveToken(jwt:string){
@@ -59,18 +72,22 @@ export class AuthService {
           this.isloggedIn = true; 
            }
 
-        decodeJWT()
-          { if (this.token == undefined)
-         return;
-        const decodedToken = this.helper.decodeToken(this.token);
-        this.roles = decodedToken.roles;
-        this.loggedUser = decodedToken.sub;
-        }
-
-          loadToken() {
-          this.token = localStorage.getItem('jwt')!;
-          this.decodeJWT();
+           decodeJWT(): void {
+            if (this.token == undefined) return;
+            const decodedToken = this.helper.decodeToken(this.token);
+            this.username = decodedToken.sub;
           }
+
+        loadToken() {
+          this.token = localStorage.getItem('jwt')!;
+          if (this.token) {
+            this.isloggedIn = true;
+            this.decodeJWT();
+          } else {
+            this.isloggedIn = false;
+          }
+          this.username = localStorage.getItem('username')!;
+        }
 
 
           isTokenExpired(): Boolean
@@ -154,6 +171,7 @@ export class AuthService {
     this.token= undefined!;
     this.isloggedIn = false;
     window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('username');
     this.router.navigate(['/login']);
 
   }

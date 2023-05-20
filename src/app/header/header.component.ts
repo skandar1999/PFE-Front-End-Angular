@@ -13,25 +13,31 @@ import jwt_decode from 'jwt-decode';
 export class HeaderComponent implements OnInit {
   users!: User[];
 
-  username! : string;
+  
+  curentUser:any;
+  username: string | null = null;
+
   password!:string;
   email:any;
   id!: number;
   mobile!: string;
 
-  curentUser:any;
   token!:any;
   userData: any;
   newData: any;
   notificationsEnabled: boolean = true;
+  userImage!: string;
 
   constructor(public authService: AuthService , public userService:UserService , private router: Router) {}
 
   ngOnInit() {
+    
     this.token = window.localStorage.getItem('jwt');
     this.curentUser = jwt_decode(this.token);
     this.findUserByEmail();
-    console.log(this.username)
+    this.username = localStorage.getItem('username');
+
+
   }
 
   toggleNotifications() {
@@ -55,11 +61,21 @@ export class HeaderComponent implements OnInit {
       user => {
         console.log(user);
         if (user) {
+
           this.userData = user;
           this.username = this.userData.username;
           this.password = this.userData.password;
           this.mobile = this.userData.mobile;
-          console.log(this.username);
+          this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
+
+  
+          // Mettre à jour le nom d'utilisateur dans le stockage local
+          this.username = this.userData.username;
+
+        // Update the username in local storage
+        localStorage.setItem('username', this.username!);
+        
+
         }
       },
       error => {
@@ -67,6 +83,7 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+  
   
   
 

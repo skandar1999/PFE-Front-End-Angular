@@ -29,6 +29,7 @@ import { ArchiveComponent } from './archive/archive.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AcceuilComponent } from './acceuil/acceuil.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,14 @@ import { AcceuilComponent } from './acceuil/acceuil.component';
     BrowserModule, MatDialogModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('jwt');
+        },
+        allowedDomains: ['http://localhost:4200/']
+      }
+    })
     
     
   ],

@@ -19,6 +19,22 @@
       
         <!-- Pages -->
         <li class="nav-item dropdown dropdown-slide ">
+          
+
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="/acceuil"
+            id="navbarDropdown4"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+          Accueil
+          </a>  
+
+        <li class="nav-item dropdown dropdown-slide ">
           <a *ngIf="authService.isloggedIn"
             class="nav-link dropdown-toggle"
             routerLink="/docs"
@@ -32,20 +48,6 @@
           Mes documents
           </a>
 
-        <li class="nav-item dropdown dropdown-slide ">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="/about"
-            id="navbarDropdown4"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          à propos
-          </a>  
-
         </li>
         <li class="nav-item dropdown dropdown-slide ">
           <a
@@ -58,26 +60,45 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-          Contact   </a>
+          Support   </a>
           
         </li>
+        <li class="nav-item dropdown dropdown-slide ">
+          <a *ngIf="!authService.isloggedIn"
+            class="nav-link dropdown-toggle"
+            routerLink="/about"
+            id="navbarDropdown4"
+            role="button"
+            data-delay="350"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+          À propos
+          </a>
 
       </ul>
 
       <ul class="navbar-nav m-auto">
+        
         <li class="nav-item dropdown dropdown-slide">
           <a *ngIf="authService.isloggedIn"
           class="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdown3"
           role="button"
           data-delay="350"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          class="fa fa-user"
-        > connecté
-        </a>
+        
+        > <div class="user-info">
+          <img class="user-image" [src]="userImage" >
+          <div class="user-details">
+            <p class="username">{{username}}</p>
+          </div>
+        </div>
+        
+</a>        
 
 
       

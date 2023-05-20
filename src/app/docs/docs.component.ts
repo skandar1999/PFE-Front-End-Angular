@@ -44,6 +44,7 @@ export class DocsComponent implements OnInit {
   isUploading = false;
 
   new_name!: string;
+  successMessage: string = '';
 
   username!: string;
   path!:string;
@@ -65,7 +66,6 @@ export class DocsComponent implements OnInit {
     this.findUserByEmail();
     this.getFiles()
     this.getFolders()
-    console.log(this.notfication)
   }
 
 
@@ -112,17 +112,38 @@ export class DocsComponent implements OnInit {
       const formData = new FormData();
       formData.append('files', file);
     
+      this.addFileToDossier(formData);
+    }
+    
+    addFileToDossier(formData: FormData): void {
       this.fileService.uploadFile(formData, this.curentUser?.email).subscribe(
         (response) => {
-          this.reloadPage(); // reload the page
-          this.selectedFile = file; // Set the selected file in the component property
+          this.showSuccessMessageAndReload();
         },
         (error) => {
-          this.reloadPage(); // reload the page
-
+          this.showSuccessMessageAndReload();
         }
       );
     }
+    
+    showSuccessMessageAndReload(): void {
+      // Display ongoing download message
+      this.successMessage = "Téléchargement en cours...";
+    
+      setTimeout(() => {
+        // Clear the ongoing download message
+        this.successMessage = '';
+    
+        // Display success message
+        this.successMessage = "L'importation est terminée avec succès !";
+    
+        // Reload the page after a delay of 3 seconds
+        setTimeout(() => {
+          this.reloadPage();
+        }, 3000);
+      }, 3000);
+    }
+    
     
     
     
@@ -600,7 +621,7 @@ rechercherParFile() {
       </style>
       <form class="form-group">
         <div class="dialog-container">
-          <h2>Renomer</h2>
+          <h2>Renommer</h2>
           <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de fichier">
           <br>
           <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>

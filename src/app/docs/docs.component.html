@@ -71,7 +71,20 @@
           </div>
        
   </div>
- 
+
+
+
+  <div *ngIf="successMessage">
+    <div class="alert success">
+      <span class="icon">
+        <span *ngIf="successMessage === 'Téléchargement en cours...'" class="fas fa-spinner animated-icon"></span>
+        <span *ngIf="successMessage === 'L\'importation est terminée avec succès !'" class="fas fa-check-circle"></span>
+      </span>
+      <span class="text">{{ successMessage }}</span>
+    </div>
+  </div>
+  
+
     <div class="container">
       <div class="row">
         <div class="col-lg-4" *ngFor="let file of files">

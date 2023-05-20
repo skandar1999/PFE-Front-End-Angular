@@ -34,7 +34,7 @@ export class UserService {
   listerMess: string="https://127.0.0.1:8000/getallmessages";
   deletemess: string="https://127.0.0.1:8000/deleteMessage";
   uptImage: string='https://127.0.0.1:8000/updateImage';
-
+  supprimerimage:string='https://127.0.0.1:8000/supprimerimage';
 
   constructor(private http : HttpClient, private authService: AuthService 
     ) { }
@@ -141,7 +141,8 @@ export class UserService {
       }
 
 
-
+   
+      
       
 
       checkPassword(email: string, password: string): Observable<boolean> {
@@ -160,6 +161,12 @@ export class UserService {
 
       
 
+
+      supprimerImage(email: string) {
+        const url = `https://127.0.0.1:8000/supprimerimage/${email}`;
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(url, { headers });
+      }
     
       
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 
 
@@ -27,7 +27,19 @@ export class FileServiceService {
     return this.http.post<any>(`${this.apiUrl}/dossiers/${id}`, formData);
   }
 
+
+  checkFileExists(id: number, file: File): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('file', file);
   
+    return this.http.post<any>(`${this.apiUrl}/checkfile/${id}`, formData).pipe(
+      map((response: any) => response.exists)
+    );
+  }
+  
+  
+  
+
   uploadFileandreplace(id: number, file: File) {
     const formData = new FormData();
     formData.append('files', file);

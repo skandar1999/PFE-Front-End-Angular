@@ -66,7 +66,6 @@ export class ProfileDetailsComponent implements OnInit {
 
       }
     });
-    console.log(this.confirmPassword);
 
   } 
  
@@ -174,7 +173,6 @@ public togglePassword2(): void {
       formData.append('file', file);
     
       this.userService.UpdateImage(this.curentUser?.email, formData).subscribe(updatedUser => {
-        console.log(updatedUser);
         this.curentUser = updatedUser; // Update the current user object with the new data
         this.userImage = userImage; // Update the component's userImage property with the new data
       });
@@ -188,5 +186,87 @@ public togglePassword2(): void {
       });
     }
     
-  
+    
+
+
+
+    supprimerImage(user: User) {
+     
+      const dialog = document.createElement('dialog');
+      dialog.innerHTML = `
+        <style>
+          .dialog-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+          }
+    
+          .form-group button {
+            margin-right: 8px;
+          }
+          .btn-primary {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding:auto;
+          }
+          .btn-primary:hover {
+            background-color: #f44336;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            transition: 0.5s all ease;
+          }
+          .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            padding:auto;
+          }
+          .btn-secondary:hover {
+            background-color: #666666;
+            color: #fff;
+            border: none;
+          }
+        </style>
+        <form class="form-group">
+          <div class="dialog-container">
+            <h2>Confirmation</h2>
+            <p>Etes-vous sûr de supprimer la photo de profile</p>
+            <br>
+            <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+            <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+          </div>
+        </form>
+      `;
+    
+      const confirmButton = dialog.querySelector('#confirmButton')!;
+      confirmButton.addEventListener('click', () => {
+        dialog.close();
+        this.userService.supprimerImage(this.curentUser?.email).subscribe(
+          (response) => {
+            
+            this.reloadPage(); // reload the page
+
+          },
+          (error) => {
+            this.reloadPage(); // reload the page
+            // handle error
+          }
+        );
+      });
+    
+      const cancelButton = dialog.querySelector('#cancelButton')!;
+      cancelButton.addEventListener('click', () => {
+        dialog.close();
+      });
+    
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    }
+    
+
 }

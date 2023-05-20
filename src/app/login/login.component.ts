@@ -2,12 +2,10 @@ import { AuthService } from './../services/auth.service';
 import { UserService } from './../services/user.service';
 import { UserGuard } from './../guard/user.guard';
 import { ForgotPasswordComponent } from './../forgot-password/forgot-password.component';
-import { Router } from '@angular/router';
 import { User } from '../model/user.model';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, NavigationEnd } from '@angular/router';
 
 
 @Component({
@@ -21,6 +19,9 @@ export class LoginComponent implements OnInit {
   users! : User[];
   err: boolean = false;
   email!:any;
+  vide: boolean = false;
+  headerComponent: any;
+  private isFirstLoad = true;
 
 
  
@@ -31,25 +32,46 @@ export class LoginComponent implements OnInit {
               ) {
               }
 
-  ngOnInit(): void {}
-              
- 
-  onLoggedin(): void {
-  this.authService.login(this.user)
-    .subscribe(
-      (data) => {
-        this.authService.saveToken(data.token);
-        this.router.navigate(['/docs']);
-      },
-      error => {
-        this.err = true;
-        setTimeout(() => {
-          this.err = false;
-        }, 2500);
-      }
-    );
-}
+              ngOnInit(): void {
+                this.router.events.subscribe(event => {
+                  if (event instanceof NavigationEnd && this.isFirstLoad) {
+                    this.isFirstLoad = false;
+                    window.location.reload();
+                  }
+                });
+            
+              }
 
+
+  onLoggedin(): void {
+    if (!this.user.email || !this.user.password) {
+      this.vide = true;
+      setTimeout(() => {
+        this.vide = false;
+      }, 2500);
+      return;
+    }
+  
+    this.authService.login(this.user)
+      .subscribe(
+        (data) => {
+          this.authService.saveToken(data.token);
+          
+          this.router.navigate(['/docs']);
+
+        },
+        error => {
+          this.err = true;
+          setTimeout(() => {
+            this.err = false;
+          }, 2500);
+        }
+      );
+  }
+  
+
+
+ 
 
 
       public hidePassword = true;
