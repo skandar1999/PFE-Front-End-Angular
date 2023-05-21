@@ -115,22 +115,7 @@ export class FolderContentsComponent implements OnInit {
   }
 
 
-/*
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-  
-    this.fileService.checkFileExists(this.dossierId, file).subscribe((exists) => {
-      if (exists) {
-        this.displayConfirmationDialog(event);
-      } else {
-        const formData = new FormData();
-        formData.append('file', file);
-        this.addFileToDossier(formData);
-      }
-    });
-  }
 
-  */
   
   
   onFileSelected(event: any) {
@@ -141,10 +126,16 @@ export class FolderContentsComponent implements OnInit {
     if (this.versionning) {
       this.displayConfirmationPopup(event);
     } else {
-      this.addFileToDossier(formData);
-
+      this.fileService.checkFileExists(this.dossierId, file).subscribe((exists: boolean) => {
+        if (exists) {
+          this.dialogfilexiste(event);
+        } else {
+          this.addFileToDossier(formData);
+        }
+      });
     }
   }
+  
   
   addFileToDossier(formData: FormData): void {
     this.fileService.addFileToDossier(formData, this.dossierId).subscribe(
@@ -157,6 +148,182 @@ export class FolderContentsComponent implements OnInit {
     );
   }
   
+
+  
+  dialogfilexiste(event: any) {
+    const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const showDialog = () => {
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+    <style>
+  .dialog-container {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    max-width: 520px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+
+  .dialog-container h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .dialog-container p {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .dialog-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .dialog-container button.yes-btn {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+  }
+
+  .dialog-container button.no-btn {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+  }
+
+  .dialog-container .icon {
+    margin-right: 10px;
+  }
+
+  .dialog-container input[type="radio"] {
+    display: none;
+  }
+
+  .dialog-container input[type="radio"] + label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .dialog-container input[type="radio"] + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+  }
+
+  .dialog-container input[type="radio"] + label:after {
+    content: "";
+    position: absolute;
+    left: 4.2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 11.3px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #030303;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .dialog-container input[type="radio"]:checked + label:before {
+    border-color: #030303;
+  }
+
+  .dialog-container input[type="radio"]:checked + label:after {
+    opacity: 1;
+  }
+</style>
+  
+  <div class="dialog-container">
+    <h2>Option d'importation</h2>
+    <p>
+      <span class="text">Le fichier selectionner existe déjà à cet emplacement. Voulez-vous remplacer le fichier existant par une nouvelle version ou conserver les deux ?</span>
+    </p>
+    <input type="radio" id="replace-radio" name="method" value="replace" checked>
+    <label for="replace-radio">Remplacer le fichier existant</label><br>
+    <input type="radio" id="skip-radio" name="method" value="skip">
+    <label for="skip-radio">Conserver les deux fichiers</label><br>
+    <button id="cancel-btn" class="no-btn">Annuler</button>
+    <button id="confirm-btn" class="yes-btn">Importer</button>
+  </div>
+  
+  
+    `;
+  
+    const confirmBtn = dialog.querySelector('#confirm-btn');
+    const cancelBtn = dialog.querySelector('#cancel-btn');
+
+    if (confirmBtn && cancelBtn) {
+      confirmBtn.addEventListener('click', () => {
+        const selectedMethod = (document.querySelector('input[name="method"]:checked') as HTMLInputElement)?.value;
+
+        if (selectedMethod === 'replace') {
+          this.fileService.uploadFileandreplace(this.dossierId, file).subscribe(
+            (response) => {
+              console.log('File uploaded successfully');
+              this.selectedFile = file;
+              this.showSuccessMessageAndReload();
+            },
+            (error) => {
+              this.showSuccessMessageAndReload();
+            }
+          );
+        } else if (selectedMethod === 'skip') {
+          this.addFileToDossier(formData);
+        }
+        dialog.close();
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        dialog.close();
+        // Stop the action or perform any desired action when cancel is pressed
+        // For example, you can return or display a message
+        return;
+      });
+    }
+
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  };
+
+  // Remove any existing dialogs before showing a new one
+  const existingDialog = document.querySelector('dialog');
+  if (existingDialog) {
+    existingDialog.remove();
+  }
+
+  showDialog();
+}
+
+  
+
+  
+  
+  
+
+
+
   displayConfirmationPopup(event: any) {
     const file = event.target.files[0];
     const formData = new FormData();

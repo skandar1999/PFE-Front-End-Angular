@@ -210,9 +210,14 @@ public togglePassword2(): void {
           }
           .btn-primary {
             background-color: #f44336;
-            color: #fff;
+            padding: 10px 20px;
             border: none;
-            padding:auto;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            outline: none;
+
           }
           .btn-primary:hover {
             background-color: #f44336;
@@ -221,10 +226,14 @@ public togglePassword2(): void {
             transition: 0.5s all ease;
           }
           .btn-secondary {
-            background-color: #6c757d;
-            color: #fff;
-            border: none;
-            padding:auto;
+            padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+          outline: none;
+
           }
           .btn-secondary:hover {
             background-color: #666666;
@@ -237,8 +246,9 @@ public togglePassword2(): void {
             <h2>Confirmation</h2>
             <p>Etes-vous sûr de supprimer la photo de profile</p>
             <br>
-            <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
             <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+            <button type="button" class="btn btn-primary" id="confirmButton">Supprimer</button>
+
           </div>
         </form>
       `;

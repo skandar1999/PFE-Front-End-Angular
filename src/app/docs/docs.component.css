@@ -26,6 +26,8 @@
   
  
   
+
+  
   
   @media screen and (max-width: 768px) {
     .search-form {
@@ -186,7 +188,7 @@
   }
 
   #dropdown2-content i.fa-link:hover {
-    color: rgb(71, 112, 167);
+    color: rgb(104, 105, 105);
     cursor: pointer;
 
   }

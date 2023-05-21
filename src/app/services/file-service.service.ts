@@ -37,6 +37,15 @@ export class FileServiceService {
     );
   }
   
+
+  checkFileExistsforUser(email: string, file: File): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post<any>(`${this.apiUrl}/checkfileUser/${email}`, formData).pipe(
+      map((response: any) => response.exists)
+    );
+  }
   
   
 
@@ -46,6 +55,12 @@ export class FileServiceService {
     return this.http.post(`https://127.0.0.1:8000/FileuploadAndReplace/${id}`, formData);
   }
 
+
+  uploadFileandreplaceDocu(email: string, file: File) {
+    const formData = new FormData();
+    formData.append('files', file);
+    return this.http.post(`https://127.0.0.1:8000/FileuploadAndReplaceDocs/${email}`, formData);
+  }
   
   getFilesByDossier(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/FilesByDossiers/${id}`);

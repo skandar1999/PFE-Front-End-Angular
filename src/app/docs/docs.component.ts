@@ -107,13 +107,197 @@ export class DocsComponent implements OnInit {
     this.authService.logout();}     
 
 
-    onFileSelected(event: any) {
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append('files', file);
     
-      this.addFileToDossier(formData);
+
+      onFileSelected(event: any) {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('files', file);
+      
+        this.fileService.checkFileExistsforUser(this.curentUser?.email, file).subscribe((exists: boolean) => {
+          if (exists) {
+            this.dialogfilexiste(event);
+          } else {
+            this.addFileToDossier(formData);
+          }
+        });
+      }
+    
+
+
+
+
+    dialogfilexiste(event: any) {
+      const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('files', file);
+  
+    const showDialog = () => {
+      const dialog = document.createElement('dialog');
+    
+      dialog.innerHTML = `
+      <style>
+    .dialog-container {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      max-width: 520px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
     }
+  
+    .dialog-container h2 {
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    .dialog-container p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+  
+    .dialog-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  
+    .dialog-container button.yes-btn {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container button.no-btn {
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container .icon {
+      margin-right: 10px;
+    }
+  
+    .dialog-container input[type="radio"] {
+      display: none;
+    }
+  
+    .dialog-container input[type="radio"] + label {
+      position: relative;
+      padding-left: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+    }
+  
+    .dialog-container input[type="radio"] + label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      background-color: #fff;
+      transition: border-color 0.3s ease;
+    }
+  
+    .dialog-container input[type="radio"] + label:after {
+      content: "";
+      position: absolute;
+      left: 4.2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 11.3px;
+      height: 11px;
+      border-radius: 50%;
+      background-color: #030303;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+  
+    .dialog-container input[type="radio"]:checked + label:before {
+      border-color: #030303;
+    }
+  
+    .dialog-container input[type="radio"]:checked + label:after {
+      opacity: 1;
+    }
+  </style>
+    
+    <div class="dialog-container">
+      <h2>Option d'importation</h2>
+      <p>
+        <span class="text">Le fichier selectionner existe déjà à cet emplacement. Voulez-vous remplacer le fichier existant par une nouvelle version ou conserver les deux ?</span>
+      </p>
+      <input type="radio" id="replace-radio" name="method" value="replace" checked>
+      <label for="replace-radio">Remplacer le fichier existant</label><br>
+      <input type="radio" id="skip-radio" name="method" value="skip">
+      <label for="skip-radio">Conserver les deux fichiers</label><br>
+      <button id="cancel-btn" class="no-btn">Annuler</button>
+      <button id="confirm-btn" class="yes-btn">Importer</button>
+    </div>
+    
+    
+      `;
+    
+      const confirmBtn = dialog.querySelector('#confirm-btn');
+      const cancelBtn = dialog.querySelector('#cancel-btn');
+  
+      if (confirmBtn && cancelBtn) {
+        confirmBtn.addEventListener('click', () => {
+          const selectedMethod = (document.querySelector('input[name="method"]:checked') as HTMLInputElement)?.value;
+  
+          if (selectedMethod === 'replace') {
+            this.fileService.uploadFileandreplaceDocu(this.curentUser?.email, file).subscribe(
+              (response) => {
+                console.log('File uploaded successfully');
+                this.selectedFile = file;
+                this.showSuccessMessageAndReload();
+              },
+              (error) => {
+                this.showSuccessMessageAndReload();
+              }
+            );
+          } else if (selectedMethod === 'skip') {
+            this.addFileToDossier(formData);
+          }
+          dialog.close();
+        });
+  
+        cancelBtn.addEventListener('click', () => {
+          dialog.close();
+          // Clear the file input value if cancel is pressed
+          const fileInput = document.querySelector('#file-input') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = '';
+          }
+          return;
+        });
+        
+      }
+  
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    };
+  
+    // Remove any existing dialogs before showing a new one
+    const existingDialog = document.querySelector('dialog');
+    if (existingDialog) {
+      existingDialog.remove();
+    }
+  
+    showDialog();
+  }
+
+  
     
     addFileToDossier(formData: FormData): void {
       this.fileService.uploadFile(formData, this.curentUser?.email).subscribe(
@@ -125,6 +309,8 @@ export class DocsComponent implements OnInit {
         }
       );
     }
+
+
     
     showSuccessMessageAndReload(): void {
       // Display ongoing download message
@@ -339,20 +525,144 @@ export class DocsComponent implements OnInit {
   }
   
 
-  createNewFolder() {
+  createNewFolder(folderName: string) {
     const formData = new FormData();
     formData.append('user_id', '1'); // Replace with the ID of the user
-    formData.append('namedossier', 'Nouveau dossier');
+    formData.append('namedossier', folderName);
     formData.append('datedossier', new Date().toISOString().slice(0, 10)); // Use today's date as the default date
     this.fileService.createFolder(formData, this.curentUser?.email).subscribe(
       (response) => {
-        this.reloadPage(); // reload the page
+        this.reloadPage(); // Reload the page
       },
-      error => {
-        this.reloadPage(); // reload the page
+      (error) => {
+        this.reloadPage(); // Reload the page
       }
     );
   }
+  
+  openCreateFolderDialog() {
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+      <style>
+        .dialog-container {
+          background-color: #f5f5f5;
+          border: none;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          max-width: 400px;
+          margin: 0 auto;
+          font-family: Arial, sans-serif;
+          color: #333;
+        }
+  
+        .dialog-container h2 {
+          margin-top: 0;
+          font-size: 20px;
+          color: #222;
+        }
+  
+        .dialog-container input[type="text"] {
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          font-size: 16px;
+          outline: none;
+        }
+  
+        .dialog-container button {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+          outline: none;
+        }
+  
+        .dialog-container .btn-primary {
+          background-color: #f44336;
+          color: #fff;
+          margin-right: 8px;
+        }
+  
+        .dialog-container .btn-primary:hover {
+          background-color: #d32f2f;
+        }
+  
+        .dialog-container .btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+        }
+  
+        .dialog-container .btn-secondary:hover {
+          background-color: #555;
+        }
+  
+        .dialog-container .error-message {
+          color: red;
+          font-size: 14px;
+          margin-top: 8px;
+        }
+        .error-container {
+          margin-bottom: 10px;
+        }
+        
+        .error-message {
+          display: inline-block;
+          color: #f44336;
+          font-size: 14px;
+        }
+        
+      </style>
+  
+      <div class="dialog-container">
+  <h2>Nouveau dossier</h2>
+  <div class="error-container">
+    <span class="error-message" id="errorMessage"></span>
+  </div>
+  <input autocomplete="off" type="text" id="folderNameInput" placeholder="Nom de dossier" />
+  <button class="btn btn-secondary" id="cancelButton">Cancel</button>
+  <button class="btn btn-primary" id="confirmButton">Créer</button>
+</div>
+
+    `;
+  
+    const folderNameInput = dialog.querySelector('#folderNameInput') as HTMLInputElement;
+    const errorMessage = dialog.querySelector('#errorMessage')!;
+    const confirmButton = dialog.querySelector('#confirmButton')!;
+    const cancelButton = dialog.querySelector('#cancelButton')!;
+  
+    confirmButton.addEventListener('click', () => {
+      const folderName = folderNameInput.value.trim();
+      if (folderName !== '') {
+        errorMessage.textContent = '';
+        dialog.close();
+        this.createNewFolder(folderName); // Call the createNewFolder method from your component
+      } else {
+        errorMessage.textContent = 'Veuillez saisir le nom du dossier';
+    
+        // Clear the error message after 3 seconds
+        setTimeout(() => {
+          errorMessage.textContent = '';
+        }, 3000);
+      }
+    });
+  
+    cancelButton.addEventListener('click', () => {
+      dialog.close();
+    });
+  
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
+  
+
+  
 
 
   onFolderSelected(folder: any) {
@@ -419,8 +729,9 @@ export class DocsComponent implements OnInit {
       <div class="dialog-container">
         <h2>Archiver</h2>
         <p>Etes-vous sûr de vouloir archiver ce document ?</p>
-        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
         <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+
       </div>
     `;
   
@@ -496,8 +807,9 @@ export class DocsComponent implements OnInit {
       <div class="dialog-container">
         <h2>Archiver</h2>
         <p>Etes-vous sûr de vouloir archiver ce dossier ?</p>
-        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
         <button class="btn btn-secondary" id="cancelButton">Annuler</button>
+        <button class="btn btn-primary" id="confirmButton">Confirmer</button>
+
       </div>
     `;
   
@@ -574,58 +886,73 @@ rechercherParFile() {
     const dialog = document.createElement('dialog');
   
     dialog.innerHTML = `
-      <style>
-        .dialog-container {
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-          padding: 20px;
-          max-width: 400px;
-          margin: 0 auto;
-        }
+    <style>
+    .dialog-container {
+      background-color: #f5f5f5;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
   
-        .form-group input {
-          width: 100%;
-          padding: 8px;
-          border-radius: 4px;
-          border: 1px solid #ccc;
-          margin-bottom: 16px;
-        }
-        .form-group button {
-          margin-right: 8px;
-        }
-        .btn-primary {
-          background-color: #f44336;
-          color: #fff;
-          border: none;
-          padding: 8px 16px;
-        }
-        .btn-primary:hover {
-          background-color: #ff5a4c;
-          cursor: pointer;
-          transition: 0.5s all ease;
-        }
-        .btn-secondary {
-          background-color: #6c757d;
-          color: #fff;
-          border: none;
-          padding: 8px 16px;
-        }
-        .btn-secondary:hover {
-          background-color: #666666;
-          color: #fff;
-          cursor: pointer;
-          transition: 0.5s all ease;
-        }
-      </style>
+    .dialog-container h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #222;
+    }
+  
+    .dialog-container input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+      outline: none;
+    }
+  
+    .dialog-container button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      outline: none;
+    }
+  
+    .dialog-container .btn-primary {
+      background-color: #f44336;
+      color: #fff;
+      margin-right: 8px;
+    }
+  
+    .dialog-container .btn-primary:hover {
+      background-color: #d32f2f;
+    }
+  
+    .dialog-container .btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+    }
+  
+    .dialog-container .btn-secondary:hover {
+      background-color: #555;
+    }
+  </style>
       <form class="form-group">
         <div class="dialog-container">
           <h2>Renommer</h2>
           <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de fichier">
           <br>
-          <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>
           <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+          <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>
+
         </div>
       </form>
     `;
