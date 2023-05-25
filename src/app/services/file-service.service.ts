@@ -115,7 +115,7 @@ export class FileServiceService {
  
 
   deleteFilesByDossier(id: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/DeletefilesSamecode/${id}`, {});
+    return this.http.delete<any>(`${this.apiUrl}/DeletefilesSamecode/${id}`, {});
   }
 
 

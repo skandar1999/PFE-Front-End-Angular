@@ -65,95 +65,166 @@ export class FolderContentsComponent implements OnInit {
 
 
   
-  ConfirmationVersioning() {
+   ConfirmationVersioning() {
     const dialog = document.createElement('dialog');
   
     dialog.innerHTML = `
     <style>
-    .dialog-container {
-      background-color: #f7f7f7;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      max-width: 510px;
-      margin: 0 auto;
-      font-family: Arial, sans-serif;
-    }
-  
-    .dialog-container h2 {
-      margin-top: 0;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  
-    .dialog-container p {
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-  
-    .dialog-container button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  
-    .dialog-container button.yes-btn {
-      background-color: #4caf50;
-      margin-left:150px;
-      color: #fff;
-      border: none;
-    }
-  
-    .dialog-container button.no-btn {
-      background-color: #f44336;
-      color: #fff;
-      border: none;
-    }
-  
-    .dialog-container .icon {
-      margin-right: 10px;
-    }
-  </style>
-    
-  <div class="dialog-container">
-  <h2>Confirmation</h2>
-  <h6>Êtes-vous sûr de vouloir activer/désactiver le system de versionnig?</h6>
-  <button id="confirm-btn" class="yes-btn">Yes</button>
-  <button id="cancel-btn" class="no-btn">No</button>
-</div>
-`;
+      .dialog-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+
+      .dialog-container h2 {
+        margin-top: 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333333;
+      }
+
+      .dialog-container h6 {
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #666666;
+      }
+
+      .dialog-container label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #333333;
+      }
+
+      .dialog-container input[type="checkbox"] {
+        margin-right: 5px;
+      }
+
+      .dialog-container button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        color: #ffffff;
+        transition: background-color 0.3s ease;
+      }
+
+      .dialog-container button.yes-btn {
+        background-color: #4caf50;
+      }
+
+      .dialog-container button.no-btn {
+        background-color: #f44336;
+      }
+
+      .dialog-container input[type="checkbox"] {
+        display: none;
+      }
+
+      .dialog-container input[type="checkbox"] + label {
+        position: relative;
+        padding-left: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .dialog-container input[type="checkbox"] + label:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+      }
+
+      .dialog-container input[type="checkbox"] + label:after {
+        content: "";
+        position: absolute;
+        left: 4.2px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 11.3px;
+        height: 11px;
+        border-radius: 50%;
+        background-color: #030303;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .dialog-container input[type="checkbox"]:checked + label:before {
+        border-color: #030303;
+      }
+
+      .dialog-container input[type="checkbox"]:checked + label:after {
+        opacity: 1;
+      }
+    </style>
+
+    <div class="dialog-container">
+      <h2>Confirmation</h2>
+      <h6>Êtes-vous sûr de vouloir activer/désactiver le système de versionning?</h6>
+      ${this.versionning ? '<input type="checkbox" id="replace" name="method" value="replace" >' : ''}
+      ${this.versionning ? '<label for="replace">Conserver uniquement la dernière version</label><br>' : ''}
+      <button id="confirm-btn" class="yes-btn">Oui</button>
+      <button id="cancel-btn" class="no-btn">Non</button>
+    </div>
+  `;
 
 document.body.appendChild(dialog);
 
-  const confirmBtn = dialog.querySelector('#confirm-btn');
-  const cancelBtn = dialog.querySelector('#cancel-btn');
+const confirmBtn = dialog.querySelector('#confirm-btn');
+const cancelBtn = dialog.querySelector('#cancel-btn');
 
-  if (confirmBtn && cancelBtn) {
-    confirmBtn.addEventListener('click', () => {
-      // Call the toggleVersioning() method and pass the necessary parameters
-      const dossierId = this.dossierId;
-      this.fileService.toggleVersioning(dossierId).subscribe(
-        response => {
-          // Update the status of the dossier based on the response from the server
-          this.versionning = response.versionning;
-          
-        },
-        error => this.reloadPage()
-      );
+if (confirmBtn && cancelBtn) {
+confirmBtn.addEventListener('click', () => {
+  const dossierId = this.dossierId;
+  const selectedMethod = (document.querySelector('input[name="method"]:checked') as HTMLInputElement)?.value;
 
-      dialog.close();
-    });
-
-    cancelBtn.addEventListener('click', () => {
-      dialog.close();
-      this.reloadPage()
-    });
+  if (selectedMethod === 'replace') {
+    this.fileService.deleteFilesByDossier(dossierId).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
-  dialog.showModal();
+  this.fileService.toggleVersioning(dossierId).subscribe(
+    (response) => {
+      this.versionning = response.versionning;
+    },
+    error => this.reloadPage()
+  );
+
+  dialog.close();
+});
+
+cancelBtn.addEventListener('click', () => {
+  dialog.close();
+  this.reloadPage()
+});
 }
+
+dialog.showModal();
+}
+
+
+
+
 
 
 
@@ -206,7 +277,6 @@ document.body.appendChild(dialog);
 
 
   
-  
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -214,11 +284,12 @@ document.body.appendChild(dialog);
   
     if (this.versionning) {
       this.addFileToDossier(formData);
-
     } else {
       this.fileService.checkFileExists(this.dossierId, file).subscribe((exists: boolean) => {
         if (exists) {
           this.dialogfilexiste(event);
+        } else {
+          this.addFileToDossier(formData);
         }
       });
     }
