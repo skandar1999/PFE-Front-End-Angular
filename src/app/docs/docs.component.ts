@@ -496,7 +496,7 @@ export class DocsComponent implements OnInit {
     
       setTimeout(() => {
         alertDiv.remove();
-      }, 4000);
+      }, 3000);
     }
     
     
@@ -621,6 +621,7 @@ export class DocsComponent implements OnInit {
       </style>
   
       <div class="dialog-container">
+  <div class="dialog-container">
   <h2>Nouveau dossier</h2>
   <div class="error-container">
     <span class="error-message" id="errorMessage"></span>
@@ -637,15 +638,27 @@ export class DocsComponent implements OnInit {
     const confirmButton = dialog.querySelector('#confirmButton')!;
     const cancelButton = dialog.querySelector('#cancelButton')!;
   
-    confirmButton.addEventListener('click', () => {
+    confirmButton.addEventListener('click', async () => {
       const folderName = folderNameInput.value.trim();
       if (folderName !== '') {
         errorMessage.textContent = '';
-        dialog.close();
-        this.createNewFolder(folderName); // Call the createNewFolder method from your component
+  
+        // Call the checkFolderExists method to check if the folder exists
+        const exists = await this.fileService.checkFolderExists(this.curentUser?.email, folderName).toPromise();
+  
+        // Process the response
+        if (exists) {
+          errorMessage.textContent = `Le nom de dossier " ${folderName} " existe déjà.`;
+          setTimeout(() => {
+            errorMessage.textContent = '';
+          }, 3000);
+        } else {
+          dialog.close();
+          this.createNewFolder(folderName); // Call the createNewFolder method from your component
+        }
       } else {
         errorMessage.textContent = 'Veuillez saisir le nom du dossier';
-    
+  
         // Clear the error message after 3 seconds
         setTimeout(() => {
           errorMessage.textContent = '';

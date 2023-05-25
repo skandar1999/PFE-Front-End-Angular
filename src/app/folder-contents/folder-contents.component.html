@@ -67,7 +67,7 @@
           </div>
             
           <div class="toggle-switch">
-            <input type="checkbox" id="toggle-versioning" [checked]="versionning" (click)="toggleVersioning()" (click)="reloadPage()">
+            <input type="checkbox" id="toggle-versioning" [checked]="versionning" (click)="toggleVersioning()" >
             <label for="toggle-versioning"></label>
             <span class="tooltip" *ngIf="versionning">Désactiver versionnig</span>
             <span class="tooltip" *ngIf="!versionning">Activer versionnig</span>

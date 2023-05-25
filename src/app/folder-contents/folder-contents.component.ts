@@ -58,16 +58,105 @@ export class FolderContentsComponent implements OnInit {
     }, 3000);
   }
 
+  
   toggleVersioning() {
-    const dossierId = this.dossierId;
-    this.fileService.toggleVersioning(dossierId).subscribe(
-      response => {
-        // Update the status of the dossier based on the response from the server
-        this.versionning = response.versionning;
-      },
-      error => console.error(error)
-    );
+    this.ConfirmationVersioning();
   }
+
+
+  
+  ConfirmationVersioning() {
+    const dialog = document.createElement('dialog');
+  
+    dialog.innerHTML = `
+    <style>
+    .dialog-container {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      max-width: 510px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+    }
+  
+    .dialog-container h2 {
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    .dialog-container p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+  
+    .dialog-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .dialog-container button.yes-btn {
+      background-color: #4caf50;
+      margin-left:150px;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container button.no-btn {
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+    }
+  
+    .dialog-container .icon {
+      margin-right: 10px;
+    }
+  </style>
+    
+  <div class="dialog-container">
+  <h2>Confirmation</h2>
+  <h6>Êtes-vous sûr de vouloir activer/désactiver le system de versionnig?</h6>
+  <button id="confirm-btn" class="yes-btn">Yes</button>
+  <button id="cancel-btn" class="no-btn">No</button>
+</div>
+`;
+
+document.body.appendChild(dialog);
+
+  const confirmBtn = dialog.querySelector('#confirm-btn');
+  const cancelBtn = dialog.querySelector('#cancel-btn');
+
+  if (confirmBtn && cancelBtn) {
+    confirmBtn.addEventListener('click', () => {
+      // Call the toggleVersioning() method and pass the necessary parameters
+      const dossierId = this.dossierId;
+      this.fileService.toggleVersioning(dossierId).subscribe(
+        response => {
+          // Update the status of the dossier based on the response from the server
+          this.versionning = response.versionning;
+          
+        },
+        error => this.reloadPage()
+      );
+
+      dialog.close();
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      dialog.close();
+      this.reloadPage()
+    });
+  }
+
+  dialog.showModal();
+}
+
+
+
 
   
   reloadPage() {
@@ -124,13 +213,12 @@ export class FolderContentsComponent implements OnInit {
     formData.append('file', file);
   
     if (this.versionning) {
-      this.displayConfirmationPopup(event);
+      this.addFileToDossier(formData);
+
     } else {
       this.fileService.checkFileExists(this.dossierId, file).subscribe((exists: boolean) => {
         if (exists) {
           this.dialogfilexiste(event);
-        } else {
-          this.addFileToDossier(formData);
         }
       });
     }
@@ -398,16 +486,7 @@ export class FolderContentsComponent implements OnInit {
   
      if (confirmBtn && cancelBtn) {
     confirmBtn.addEventListener('click', () => {
-      this.fileService.uploadFileandreplace(this.dossierId, file).subscribe(
-        (response) => {
-          console.log('File uploaded successfully');
-          this.selectedFile = file;
-          this.showSuccessMessageAndReload();
-        },
-        (error) => {
-          this.showSuccessMessageAndReload();
-        }
-      );
+      this.addFileToDossier(formData)
       dialog.close();
     });
     }

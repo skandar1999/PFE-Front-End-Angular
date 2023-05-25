@@ -47,7 +47,22 @@ export class FileServiceService {
     );
   }
   
+
+
+  checkFolderExists(email: string, name: string): Observable<{ exists: boolean }> {
+    const formData = new FormData();
+    formData.append('name', name);
+    // Make the HTTP request to the server and return the response as an Observable
+    return this.http.post<{ exists: boolean }>(`${this.apiUrl}/checkfolder/${email}`, formData).pipe(
+      map((response: any) => response.exists)
+    );
+  }
   
+  
+  
+  
+
+
 
   uploadFileandreplace(id: number, file: File) {
     const formData = new FormData();
@@ -98,6 +113,10 @@ export class FileServiceService {
   }
 
  
+
+  deleteFilesByDossier(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/DeletefilesSamecode/${id}`, {});
+  }
 
 
   archiveFile(id: number, email: string): Observable<any> {
