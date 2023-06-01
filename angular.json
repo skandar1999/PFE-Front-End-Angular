@@ -22,9 +22,10 @@
               "src/favicon.ico",
               "src/assets",
               "src/assets/images",
-              "src/assets/images/logoidon.jpg"
+              "src/assets/images/icone.jpg"
             ],
-              "styles": [
+            
+            "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/style.css",

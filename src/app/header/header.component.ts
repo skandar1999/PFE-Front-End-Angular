@@ -27,6 +27,10 @@ export class HeaderComponent implements OnInit {
   newData: any;
   notificationsEnabled: boolean = true;
   userImage!: string;
+  yesadmin: boolean = false;
+  roles:any;
+
+
 
   constructor(public authService: AuthService , public userService:UserService , private router: Router) {}
 
@@ -66,6 +70,8 @@ export class HeaderComponent implements OnInit {
           this.username = this.userData.username;
           this.password = this.userData.password;
           this.mobile = this.userData.mobile;
+          this.roles=this.userData.roles;
+
           this.userImage = 'https://127.0.0.1:8000/uploads/' + this.userData.image;
 
   
@@ -76,6 +82,12 @@ export class HeaderComponent implements OnInit {
         localStorage.setItem('username', this.username!);
         
 
+        }
+
+        if (this.roles.includes("ADMIN") || this.roles.includes("SUPER_ADMIN")) {
+          this.yesadmin = true;
+        } else {
+          this.yesadmin = false;
         }
       },
       error => {

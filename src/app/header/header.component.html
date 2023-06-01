@@ -110,6 +110,10 @@
               <a  class="nav-link" routerLink="/profile" >mon profile </a>
             </li>
 
+            <li>
+              <a  class="nav-link" routerLink="/admin" *ngIf="yesadmin" >dashboard</a>
+            </li>
+
             <li class="nav-item active">
               <a class="nav-link" routerLink="/docs">Mes documents </a>
             </li>

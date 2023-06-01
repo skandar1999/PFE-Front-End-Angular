@@ -69,117 +69,91 @@ export class FolderContentsComponent implements OnInit {
     const dialog = document.createElement('dialog');
   
     dialog.innerHTML = `
-    <style>
+      <style>
       .dialog-container {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
-        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
         padding: 20px;
-        font-family: Arial, sans-serif;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
       }
-
+      
       .dialog-container h2 {
-        margin-top: 0;
         font-size: 24px;
-        font-weight: bold;
-        color: #333333;
-      }
-
-      .dialog-container h6 {
-        margin-bottom: 20px;
-        font-size: 16px;
-        color: #666666;
-      }
-
-      .dialog-container label {
-        display: block;
         margin-bottom: 10px;
-        font-size: 14px;
-        color: #333333;
+      }
+      
+      .dialog-container h5 {
+        font-size: 17px;
+        margin-bottom: 20px;
       }
 
       .dialog-container input[type="checkbox"] {
         margin-right: 5px;
       }
 
+      .dialog-container label {
+        font-size: 16px;
+      }
+
+      .dialog-container .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .dialog-container .checkbox-container label {
+        margin-left: 5px;
+        margin-top:9px;
+      }
+
+      .dialog-container .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
       .dialog-container button {
         padding: 10px 20px;
-        font-size: 16px;
+        margin: 0 5px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        margin-right: 10px;
-        color: #ffffff;
-        transition: background-color 0.3s ease;
       }
 
       .dialog-container button.yes-btn {
         background-color: #4caf50;
+        color: #fff;
       }
 
       .dialog-container button.no-btn {
         background-color: #f44336;
+        color: #fff;
       }
 
-      .dialog-container input[type="checkbox"] {
-        display: none;
+      .dialog-container button:hover {
+        opacity: 1.4;
       }
+      </style>
 
-      .dialog-container input[type="checkbox"] + label {
-        position: relative;
-        padding-left: 30px;
-        cursor: pointer;
-        font-size: 16px;
-        color: #333;
-      }
+      <div class="dialog-container">
+        <h2>Confirmation</h2>
+        <h5>Êtes-vous sûr de vouloir activer/désactiver le système de versionning ?</h5>
+        <div class="checkbox-container">
+          ${this.versionning ? '<input type="checkbox" id="replace" name="method" value="supprimerFiles">' : ''}
+          ${this.versionning ? '<label for="replace">Conserver uniquement la dernière version</label>' : ''}
+        </div>
+        <div class="button-container">
+          <button id="confirm-btn" class="yes-btn">Oui</button>
+          <button id="cancel-btn" class="no-btn">Non</button>
+        </div>
+      </div>
 
-      .dialog-container input[type="checkbox"] + label:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 18px;
-        height: 18px;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        background-color: #fff;
-        transition: border-color 0.3s ease;
-      }
-
-      .dialog-container input[type="checkbox"] + label:after {
-        content: "";
-        position: absolute;
-        left: 4.2px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 11.3px;
-        height: 11px;
-        border-radius: 50%;
-        background-color: #030303;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      .dialog-container input[type="checkbox"]:checked + label:before {
-        border-color: #030303;
-      }
-
-      .dialog-container input[type="checkbox"]:checked + label:after {
-        opacity: 1;
-      }
-    </style>
-
-    <div class="dialog-container">
-      <h2>Confirmation</h2>
-      <h6>Êtes-vous sûr de vouloir activer/désactiver le système de versionning?</h6>
-      ${this.versionning ? '<input type="checkbox" id="replace" name="method" value="replace" >' : ''}
-      ${this.versionning ? '<label for="replace">Conserver uniquement la dernière version</label><br>' : ''}
-      <button id="confirm-btn" class="yes-btn">Oui</button>
-      <button id="cancel-btn" class="no-btn">Non</button>
-    </div>
+    
   `;
 
 document.body.appendChild(dialog);
@@ -192,7 +166,7 @@ confirmBtn.addEventListener('click', () => {
   const dossierId = this.dossierId;
   const selectedMethod = (document.querySelector('input[name="method"]:checked') as HTMLInputElement)?.value;
 
-  if (selectedMethod === 'replace') {
+  if (selectedMethod === 'supprimerFiles') {
     this.fileService.deleteFilesByDossier(dossierId).subscribe(
       (response) => {
         console.log(response);
