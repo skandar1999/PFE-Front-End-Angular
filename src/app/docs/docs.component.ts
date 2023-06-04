@@ -488,6 +488,7 @@ export class DocsComponent implements OnInit {
       }
     }
     
+    
      showAlert(message: string) {
       const alertDiv = document.createElement('div');
       alertDiv.classList.add('alert');

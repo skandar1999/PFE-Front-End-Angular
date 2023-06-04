@@ -144,14 +144,15 @@ export class FolderContentsComponent implements OnInit {
         <h2>Confirmation</h2>
         <h5>Êtes-vous sûr de vouloir activer/désactiver le système de versionning ?</h5>
         <div class="checkbox-container">
-          ${this.versionning ? '<input type="checkbox" id="replace" name="method" value="supprimerFiles">' : ''}
-          ${this.versionning ? '<label for="replace">Conserver uniquement la dernière version</label>' : ''}
+          ${this.versionning ? '<input type="checkbox" id="method-checkbox" name="method" value="supprimerFiles">' : ''}
+          ${this.versionning ? '<label for="replace" >Conserver uniquement la dernière version</label>' : ''}
         </div>
         <div class="button-container">
           <button id="confirm-btn" class="yes-btn">Oui</button>
           <button id="cancel-btn" class="no-btn">Non</button>
         </div>
       </div>
+
 
     
   `;
@@ -164,7 +165,7 @@ const cancelBtn = dialog.querySelector('#cancel-btn');
 if (confirmBtn && cancelBtn) {
 confirmBtn.addEventListener('click', () => {
   const dossierId = this.dossierId;
-  const selectedMethod = (document.querySelector('input[name="method"]:checked') as HTMLInputElement)?.value;
+  const selectedMethod = (document.querySelector('#method-checkbox:checked') as HTMLInputElement)?.value;
 
   if (selectedMethod === 'supprimerFiles') {
     this.fileService.deleteFilesByDossier(dossierId).subscribe(

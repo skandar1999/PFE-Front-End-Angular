@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent  },
   { path: 'signup', component: SignupComponent  },
   { path: 'forgot-password', component: ForgotPasswordComponent  },
-  { path: 'profile-details/:curentUser.email', component: ProfileDetailsComponent,canActivate: [UserGuard]},
+  { path: 'profile-details', component: ProfileDetailsComponent, canActivate: [UserGuard]},
   { path: 'docs', component: DocsComponent ,  title:"documents",canActivate: [UserGuard] },
   { path: 'profile', component: ProfileComponent, title:"Profile" ,canActivate: [UserGuard] },
   { path: 'contact', component: ContactComponent , title:"Support"},

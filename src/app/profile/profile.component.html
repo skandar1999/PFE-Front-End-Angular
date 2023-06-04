@@ -31,8 +31,6 @@
       <div class="col-10 col-md-5 col-sm-10 col-lg-3">
 
         
-
-
         <div class="nav flex-column nav-pills">
           <a class="nav-link active" routerLink="/profile-details"
             >Mon profile</a>
@@ -42,9 +40,6 @@
           <a class="nav-link " routerLink="/admin" *ngIf="yesadmin"
             >dashboard</a>
         </div>
-
-      
-      
        
         <div class="nav flex-column nav-pills">
           <a class="nav-link" routerLink="/docs">Mes documents</a>
@@ -53,9 +48,11 @@
         <div class="nav flex-column nav-pills">
           <a class="nav-link" routerLink="/contact">contact</a>
         </div>
+
         <div class="nav flex-column nav-pills">
-          <a href="/login" class="nav-link">Se déconnecter</a>
+          <a href="/login" class="nav-link"(click)="onLogout()">Se deconnecter</a>
         </div>
+
       </div>
 
       <div class="card" *ngIf="userData">
@@ -69,7 +66,7 @@
         <p class="fa fa-phone" > {{mobile}}</p>
       
         <div>
-          <p><button  [routerLink]="['/profile-details',(curentUser.email)]" >Modifier Profil</button></p>
+          <p><button [routerLink]="['/profile-details']">Modifier Profil</button></p>
         </div>
         <div>
           <p><button  routerLink="/admin" *ngIf="yesadmin" >dashboard </button></p>
