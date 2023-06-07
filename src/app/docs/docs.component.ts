@@ -463,8 +463,9 @@ export class DocsComponent implements OnInit {
           <div class="dialog-container">
             <h3>Partager "${fileName}"</h3>
            
-            <button class="btn btn-info" id="copyButton" style="color: white;">Copier le lien</button>
             <button class="btn btn-secondary" id="cancelButton">Close</button>
+            <button class="btn btn-info" id="copyButton" style="color: white;">Copier le lien</button>
+
           </div>
         `;
     
@@ -721,18 +722,22 @@ export class DocsComponent implements OnInit {
           color: #fff;
           border: none;
           padding:auto;
+          border-radius: 4px;
         }
         .btn-primary:hover {
           background-color: #f44336;
           color: rgb(0, 0, 0);
           cursor: pointer;
           transition: 0.5s all ease;
+
         }
         .btn-secondary {
           background-color: #6c757d;
           color: #fff;
           border: none;
           padding:auto;
+          border: none;
+          border-radius: 4px;
         }
         .btn-secondary:hover {
           background-color: #666666;
@@ -1109,6 +1114,125 @@ rechercherParFile() {
  
 
 
+  
+  getVersion(fileId: number): void {
+    const dialog = document.createElement('dialog');
+    const filesTableBody = document.createElement('tbody');
+    const file = this.allfiles.find((f: any) => f.id === fileId);
+
+    const fileName = file?.name;
+
+    dialog.innerHTML = `
+   <style>
+   #getversion-dialog {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #getversion-dialog table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #getversion-dialog th {
+    text-align: left;
+    padding: 12px;
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  #getversion-dialog td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #getversion-dialog .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+    
+  }
+
+  #getversion-dialog .btn-secondary:hover {
+    background-color: #666666;
+    color: #fff;
+    border: none;
+  }
+
+  #getversion-dialog tbody {
+    background-color: #fff;
+  }
+
+  #getversion-dialog tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  #getversion-dialog tr:hover {
+    background-color: #f1f1f1;
+  }
+</style>
+</style>
+
+<div id="getversion-dialog" class="dialog-container">
+  <h3 style="margin-bottom: 20px;">Liste des versions de "${fileName}"</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom de document</th>
+      </tr>
+    </thead>
+    <tbody id="filesTableBody"> </tbody>
+  </table> <br>
+  <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
+</div>
+
+  `;
+  
+  
+
+  this.fileService.samecodefiles(fileId).subscribe(
+    (fileNames: string[]) => {
+      fileNames.forEach((fileName) => {
+        const row = document.createElement('tr');
+        const nameCell = document.createElement('td');
+        nameCell.textContent = fileName;
+        row.appendChild(nameCell);
+        filesTableBody.appendChild(row);
+      });
+  
+      const table = dialog.querySelector('table');
+      table?.appendChild(filesTableBody);
+    },
+    (error) => {
+      console.error(error);
+    }
+  );
+
+  document.body.appendChild(dialog);
+  dialog.showModal();
+
+
+
+  const closeButton = dialog.querySelector('#cancelButton') as HTMLButtonElement;
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+  });
+
+}
+  
   
   
   

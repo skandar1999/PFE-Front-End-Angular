@@ -199,6 +199,13 @@ export class FileServiceService {
   
 
 
+      samecodefiles(id: number): Observable<string[]> {
+        const url = `https://127.0.0.1:8000/samecodefile/${id}`;
+        return this.http.get<string[]>(url);
+      }
+      
+
+      
 
 }
 

@@ -175,6 +175,14 @@
 
   }
   
+
+  #dropdown2-content i.fa-list:hover {
+    color: rgb(24, 35, 185);
+    cursor: pointer;
+
+  }
+
+
   #dropdown2-content i.fa-trash:hover {
     color: red;
     cursor: pointer;

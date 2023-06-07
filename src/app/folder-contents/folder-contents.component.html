@@ -101,12 +101,13 @@
                 <img src="../../../assets/images/pdf.jpg" *ngIf="file.name.includes('.pdf')" >
                 <img src="../../../assets/images/png.jpg" *ngIf="file.name.includes('.png') || file.name.includes('.gif') || file.name.includes('.PNG')" >
                 <img src="../../../assets/images/docx.jpg" *ngIf="file.name.includes('.docx')" >
-                <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt')" >
+                <img src="../../../assets/images/txt.jpg" *ngIf="file.name.includes('.txt') || file.name.includes('.py') || file.name.includes('.js') ">
                 <img src="../../../assets/images/jpg.jpg" *ngIf="file.name.includes('.jpg')" >
                 <img src="../../../assets/images/pptx.jpg" *ngIf="file.name.includes('.pptx')" >
                 <img src="../../../assets/images/csv.jpg" *ngIf="file.name.includes('.csv')" >
                 <img src="../../../assets/images/xlsx.jpg" *ngIf="file.name.includes('.xlsx')" >
                 <img src="../../../assets/images/28843.jpg" *ngIf="file.name.includes('.mp3')">
+
 
               </a>
               <p>{{file.size}}</p>
@@ -137,6 +138,11 @@
                   <div class="tooltip2">
                     <i class="fas fa-link" (click)="getfileUrl(file.id)"></i>
                     <span class="tooltip-text">Partager</span>
+                  </div>
+
+                  <div class="tooltip2">
+                    <i class="fas fa-list" (click)="getVersion(file.id)"></i>
+                    <span class="tooltip-text">Versions</span>
                   </div>
                 </div>
               </div>
