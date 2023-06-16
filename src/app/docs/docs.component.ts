@@ -607,7 +607,7 @@ export class DocsComponent implements OnInit {
   
         .dialog-container .error-message {
           color: red;
-          font-size: 14px;
+          font-size: 16px;
           margin-top: 8px;
         }
         .error-container {
@@ -617,7 +617,7 @@ export class DocsComponent implements OnInit {
         .error-message {
           display: inline-block;
           color: #f44336;
-          font-size: 14px;
+          font-size: 16px;
         }
         
       </style>
@@ -1056,10 +1056,28 @@ rechercherParFile() {
           color: #fff;
           border: none;
         }
+
+        .dialog-container .error-message {
+          color: red;
+          font-size: 16px;
+          margin-top: 8px;
+        }
+        .error-container {
+          margin-bottom: 10px;
+        }
+        
+        .error-message {
+          display: inline-block;
+          color: #f44336;
+          font-size: 16px;
+        }
+
       </style>
       <form class="form-group">
         <div class="dialog-container">
           <h2>Renomer Dossier</h2>
+          <span class="error-message" id="errorMessage2"></span>
+
           <input autocomplete="off" type="text" id="newFileNameInput" name="name" class="form-control" placeholder="Nouveau nom de dossier">
           <br>
           <button type="button" class="btn btn-primary" id="renameButton">Confirmer</button>
@@ -1068,34 +1086,48 @@ rechercherParFile() {
       </form>
     `;
     const confirmButton = dialog.querySelector('#renameButton')!;
-    confirmButton.addEventListener('click', () => {
-      const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
-      const newName = newFileNameInput.value;
-      const updateFolder = { name: newName };
-      this.fileService.renameDossier(id, updateFolder).subscribe(
-        update => {
-          console.log(update);
-          this.updateSuccess = true;
-          setTimeout(() => {
-            this.updateSuccess = false;
-            this.reloadPage(); // reload the page
+  confirmButton.addEventListener('click', async () => {
+  const newFileNameInput = dialog.querySelector<HTMLInputElement>('#newFileNameInput')!;
+  const errorMessage2 = dialog.querySelector('#errorMessage2')!;
 
-          }, 2500); // Delay for hiding the alert
-        },
-        error => {
+  const newName = newFileNameInput.value;
+  
+  // Check if the folder name already exists
+  const exists = await this.fileService.checkFolderExists(this.curentUser?.email, newName).toPromise();
+
+  // Process the response
+  if (exists) {
+    errorMessage2.textContent = `Le nom de dossier "${newName}" existe déjà.`;
+    setTimeout(() => {
+      errorMessage2.textContent = '';
+    }, 3000);
+  } else {
+    const updateFolder = { name: newName };
+    this.fileService.renameDossier(id, updateFolder).subscribe(
+      update => {
+        console.log(update);
+        this.updateSuccess = true;
+        setTimeout(() => {
+          this.updateSuccess = false;
           this.reloadPage(); // reload the page
-        }
-      );
-      dialog.close();
-    });
-  
-    const cancelButton = dialog.querySelector('#cancelButton')!;
-    cancelButton.addEventListener('click', () => {
-      dialog.close();
-    });
-  
-    document.body.appendChild(dialog);
-    dialog.showModal();
+        }, 2500); // Delay for hiding the alert
+      },
+      error => {
+        this.reloadPage(); // reload the page
+      }
+    );
+    dialog.close();
+  }
+});
+
+const cancelButton = dialog.querySelector('#cancelButton')!;
+cancelButton.addEventListener('click', () => {
+  dialog.close();
+});
+
+document.body.appendChild(dialog);
+dialog.showModal();
+
   }
   
 

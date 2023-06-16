@@ -59,10 +59,21 @@
             <input #searchTerm (keyup)="onKeyUp(searchTerm.value)"  type="text" placeholder=" Recherche...">
             
           
-              
-
+          
           </div>
           
+
+         
+          <div class="alert alert-warning fade show" *ngIf="err" role="alert">
+            <span class="alert-icon">!</span>
+            <span class="alert-text">Le nom du <strong>fichier</strong> que vous avez sélectionné existe déjà dans la liste des documents. Veuillez le renommer avant de le restaurer.</span>
+          </div>
+          
+          
+          <div class="alert alert-warning fade show" *ngIf="err2" role="alert">
+            <span class="alert-icon">!</span>
+            <span class="alert-text">Le nom du dossier que vous avez sélectionné existe déjà dans la liste des documents. Veuillez le renommer avant de le restaurer.</span>
+          </div>
           
         
          
@@ -89,8 +100,33 @@
   
                   <p>{{file.date}}</p>
                   <a href="{{ file.url }}" target="_blank">{{ file.name }}</a>
-                  <i class="fa fa-times" (click)="onDelete(file, $event)"></i>
-                  <i class="fas fa-undo-alt" (click)="onRestaure(file)"></i>
+
+
+
+
+                  <div class="dropdown" id="dropdown2">
+                    <button class="dropdown-button" id="dropdown2-button">
+                      <i class="fa fa-bars dropdown-icon"></i>
+                    </button>
+                    <div class="dropdown-content" id="dropdown2-content">
+                      <div class="tooltip2">
+                        <i class="fa fa-times" (click)="onDelete(file, $event)"></i>
+                        <span class="tooltip-text">Supprimer</span>
+                      </div>
+                  
+                      <div class="tooltip2">
+                        <i class="fas fa-undo-alt" (click)="onRestaure(file)"></i>
+                        <span class="tooltip-text">Restaurer</span>
+                      </div>
+                  
+                      <div class="tooltip2">
+                        <i class="fas fa-pen" (click)="showRenameDialog(file.id)"></i>
+                        <span class="tooltip-text">Renommer</span>
+                      </div>
+                  
+                      
+                    </div>
+                  </div>
 
                 </div>
   
@@ -101,19 +137,54 @@
         </div>
       </div>
 
+      
+
+
+
+
       <div class="container"  >
         <div class="row">
           <div class="col-lg-4" *ngFor="let folder of folders"  (click)="onFolderSelected(folder)">
             
             <div class="foodbox mt-4 mb-4" >
               <img src="../../../assets/images/folder.jpg">
-  
-              <h5>{{folder.namefolder}}</h5>
-              <i class="fa fa-times" (click)="onDeletefolder(folder, $event)"></i>
-              <i class="fas fa-undo-alt" (click)="onRestauredossier(folder)"></i>
+              <p>{{folder.date}}</p>
+             <h5>{{folder.namefolder}}</h5>
+
               
-  
-  
+
+              <div class="dropdown" id="dropdown2">
+                <button class="dropdown-button" id="dropdown2-button">
+                  <i class="fa fa-bars dropdown-icon"></i>
+                </button>
+                <div class="dropdown-content" id="dropdown2-content">
+                  <div class="tooltip2">
+                    <i class="fa fa-times" (click)="onDeletefolder(folder, $event)"></i>
+                    <span class="tooltip-text">Supprimer</span>
+                  </div>
+              
+              
+
+                  <div class="tooltip2">
+                    <i class="fas fa-undo-alt" (click)="onRestauredossier($event, folder)"></i>
+                    <span class="tooltip-text">Restaurer</span>
+                  </div>
+
+
+                  <div class="tooltip2">
+                    <i class="fas fa-pen tooltip2" (click)="renameFolder(folder.id, $event)"></i>    
+                    <span class="tooltip-text">Renommer</span>
+                  </div>
+                 
+              
+                  
+                </div>
+              </div>
+
+
+
+
+
             </div>
   
           </div>

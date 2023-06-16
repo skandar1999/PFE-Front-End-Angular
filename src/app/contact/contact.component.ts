@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit {
       }, 2000); // Delay for hiding the alert
       return;
     } 
-    if (!this.contact.emailUser.includes('@')  || !this.contact.emailUser.includes('.')) {
+    if (!this.contact.emailUser.includes('@capgemini')  || !this.contact.emailUser.includes('.')) {
       this.errorEmail = 'email non valide';
       setTimeout(() => {
         this.errorEmail = '';

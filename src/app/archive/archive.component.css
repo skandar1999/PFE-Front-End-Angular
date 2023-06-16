@@ -80,7 +80,7 @@
   }
   
   .foodbox img {
-    max-width: 47%;
+    max-width: 38%;
     height: auto;
     object-fit: cover;
     margin-bottom: 5px;
@@ -108,37 +108,136 @@
     font-size: 17.2px;
   }
 
-  .fa-times {
+
+
+  
+  .alert {
+    display: flex;
+    align-items: center;
+    background-color: #fef2d2;
+    color: #c27803;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #f8d7da;
+    color: #721c24;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+  
+  .alert-text {
+    flex: 1;
+  }
+  
+
+  
+  
+  #dropdown2 {
     position: absolute;
     top: 10px;
     right: 10px;
-    color: #000000;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 18px;
-  }
-  
-  .fa-undo-alt {
-    position: absolute;
-    top: 35px;
-    right: 9px;
-    color: #000000;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-
-  .fa-times:hover {
-    
-    color: rgb(255, 12, 12);
     font-size: 20px;
-    transition: all 0.2s ease-in-out;   }
-
-
-  
-  .fa-undo-alt:hover {
-    color: green;
-    font-size: 17px;
-    transition: all 0.2s ease-in-out; 
   
   }
+  
+  #dropdown2-content i {
+    display: block;
+    padding: 5px;
+    margin-bottom: 4px;
+    font-size: 19px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    border: 1px solid #000000;
+  }
+  
+  
+  
+
+
+
+
+  #dropdown2-content i.fa-trash:hover {
+    color: red;
+    cursor: pointer;
+
+  }
+  
+  #dropdown2-content i.fa-pen:hover {
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+
+  }
+
+  #dropdown2-content i.fa-link:hover {
+    color: rgb(104, 105, 105);
+    cursor: pointer;
+
+  }
+  
+  
+  
+  #dropdown2-item:hover {
+    background-color: #e7e7e7;
+    color: #000000;
+  }
+  
+  #dropdown2-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  #dropdown2-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  #dropdown2:hover #dropdown2-content {
+    display: block;
+  }
+
+
+  
+  .tooltip2 {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .tooltip-text {
+    visibility: hidden;
+    background-color: #504e4e;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px; /* Adjust the font size as needed */
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .tooltip2:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

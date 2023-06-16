@@ -59,10 +59,6 @@ export class FileServiceService {
   }
   
   
-  
-  
-
-
 
   uploadFileandreplace(id: number, file: File) {
     const formData = new FormData();
