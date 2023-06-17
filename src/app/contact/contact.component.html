@@ -53,7 +53,7 @@
           <div class="acccount-settings" >
 
             <div
-          class="alert alert-warning" *ngIf="vide">
+          class="alert alert-danger alert-dismissible fade show" *ngIf="vide">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
           Veuillez remplir tous les champs obligatoires.        </div>
@@ -73,7 +73,7 @@
           
 
         <div
-          class="alert alert-danger" *ngIf="errorEmail">
+          class="alert alert-danger alert-dismissible fade show" *ngIf="errorEmail">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
           {{ errorEmail }}            

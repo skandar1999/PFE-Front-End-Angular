@@ -89,7 +89,7 @@ updatePasswordFields() {
       this.not = true;
       setTimeout(() => {
         this.not = false;
-      }, 2500);
+      }, 3000);
       return;
     }
   

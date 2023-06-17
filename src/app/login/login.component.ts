@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.vide = true;
       setTimeout(() => {
         this.vide = false;
-      }, 2500);
+      }, 3000);
       return;
     }
   
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
           this.err = true;
           setTimeout(() => {
             this.err = false;
-          }, 2500);
+          }, 3000);
         }
       );
   }

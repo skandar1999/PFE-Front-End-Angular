@@ -206,3 +206,12 @@
     color: #fb5c42;
   }
   
+
+  .nav-link {
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    transform: translateY(-5px);
+  }

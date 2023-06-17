@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
       this.vide = true;
       setTimeout(() => {
         this.vide = false;
-      }, 2500); // Delay for hiding the alert
+      }, 3000); // Delay for hiding the alert
       return;
     } 
 
@@ -42,7 +42,7 @@ export class SignupComponent implements OnInit {
       this.not=true;
       setTimeout(() => {
         this.not = false;
-      }, 2500);
+      }, 3000);
       return;
     }
 
@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
       this.errorMobile = 'Telephone non valide';
       setTimeout(() => {
         this.errorMobile = '';
-      }, 2500); // hide error message after 3 seconds
+      }, 3000); // hide error message after 3 seconds
       return;
     }
 
@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
       this.errorMessage = '8 caractères requis pour le mot de passe.';
       setTimeout(() => {
         this.errorMessage = '';
-      }, 2500); // hide error message after 3 seconds
+      }, 3000); // hide error message after 3 seconds
       return;
     }
      
@@ -78,12 +78,12 @@ export class SignupComponent implements OnInit {
           this.added = true;
           setTimeout(() => {
             this.router.navigate(['/login']);
-          }, 2200); // wait for 3 seconds before navigating to login page
+          }, 3000); // wait for 3 seconds before navigating to login page
         } else if (response && !response.status) {
           this.errorMessage = response.message;
           setTimeout(() => {
             this.errorMessage = '';
-          }, 2500); // hide error message after 3 seconds
+          }, 3000); // hide error message after 3 seconds
         }
       },
       error => {
@@ -92,10 +92,6 @@ export class SignupComponent implements OnInit {
     );
   }
   
-  
-
-
-
   
 
   public hidePassword1 = true;

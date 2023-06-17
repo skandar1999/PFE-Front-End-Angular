@@ -16,68 +16,27 @@
       </ul>
 
       <ul class="navbar-nav mx-auto">
-      
-        <!-- Pages -->
-        <li class="nav-item dropdown dropdown-slide ">
-          
+  <!-- Accueil -->
+  <li class="nav-item dropdown dropdown-slide">
+    <a class="nav-link dropdown-toggle" routerLink="/acceuil">Accueil</a>
+  </li>
 
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="/acceuil"
-            id="navbarDropdown4"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          Accueil
-          </a>  
+  <!-- Mes documents -->
+  <li class="nav-item dropdown dropdown-slide">
+    <a *ngIf="authService.isloggedIn" class="nav-link dropdown-toggle" routerLink="/docs">Mes documents</a>
+  </li>
 
-        <li class="nav-item dropdown dropdown-slide ">
-          <a *ngIf="authService.isloggedIn"
-            class="nav-link dropdown-toggle"
-            routerLink="/docs"
-            id="navbarDropdown4"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          Mes documents
-          </a>
+  <!-- Support -->
+  <li class="nav-item dropdown dropdown-slide">
+    <a class="nav-link dropdown-toggle" routerLink="/contact">Support</a>
+  </li>
 
-        </li>
-        <li class="nav-item dropdown dropdown-slide ">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="/contact"
-            id="navbarDropdown4"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          Support   </a>
-          
-        </li>
-        <li class="nav-item dropdown dropdown-slide ">
-          <a *ngIf="!authService.isloggedIn"
-            class="nav-link dropdown-toggle"
-            routerLink="/about"
-            id="navbarDropdown4"
-            role="button"
-            data-delay="350"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          À propos
-          </a>
+  <!-- À propos -->
+  <li class="nav-item dropdown dropdown-slide">
+    <a *ngIf="!authService.isloggedIn" class="nav-link dropdown-toggle" routerLink="/about">À propos</a>
+  </li>
+</ul>
 
-      </ul>
 
       <ul class="navbar-nav m-auto">
         
@@ -107,26 +66,30 @@
             aria-labelledby="navbarDropdown5">
             
             <li>
-              <a  class="nav-link" routerLink="/profile" >mon profile </a>
+              <a  class="nav-link" routerLink="/profile" ><i class="fas fa-user"></i> mon profile </a>
             </li>
+
+          
 
             <li>
-              <a  class="nav-link" routerLink="/admin" *ngIf="yesadmin" >dashboard</a>
+              <a  class="nav-link" routerLink="/admin" *ngIf="yesadmin" >
+                <i class="fas fa-chart-bar"></i> dashboard</a>
             </li>
 
+            
+            
             <li class="nav-item active">
-              <a class="nav-link" routerLink="/docs">Mes documents </a>
+              <a class="nav-link" routerLink="/profile-details">
+                <i class="fas fa-edit"></i> Modifier profile </a>
             </li>
-            
-            
+
             <li>
               <a
                 class="nav-link"
                 href="/login"
                 (click)="onLogout()"
                 type="submit"
-                
-              >
+              ><i class="fas fa-sign-out-alt"></i>
                 Se déconnecter
               </a>
             </li>

@@ -5,19 +5,21 @@
         <div class="login-form border p-5">
           
           <div class="alert alert-danger alert-dismissible fade show" *ngIf="err" role="alert">
+            <i class="fas fa-exclamation-circle"></i> <!-- Icon -->
             Email ou mot de passe incorrect
-             <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="err=false">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="err=false">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           
-          <div
-            class="alert alert-warning alert-dismissible fade show" *ngIf="vide">
+          <div class="alert alert-danger alert-dismissible fade show" *ngIf="vide">
+            <i class="fas fa-exclamation-triangle"></i> <!-- Icon -->
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-             Veuillez remplir tous les champs obligatoires.
-            
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Veuillez remplir tous les champs obligatoires.
           </div>
+          
 
           <div class="text-center heading">
             <h1 class="mb-2">Connectez-vous </h1>

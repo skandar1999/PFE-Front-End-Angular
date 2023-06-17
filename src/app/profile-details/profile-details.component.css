@@ -160,3 +160,29 @@ body {
 .page-header .delete-image-button i {
   font-size: 19px;
 }
+
+
+.alert {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alert .icon {
+  margin-right: 15px;
+}
+
+.alert .text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+
+
+
+

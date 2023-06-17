@@ -52,3 +52,55 @@ textarea {
   }
   
   
+  
+.alert-danger {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+
+.alert-dismissible {
+  padding-right: 3rem;
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
+.close:hover {
+  color: inherit;
+}
+
+.alert span[aria-hidden="true"] {
+  font-size: 1.5rem;
+}
+
+.fade {
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+
+
+.alert .icon {
+  margin-right: 20px;
+}
+
+.alert .text {
+  font-weight: bold;
+  font-size: 16px;
+}

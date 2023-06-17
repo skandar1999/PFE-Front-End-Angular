@@ -31,6 +31,8 @@ export class DocsComponent implements OnInit {
   deletedd: boolean = false;
   name!:string;
   allfiles! :any[];
+  allFolders! :any[];
+
   notificationsEnabled: boolean = true;
   selectedFile: File | null = null;
 
@@ -48,6 +50,8 @@ export class DocsComponent implements OnInit {
 
   username!: string;
   path!:string;
+
+  
   
   constructor(
     public authService: AuthService,
@@ -692,12 +696,15 @@ export class DocsComponent implements OnInit {
     this.files = this.allfiles.filter(item =>
       item.name.toLowerCase().includes(filterText)
     );
+    this.Dossier = this.allFolders.filter((folder) =>
+    folder.name.toLowerCase().includes(filterText.toLowerCase())
+  );
   }
 
   
   onArchive(file: File) {
     const dialog = document.createElement('dialog');
-  
+
     dialog.innerHTML = `
       <style>
         .dialog-container {

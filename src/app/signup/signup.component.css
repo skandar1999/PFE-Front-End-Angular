@@ -137,3 +137,88 @@ input:active input:hover {
 .notmatch{
   color: rgb(250, 71, 71);
 }
+
+
+.alert {
+  position: relative;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.alert i {
+  margin-right: 0.5rem;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+
+
+.alert-success {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+
+.alert-dismissible {
+  padding-right: 3rem;
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
+.close:hover {
+  color: inherit;
+}
+
+.alert span[aria-hidden="true"] {
+  font-size: 1.5rem;
+}
+
+.fade {
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+
+
+.alert .icon {
+  margin-right: 20px;
+}
+
+.alert .text {
+  font-weight: bold;
+  font-size: 16px;
+}

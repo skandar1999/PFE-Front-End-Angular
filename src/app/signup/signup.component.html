@@ -4,42 +4,46 @@
       <div class="col-lg-6">
         <div class="login-form border p-5">
 
-          <div
-            class="alert alert-warning alert-dismissible fade show" *ngIf="vide">
+          <div class="alert alert-danger alert-dismissible fade show" *ngIf="vide">
+            <i class="fas fa-exclamation-triangle"></i>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-             Veuillez remplir tous les champs obligatoires.
-            
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Veuillez remplir tous les champs obligatoires.
           </div>
-
-            
-          <div
-          class="alert alert-danger alert-dismissible fade show" *ngIf="errorEmail">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-          {{ errorEmail }}            
-        </div>
-
-          <div
-          class="alert alert-danger alert-dismissible fade show" *ngIf="errorMobile">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-          {{ errorMobile }}            
-        </div>
-
-          <div
-            class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage">
+          
+          <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorEmail">
+            <i class="fas fa-exclamation-circle"></i>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-            {{ errorMessage }}            
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ errorEmail }}
           </div>
-
+          
+          <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorMobile">
+            <i class="fas fa-exclamation-circle"></i>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ errorMobile }}
+          </div>
+          
+          <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ errorMessage }}
+          </div>
+          
           <div class="alert alert-success alert-dismissible fade show" *ngIf="added">
+            <i class="fas fa-check-circle"></i>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
             Vous vous êtes inscrit(e) avec succès.
           </div>
+          
 
           <div class="text-center heading">
             <h1 class="mb-2">Inscription</h1>

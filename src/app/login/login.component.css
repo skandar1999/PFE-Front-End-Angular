@@ -61,17 +61,6 @@ input:active input:hover {
 
 }
 
-.action .btn-google {
-  background-color: #4285f4;
-  color: #ffffff;
-  cursor: pointer;
-  margin-bottom: 15px;
-}
-
-.action .btn-google:hover {
- box-shadow: 2px 1px 1px 1px rgb(0 0 0 / 25%);
- background-color: #478bf8;
-}
 
 
 
@@ -134,3 +123,71 @@ input:active input:hover {
   background-color: #faf8f8;
 }
 
+.alert {
+  position: relative;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex; /* Add this line */
+  align-items: center; /* Add this line */
+}
+
+.alert i {
+  margin-right: 0.5rem; /* Add this line */
+}
+
+/* Rest of your CSS styles */
+
+
+.alert-danger {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+
+.alert-dismissible {
+  padding-right: 3rem;
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
+.close:hover {
+  color: inherit;
+}
+
+.alert span[aria-hidden="true"] {
+  font-size: 1.5rem;
+}
+
+.fade {
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+
+
+.alert .icon {
+  margin-right: 20px;
+}
+
+.alert .text {
+  font-weight: bold;
+  font-size: 16px;
+}

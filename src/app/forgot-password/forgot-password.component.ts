@@ -13,6 +13,8 @@ import { UserService } from '../services/user.service';
 })
 export class ForgotPasswordComponent implements OnInit {
   email!: string;
+  vide: boolean = false;
+
   users: any;
   successMessage!: string;
   errorMessage!:string;
@@ -26,6 +28,13 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   onSubmit() {
+    if (!this.email ) {
+      this.vide = true;
+      setTimeout(() => {
+        this.vide = false;
+      }, 3000);
+      return;
+    }
     this.userService.PasswordReset(this.email)
       .subscribe(users => {
         this.users = users;
@@ -36,7 +45,7 @@ export class ForgotPasswordComponent implements OnInit {
         setTimeout(() => {
           // replace 'login' with the route path for your login page
           this.router.navigate(['login']);
-        }, 2300);
+        }, 3000);
       }, error => {
         if (error.status === 404) {
           this.notSuccessful = true;
@@ -44,7 +53,7 @@ export class ForgotPasswordComponent implements OnInit {
           setTimeout(() => {
             this.notSuccessful = false;
             this.errorMessage = '';
-          }, 1800); // hide error message after 3 seconds
+          }, 3000); // hide error message after 3 seconds
         }
       });
   }

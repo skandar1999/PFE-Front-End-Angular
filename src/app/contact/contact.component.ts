@@ -49,7 +49,7 @@ export class ContactComponent implements OnInit {
         
         this.long = false;
         
-      }, 5000); // Delay for hiding the alert
+      }, 7000); // Delay for hiding the alert
       return;
     }
     
