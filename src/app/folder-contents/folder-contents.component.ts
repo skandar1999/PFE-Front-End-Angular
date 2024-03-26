@@ -66,9 +66,10 @@ export class FolderContentsComponent implements OnInit {
 
   
    ConfirmationVersioning() {
-    const dialog = document.createElement('dialog');
+    const createDialog = () => {
+      const dialog = document.createElement('dialog');
   
-    dialog.innerHTML = `
+      dialog.innerHTML = `
       <style>
       .dialog-container {
         display: flex;
@@ -138,6 +139,14 @@ export class FolderContentsComponent implements OnInit {
       .dialog-container button:hover {
         opacity: 1.4;
       }
+
+      .dialog-container input[type="radio"]:checked + label:before {
+        border-color: #030303;
+      }
+    
+      .dialog-container input[type="radio"]:checked + label:after {
+        opacity: 1;
+      }
       </style>
 
       <div class="dialog-container">
@@ -155,47 +164,53 @@ export class FolderContentsComponent implements OnInit {
 
 
     
-  `;
+      `;
 
-document.body.appendChild(dialog);
+      document.body.appendChild(dialog);
 
-const confirmBtn = dialog.querySelector('#confirm-btn');
-const cancelBtn = dialog.querySelector('#cancel-btn');
-
-if (confirmBtn && cancelBtn) {
-confirmBtn.addEventListener('click', () => {
-  const dossierId = this.dossierId;
-  const selectedMethod = (document.querySelector('#method-checkbox:checked') as HTMLInputElement)?.value;
-
-  if (selectedMethod === 'supprimerFiles') {
-    this.fileService.deleteFilesByDossier(dossierId).subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.error(error);
+      const confirmBtn = dialog.querySelector('#confirm-btn');
+      const cancelBtn = dialog.querySelector('#cancel-btn');
+  
+      if (confirmBtn && cancelBtn) {
+        confirmBtn.addEventListener('click', () => {
+          const dossierId = this.dossierId;
+          const selectedMethod = (dialog.querySelector('#method-checkbox:checked') as HTMLInputElement)?.value;
+  
+          if (selectedMethod === 'supprimerFiles') {
+            this.fileService.deleteFilesByDossier(dossierId).subscribe(
+              (response) => {
+                console.log(response);
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+          }
+  
+          this.fileService.toggleVersioning(dossierId).subscribe(
+            (response) => {
+              this.versionning = response.versionning;
+            },
+            (error) => {
+              this.reloadPage();
+              console.error(error);
+            }
+          );
+  
+          dialog.close();
+        });
+  
+        cancelBtn.addEventListener('click', () => {
+          dialog.close();
+          this.reloadPage();
+        });
       }
-    );
+  
+      dialog.showModal();
+    };
+  
+    createDialog();
   }
-
-  this.fileService.toggleVersioning(dossierId).subscribe(
-    (response) => {
-      this.versionning = response.versionning;
-    },
-    error => this.reloadPage()
-  );
-
-  dialog.close();
-});
-
-cancelBtn.addEventListener('click', () => {
-  dialog.close();
-  this.reloadPage()
-});
-}
-
-dialog.showModal();
-}
 
 
 

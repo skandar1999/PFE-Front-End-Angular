@@ -118,6 +118,7 @@ export class AuthService {
         let httpHeaders = new HttpHeaders({"Authorization": jwt})
         return this.http.post<any>(this.apiURL, user, { headers: httpHeaders });
       }
+      
 
       supprimerUser(id : number) {
         const url = `${this.deleteapi}/${id}`;

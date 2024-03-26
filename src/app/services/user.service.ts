@@ -99,7 +99,6 @@ export class UserService {
         }
 
 
-        
           
       listerMessages(): Observable<Contact[]>{
        return this.http.get<Contact[]>(this.listerMess);
@@ -118,8 +117,7 @@ export class UserService {
         return this.http.put<Contact>(url, {});
       }
       
-          
-
+        
 
       updateUserRole(id: number) {
         const url = `https://127.0.0.1:8000/updateRole/${id}`;
@@ -134,16 +132,11 @@ export class UserService {
       }
 
 
-
-
       UpdateImage(email: string, imageData: FormData): Observable<any> {
         return this.http.post(`${this.uptImage}/${email}`, imageData);
       }
 
 
-   
-      
-      
 
       checkPassword(email: string, password: string): Observable<boolean> {
         const data = { password };
@@ -161,7 +154,6 @@ export class UserService {
 
       
 
-
       supprimerImage(email: string) {
         const url = `https://127.0.0.1:8000/supprimerimage/${email}`;
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -169,7 +161,6 @@ export class UserService {
       }
     
       
-
 
       }
       

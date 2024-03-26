@@ -22,23 +22,24 @@ export class FileServiceService {
     return this.http.post<any>(`${this.apiUrl}/Fileuploade/${email}`, formData);
   }
 
-
+  //FormData est une collection qui peut être utilisée pour envoyer des données à un serveur.
   addFileToDossier(formData: FormData, id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/dossiers/${id}`, formData);
   }
-
+  
 
   checkFileExists(id: number, file: File): Observable<boolean> {
     const formData = new FormData();
     formData.append('file', file);
-  
     return this.http.post<any>(`${this.apiUrl}/checkfile/${id}`, formData).pipe(
       map((response: any) => response.exists)
     );
   }
   
 
-  checkFileExistsforUser(email: string, file: File): Observable<boolean> {
+
+ //FormData est une collection qui peut être utilisée pour envoyer des données à un serveur.
+checkFileExistsforUser(email: string, file: File): Observable<boolean> {
     const formData = new FormData();
     formData.append('file', file);
   
@@ -48,7 +49,7 @@ export class FileServiceService {
   }
   
 
-
+  //FormData est une collection qui peut être utilisée pour envoyer des données à un serveur.
   checkFolderExists(email: string, name: string): Observable<{ exists: boolean }> {
     const formData = new FormData();
     formData.append('name', name);
@@ -58,6 +59,15 @@ export class FileServiceService {
     );
   }
   
+
+  checkFileExistsDocs(email: string, name: string): Observable<{ exists: boolean }> {
+    const formData = new FormData();
+    formData.append('name', name);
+    // Make the HTTP request to the server and return the response as an Observable
+    return this.http.post<{ exists: boolean }>(`${this.apiUrl}/checkfiledocs/${email}`, formData).pipe(
+      map((response: any) => response.exists)
+    );
+  }
   
 
   uploadFileandreplace(id: number, file: File) {
@@ -67,6 +77,7 @@ export class FileServiceService {
   }
 
 
+  //FormData est une collection qui peut être utilisée pour envoyer des données à un serveur.
   uploadFileandreplaceDocu(email: string, file: File) {
     const formData = new FormData();
     formData.append('files', file);
